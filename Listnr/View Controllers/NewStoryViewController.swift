@@ -12,19 +12,11 @@ class NewStoryViewController: UIViewController {
 
     @IBOutlet weak var recordButton: UIButton!
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        if isBeingPresented {
-            print("presenting")
-        } else {
-            print("not presenting")
-            self.dismiss(animated: false, completion: nil)
-        }
     }
     @IBAction func recordButton(_ sender: UIButton) {
     }

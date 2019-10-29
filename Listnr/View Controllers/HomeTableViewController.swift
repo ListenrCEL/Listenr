@@ -1,6 +1,6 @@
 //
 //  HomeTableViewController.swift
-//  Listenr
+//  Listnr
 //
 //  Created by Oliver Moscow on 10/21/19.
 //  Copyright © 2019 Listnr. All rights reserved.
@@ -13,7 +13,6 @@ import UIKit
 // calls from randomColorGenerator.swift
 let model: [[UIColor]] = generateRandomData()
 
-// MARK: HomeTableViewController
 class HomeTableViewController: UITableViewController {
     
     var cellData: [homePageCellData] = []
@@ -23,13 +22,13 @@ class HomeTableViewController: UITableViewController {
         var headerDescription = String()
         var collectionViewContent: [[story]] = []
     }
-    
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // seting up the tabbar so that it can present stuff
+        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         // calls from "Global Variables.swift"
         setupHomePage()
-        
         // populates cellData
         var index = 0
         for _ in homeHeaderTitleArray {

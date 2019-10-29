@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  Listenr
+//  Listnr
 //
 //  Created by Oliver Moscow on 10/21/19.
-//  Copyright © 2019 Listenr. All rights reserved.
+//  Copyright © 2019 Listnr. All rights reserved.
 //
 
 import UIKit
@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is NewStoryViewController {
-            print("working")
             if let newVC = tabBarController.storyboard?.instantiateViewController(withIdentifier: "newStory") {
                 tabBarController.present(newVC, animated: true)
                 return false
