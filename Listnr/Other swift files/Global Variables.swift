@@ -9,10 +9,11 @@
 import Foundation
 // This is most of the global variables but not all of them
 
-//Variables
+// MARK: Variables
 let userData = currentUser()
 
-// Structs
+
+// MARK: Structs
 struct story {
     var title = String()
     var creator = String()
@@ -25,6 +26,17 @@ struct story {
     // var tags: [string] = []
     // var videoURl = URL()
 }
+struct user {
+    var name = String()
+    var username = String()
+    var stories: [story] = []
+}
+struct collection {
+    var stories: [story] = []
+    var title = String()
+}
+
+// MARK: Classes
 class currentUser {
     var username = String()
     var name = String()
@@ -35,12 +47,4 @@ class currentUser {
     // This will also be updated later
     // var savedStories: [[story]] = []
 }
-struct user {
-    var name = String()
-    var username = String()
-    var stories: [story] = []
-}
-struct collection {
-    var stories: [story] = []
-    var title = String()
-}
+

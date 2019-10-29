@@ -53,6 +53,6 @@ func setupHomePage() {
     }
 //    let index = 1
 //    var input = homeCollectionViewContentArray[index]
-//    input.insert(story(title: "", creator: "", coverArt: ""), at: input.startIndex)
+//    input.insert(story(title: "tommy", creator: "tommy", coverArt: ""), at: input.startIndex)
 //    homeCollectionViewContentArray.insert(input, at: index)
 }

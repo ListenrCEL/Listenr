@@ -7,12 +7,13 @@
 //
 
 import UIKit
+// MARK: Variables
 //These are global variables
 // TODO - Remove this
 // calls from randomColorGenerator.swift
 let model: [[UIColor]] = generateRandomData()
 
-// Home Table view set up
+// MARK: HomeTableViewController
 class HomeTableViewController: UITableViewController {
     
     var cellData: [homePageCellData] = []
@@ -36,6 +37,7 @@ class HomeTableViewController: UITableViewController {
             index += 1
         }
     }
+    // MARK: Table View
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellData.count
     }
@@ -52,7 +54,7 @@ class HomeTableViewController: UITableViewController {
     }
     
 }
-// Collection view set up
+// MARK: Collection View
 extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
