@@ -37,7 +37,6 @@ class FilesTableViewController: UITableViewController,UICollectionViewDelegate, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FilesCollectionViewCell
         cell.backgroundColor = .lightGray
         cell.coverArt.backgroundColor = model[6][indexPath.item]
-        //jhjhjhlj
         return cell
     }
 }
