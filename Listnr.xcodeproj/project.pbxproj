@@ -29,6 +29,7 @@
 		075B2E56235F4938008E2B1B /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B2E55235F4938008E2B1B /* ProfileTableViewCell.swift */; };
 		075B2E58235F4949008E2B1B /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B2E57235F4949008E2B1B /* ProfileViewController.swift */; };
 		075B2E5B235F641D008E2B1B /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B2E5A235F641D008E2B1B /* Global Variables.swift */; };
+		078B123323674B0100764369 /* NewStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078B123223674B0100764369 /* NewStoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		075B2E55235F4938008E2B1B /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		075B2E57235F4949008E2B1B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		075B2E5A235F641D008E2B1B /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
+		078B123223674B0100764369 /* NewStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +175,7 @@
 				075B2E57235F4949008E2B1B /* ProfileViewController.swift */,
 				070C0A992360C694002CEE22 /* SearchPageViewController.swift */,
 				070C0A9F2360FB13002CEE22 /* FilesTableViewController.swift */,
+				078B123223674B0100764369 /* NewStoryViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				070C0A9E2360DC80002CEE22 /* SearchTableViewCell.swift in Sources */,
 				070C0AA22360FB48002CEE22 /* FilesTableViewCell.swift in Sources */,
 				070C0A982360915E002CEE22 /* RandomColorGenerator.swift in Sources */,
+				078B123323674B0100764369 /* NewStoryViewController.swift in Sources */,
 				075B2E52235E1048008E2B1B /* HomeTableViewCell.swift in Sources */,
 				070C0A9623608D45002CEE22 /* SetUpProfilePage.swift in Sources */,
 				075B2E1F235E0F55008E2B1B /* SceneDelegate.swift in Sources */,

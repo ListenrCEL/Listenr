@@ -3,7 +3,7 @@
 //  Listenr
 //
 //  Created by Oliver Moscow on 10/21/19.
-//  Copyright © 2019 Listenr. All rights reserved.
+//  Copyright © 2019 Listnr. All rights reserved.
 //
 
 import UIKit

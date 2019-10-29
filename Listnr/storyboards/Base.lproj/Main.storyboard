@@ -303,18 +303,48 @@
         <!--new Story-->
         <scene sceneID="pjf-6y-1I1">
             <objects>
-                <viewController id="iHx-bq-1Xx" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="newStory" modalPresentationStyle="fullScreen" id="iHx-bq-1Xx" customClass="NewStoryViewController" customModule="Listnr" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xGj-p2-C20">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dUa-Wh-KOY">
+                                <rect key="frame" x="152" y="816" width="111" height="46"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Record"/>
+                                <connections>
+                                    <action selector="recordButton:" destination="iHx-bq-1Xx" eventType="touchUpInside" id="MGX-8S-NOj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="adv-jl-Aye">
+                                <rect key="frame" x="28" y="44" width="34" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="34" id="KNH-NK-qry"/>
+                                    <constraint firstAttribute="height" constant="30" id="Xcq-cO-qde"/>
+                                </constraints>
+                                <state key="normal" title="Back"/>
+                                <connections>
+                                    <action selector="onBackButtonPressed:" destination="iHx-bq-1Xx" eventType="touchUpInside" id="U3V-x8-Q5E"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="adv-jl-Aye" firstAttribute="leading" secondItem="rm8-eU-nbd" secondAttribute="leading" constant="28" id="4Ir-0p-S64"/>
+                            <constraint firstItem="adv-jl-Aye" firstAttribute="top" secondItem="rm8-eU-nbd" secondAttribute="top" id="97z-9v-clD"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="rm8-eU-nbd"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="new Story" image="plus.rectangle.fill" catalog="system" id="E48-Yg-WD6"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="recordButton" destination="dUa-Wh-KOY" id="9j9-po-IT3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5r-dU-VEg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2435" y="808"/>
+            <point key="canvasLocation" x="2434.7826086956525" y="807.58928571428567"/>
         </scene>
         <!--Profile-->
         <scene sceneID="xkb-6a-q0l">
@@ -503,7 +533,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="EpE-Up-x5o">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="80F-oV-IZ6" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="80F-oV-IZ6" sceneMemberID="viewController">
                     <toolbarItems/>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="FBT-gx-YfN">
@@ -603,9 +633,9 @@
     </scenes>
     <resources>
         <image name="folder" catalog="system" width="64" height="46"/>
-        <image name="house" catalog="system" width="64" height="54"/>
+        <image name="house" catalog="system" width="32" height="32"/>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
-        <image name="person" catalog="system" width="64" height="58"/>
+        <image name="person" catalog="system" width="32" height="32"/>
         <image name="plus.rectangle.fill" catalog="system" width="64" height="46"/>
     </resources>
 </document>

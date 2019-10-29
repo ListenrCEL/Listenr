@@ -46,13 +46,13 @@ func setupHomePage() {
         homeCollectionViewContentArray.insert([], at: sampleIndex)
         var input = homeCollectionViewContentArray[sampleIndex]
         for n in sampleSequence {
-            input.insert(story(title: "\(title) Title \(n)", creator: "\(title) Creator \(n)", coverArt: "test"), at: input.endIndex)
+            input.insert(story(title: "\(title) Title \(n)", creator: "\(title) Creator \(n)", coverArt: "test", dateUploaded: 5 + n), at: input.endIndex)
             homeCollectionViewContentArray.insert(input, at: sampleIndex)
         }
         sampleIndex += 1
     }
 //    let index = 1
 //    var input = homeCollectionViewContentArray[index]
-//    input.insert(story(title: "Test", creator: "Test", coverArt: "asdf"), at: input.startIndex)
+//    input.insert(story(title: "", creator: "", coverArt: ""), at: input.startIndex)
 //    homeCollectionViewContentArray.insert(input, at: index)
 }

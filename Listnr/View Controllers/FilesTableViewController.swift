@@ -10,28 +10,14 @@ import UIKit
 
 class FilesTableViewController: UITableViewController,UICollectionViewDelegate, UICollectionViewDataSource {
     
-    var filesCollectionData: [collection] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpFilesPage()
-        
-        //SUBSCRIBED
-        var subscribedIndex = 0
-        for _ in subscribedUserNames {
-            userData.subscribedCreators.append(user(name: subscribedUserNames[subscribedIndex], username: subscribedUserUsernames[subscribedIndex], stories: subscribedUserStories[subscribedIndex]))
-            subscribedIndex += 1
-        }
-        
-        // SAVED COLLECTION
-        var saveIndex = 0
-        for title in filesCollectionsTitlesArray{
-            filesCollectionData.append(collection(stories: filesCollectionsStoriesArray[saveIndex], title: title))
-            saveIndex += 1
-        } 
     }
     
+    // set up table view
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         filesCollectionData.count
     }
@@ -42,6 +28,7 @@ class FilesTableViewController: UITableViewController,UICollectionViewDelegate, 
         return cell
     }
     
+    // Set up collection view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return model[1].count
     }
@@ -50,7 +37,7 @@ class FilesTableViewController: UITableViewController,UICollectionViewDelegate, 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FilesCollectionViewCell
         cell.backgroundColor = .lightGray
         cell.coverArt.backgroundColor = model[6][indexPath.item]
-        
+        //jhjhjhlj
         return cell
     }
 }

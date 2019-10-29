@@ -17,12 +17,12 @@ struct story {
     var title = String()
     var creator = String()
     var coverArt = String()
+    var dateUploaded = Int()
     
 //  This needs to be updated as we add more data to each story. The commented out code below are some examples of what should be added later
-    
+//    var time = String()
     // var description = String()
     // var tags: [string] = []
-    // var time = String()
     // var videoURl = URL()
 }
 class currentUser {

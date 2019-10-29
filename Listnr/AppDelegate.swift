@@ -9,8 +9,21 @@
 import UIKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController is NewStoryViewController {
+            print("working")
+            if let newVC = tabBarController.storyboard?.instantiateViewController(withIdentifier: "newStory") {
+                tabBarController.present(newVC, animated: true)
+                return false
+            } else {
+                // TODO - BUG - when it first opens it doesnt present
+                return true
+            }
+        }
+        return true
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
