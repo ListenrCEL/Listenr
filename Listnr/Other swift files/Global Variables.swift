@@ -1,9 +1,9 @@
 //
 //  Global Variables.swift
-//  Listenr
+//  Listnr
 //
 //  Created by Oliver Moscow on 10/22/19.
-//  Copyright © 2019 Listenr. All rights reserved.
+//  Copyright © 2019 Listnr. All rights reserved.
 //
 
 import Foundation

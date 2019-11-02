@@ -7,29 +7,189 @@
 //
 
 import UIKit
+import AVFoundation
 
-class NewStoryViewController: UIViewController {
-
-    @IBOutlet weak var recordButton: UIButton!
+class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     
+    // MARK: Outlets
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var bottomView: UIView!
+    @IBOutlet weak var insideRecordView: UIView!
+    @IBOutlet weak var outsideRecordView: UIView!
+    @IBOutlet weak var recordLabel: UILabel!
+    
+    var recordingSession: AVAudioSession!
+    var recorder: AVAudioRecorder!
+    var player: AVAudioPlayer!
+    
+    // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-
-    }
-    override func viewWillAppear(_ animated: Bool) {
-        if isBeingPresented {
-            print("presenting")
-        } else {
-            print("not presenting")
-            self.dismiss(animated: false, completion: nil)
+        recordingSession = AVAudioSession.sharedInstance()
+        
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.loadRecordingUI()
+                    } else {
+                        self.loadFailUI()
+                    }
+                }
+            }
+        } catch {
+            self.loadFailUI()
         }
     }
-    @IBAction func recordButton(_ sender: UIButton) {
+    // MARK: loadRecordingUI
+    func loadRecordingUI() {
+        bottomView.isHidden = true
+        
+        recordButton.layer.cornerRadius = recordButton.bounds.width / 2
+        insideRecordView.layer.cornerRadius = insideRecordView.bounds.width / 2
+        outsideRecordView.layer.cornerRadius = outsideRecordView.bounds.width / 2
+        bottomView.layer.cornerRadius = 15
+        
+        outsideRecordView.layer.shadowColor = UIColor.black.cgColor
+        outsideRecordView.layer.shadowRadius = 30
+        outsideRecordView.layer.shadowOpacity = 0.5
+        outsideRecordView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        
+        //TODO - get the shadow to work
+        bottomView.layer.shadowColor = UIColor.black.cgColor
+        bottomView.layer.shadowRadius = 30
+        bottomView.layer.shadowOpacity = 1.0
+        bottomView.layer.shadowOffset = CGSize(width: 10, height: 10)
+        
+    }
+    //MARK: loadFailUI
+    func loadFailUI() {
+        bottomView.isHidden = true
+        let alertController = UIAlertController(title: "Recording failed", message: "Please ensure the app has access to your microphone", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.dismiss(animated: false, completion: nil)
+            alertController.dismiss(animated: false, completion: nil)
+        }))
+        self.present(alertController, animated: true, completion: nil)
+        return
+    }
+    //MARK: StartRecording
+    func startRecording() {
+        bottomView.isHidden = true
+        recordLabel.text = "Tap to Stop"
+        let audioURL = NewStoryViewController.getURL()
+        print(audioURL.absoluteString)
+        let settings = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVSampleRateKey: 12000,
+            AVNumberOfChannelsKey: 1,
+            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue
+        ]
+        do {
+            recorder = try AVAudioRecorder(url: audioURL, settings: settings)
+            recorder.delegate = self
+            recorder.record()
+        } catch {
+            finishRecording(success: false)
+        }
+    }
+    // MARK: finishRecording
+    func finishRecording(success: Bool) {
+        
+        recorder.stop()
+        recorder = nil
+        
+        if success {
+            play()
+            recordLabel.text = "Tap to Re-record"
+            bottomView.isHidden = false
+        } else {
+            recordLabel.text = "Tap to Record"
+            
+            let ac = UIAlertController(title: "Record failed", message: "There was a problem recording your whistle; please try again.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+    //MARK: URL
+    class func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let documentsDirectory = paths[0]
+        return documentsDirectory
     }
     
-    @IBAction func onBackButtonPressed(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+    class func getURL() -> URL {
+        let URL = userData.username
+        let index = userData.stories.count + 1
+        print(URL)
+        return getDocumentsDirectory().appendingPathComponent("\(URL)\(index).m4a")
+    }
+    func nextTapped() {
+    }
+    func play() {
+        let path = NewStoryViewController.getURL()
+        do
+        {
+            player = try AVAudioPlayer(contentsOf: path)
+            player.play()
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    // MARK: recordTapped
+    func recordTapped() {
+        guard recordLabel.text != "Tap to Re-record" else {
+            let alertController = UIAlertController(title: "Are you sure you want to record again?", message: "Your old recording will be permanently deleted", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                alertController.dismiss(animated: true, completion: nil)
+                self.startRecording()
+            }))
+            alertController.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
+                alertController.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        if recorder == nil {
+            startRecording()
+        } else {
+            finishRecording(success: true)
+        }
+    }
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        if !flag {
+            finishRecording(success: false)
+        }
+    }
+    //MARK: Actions
+    @IBAction func recordButonPressed(_ sender: Any) {
+        recordTapped()
+    }
+    @IBAction func exitButton(_ sender: Any) {
+        // This just makes sure that the user doesn't acidentaly quit and also pauses and resumes audio so that there isn't like a 10 second gap in the recording
+        var playing: Bool = false
+        if recordLabel.text != "Tap to record" {
+            if recordLabel.text != "Tap to Re-record" {
+                playing = true
+                recorder.pause()
+            }
+            let alertController = UIAlertController(title: "Abandon recording?", message: "Your old hard work will not be saved", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+                self.dismiss(animated: true, completion: nil)
+                alertController.dismiss(animated: false, completion: nil)
+            }))
+            alertController.addAction(UIAlertAction(title: "No", style: .default, handler: { (action) in
+                alertController.dismiss(animated: true, completion: nil)
+                if playing == true {
+                    self.recorder.record()
+                }
+            }))
+            self.present(alertController, animated: true, completion: nil)
+            return
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }
