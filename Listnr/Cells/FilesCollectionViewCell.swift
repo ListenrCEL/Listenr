@@ -14,5 +14,4 @@ class FilesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var creatorlabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var releasedLabel: UILabel!
-    
 }

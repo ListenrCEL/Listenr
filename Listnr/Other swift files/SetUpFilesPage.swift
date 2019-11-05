@@ -31,7 +31,7 @@ func setUpFilesPage() {
         let storySequence = 1...10
         for item in storySequence {
             var insert = subscribedUserStories[index]
-            insert.insert(story(title: "\(subscribedUserNames[index]) \(item)", creator: "\(subscribedUserNames[index]) \(item)", coverArt: "test", dateUploaded: 5 + item), at: insert.startIndex)
+//            insert.insert(story(title: "\(subscribedUserNames[index]) \(item)", creator: "\(subscribedUserNames[index]) \(item)", coverArt: "test", dateUploaded: ""), at: insert.startIndex)
             subscribedUserStories.insert(insert, at: index)
         }
     }
@@ -48,7 +48,7 @@ func setUpFilesPage() {
         var feedIndex = 0
         for _ in feed {
             let insert = feed[feedIndex].dateUploaded
-            dates.append(insert)
+//            dates.append(insert)
             feedIndex += 1
         }
         indexForUserNames += 1
@@ -69,7 +69,7 @@ func setUpFilesPage() {
         let storySequence = 1...6
         for item in storySequence {
             var insert = filesCollectionsStoriesArray[index]
-            insert.insert(story(title: "\(filesCollectionsTitlesArray[index]) \(item)", creator: "\(filesCollectionsTitlesArray[index]) \(item)", coverArt: "test", dateUploaded: 5 + item), at: insert.startIndex)
+//            insert.insert(story(title: "\(filesCollectionsTitlesArray[index]) \(item)", creator: "\(filesCollectionsTitlesArray[index]) \(item)", coverArt: "test", dateUploaded: 5 + item), at: insert.startIndex)
             filesCollectionsStoriesArray.insert(insert, at: index)
         }
     }

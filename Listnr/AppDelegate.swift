@@ -12,8 +12,8 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if viewController is NewStoryViewController {
-            if let newVC = tabBarController.storyboard?.instantiateViewController(withIdentifier: "newStory") {
+        if viewController is NewStoryNavBar {
+            if let newVC = tabBarController.storyboard?.instantiateViewController(withIdentifier: "NewStoryNavBar") {
                 tabBarController.present(newVC, animated: true)
                 return false
             } else {

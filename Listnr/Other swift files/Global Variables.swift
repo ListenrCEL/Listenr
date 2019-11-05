@@ -12,13 +12,12 @@ import Foundation
 // MARK: Variables
 let userData = currentUser()
 
-
 // MARK: Structs
 struct story {
     var title = String()
     var creator = String()
     var coverArt = String()
-    var dateUploaded = Int()
+    var dateUploaded = String()
     
 //  This needs to be updated as we add more data to each story. The commented out code below are some examples of what should be added later
 //    var time = String()

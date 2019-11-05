@@ -20,7 +20,6 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         // calls from SetUpProfilePage.swift
         setUpProfilePage()
-        
         profileImageView.backgroundColor = randomColor[1][1]
         nameLabel.text = userData.name
         usernameLabel.text = userData.username

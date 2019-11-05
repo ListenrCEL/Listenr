@@ -26,7 +26,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         recordingSession = AVAudioSession.sharedInstance()
-        
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
             try recordingSession.setActive(true)
@@ -108,7 +107,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         } else {
             recordLabel.text = "Tap to Record"
             
-            let ac = UIAlertController(title: "Record failed", message: "There was a problem recording your whistle; please try again.", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Record failed", message: "There was a problem recording your recording; please try again.", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default))
             present(ac, animated: true)
         }
@@ -125,8 +124,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         let index = userData.stories.count + 1
         print(URL)
         return getDocumentsDirectory().appendingPathComponent("\(URL)\(index).m4a")
-    }
-    func nextTapped() {
     }
     func play() {
         let path = NewStoryViewController.getURL()
@@ -158,6 +155,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
             finishRecording(success: true)
         }
     }
+    
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if !flag {
             finishRecording(success: false)
@@ -175,7 +173,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
                 playing = true
                 recorder.pause()
             }
-            let alertController = UIAlertController(title: "Abandon recording?", message: "Your old hard work will not be saved", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Abandon recording?", message: "Your hard work will not be saved", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                 self.dismiss(animated: true, completion: nil)
                 alertController.dismiss(animated: false, completion: nil)
@@ -191,5 +189,15 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         } else {
             dismiss(animated: true, completion: nil)
         }
+    }
+    @objc func saving() {
+        dismiss(animated: false, completion: nil)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+        self.present(vc, animated:true, completion:nil)
+    }
+    @IBAction func nextTapped(_ sender: UITapGestureRecognizer) {
+        NotificationCenter.default.addObserver(self, selector: #selector(saving), name: Notification.Name("saving"), object: nil)
+        performSegue(withIdentifier: "next", sender: self)
     }
 }
