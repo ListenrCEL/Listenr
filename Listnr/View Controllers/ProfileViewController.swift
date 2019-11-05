@@ -37,8 +37,11 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
         cell.titleLabel.text = userData.stories[indexPath.row].title
         cell.creatorLabel.text = userData.stories[indexPath.row].creator
-        // TODO - replace this with real images from the web
-        cell.profileImage.backgroundColor = randomColor[0][indexPath.row]
+        guard profileImageView.image != nil else {
+            cell.profileImage.backgroundColor = model[1][indexPath.row]
+            return cell
+        }
+        cell.profileImage.image = userData.stories[indexPath.row].coverArt
         return cell
     }
 }

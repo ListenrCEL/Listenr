@@ -40,7 +40,13 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
             return
         }
         let title = titleTextFeild.text!
-        userData.stories.append(story(title: title, creator: userData.name, coverArt: "imagePicked", dateUploaded: date))
+        var anonymous = Bool()
+        if anonymousSwitch.isOn {
+            anonymous = true
+        } else {
+            anonymous = false
+        }
+        userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous))
         dismiss(animated: false)
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
         

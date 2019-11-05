@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 var homeHeaderTitleArray: [String] = []
 var homeHeaderDescriptionArray: [String] = []
@@ -46,7 +47,7 @@ func setupHomePage() {
         homeCollectionViewContentArray.insert([], at: sampleIndex)
         var input = homeCollectionViewContentArray[sampleIndex]
         for n in sampleSequence {
-            input.insert(story(title: "\(title) Title \(n)", creator: "\(title) Creator \(n)", coverArt: "test", dateUploaded: ""), at: input.endIndex)
+            input.insert(story(title: "\(title) Title \(n)", creator: "\(title) Creator \(n)", dateUploaded: ""), at: input.endIndex)
             homeCollectionViewContentArray.insert(input, at: sampleIndex)
         }
         sampleIndex += 1

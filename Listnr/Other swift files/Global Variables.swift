@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 // This is most of the global variables but not all of them
 
 // MARK: Variables
@@ -16,8 +17,9 @@ let userData = currentUser()
 struct story {
     var title = String()
     var creator = String()
-    var coverArt = String()
+    var coverArt = UIImage()
     var dateUploaded = String()
+    var anonomous = Bool()
     
 //  This needs to be updated as we add more data to each story. The commented out code below are some examples of what should be added later
 //    var time = String()

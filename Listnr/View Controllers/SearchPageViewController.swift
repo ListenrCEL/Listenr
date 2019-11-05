@@ -20,10 +20,10 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         for n in sequence {
             if n % 3 == 2{
                 searchType.append("Story")
-                searchContent.append(story(title: "Title \(n)", creator: "creator \(n)", coverArt: "test"))
+                searchContent.append(story(title: "Title \(n)", creator: "creator \(n)"))
             } else {
                 searchType.append("Artist")
-                searchContent.append(story(title: "Title \(n)", creator: "Name", coverArt: ""))
+                searchContent.append(story(title: "Title \(n)", creator: "Name"))
                 
             }
         }
