@@ -23,6 +23,8 @@ class ProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // calls from SetUpProfilePage.swift
+        // FIREBASE - upload userstories to content (userData.stories)
+        
         setUpProfilePage()
         profileImageView.backgroundColor = randomColor[1][1]
         nameLabel.text = userData.name
