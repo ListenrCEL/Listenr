@@ -9,7 +9,8 @@
 import UIKit
 
 class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
+    //MARK: outlets
     @IBOutlet weak var titleTextFeild: UITextField!
     @IBOutlet weak var anonymousSwitch: UISwitch!
     @IBOutlet weak var catigoryButton: UIButton!
@@ -18,7 +19,8 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     
     var date = String()
     var imagePicked = UIImage()
-    
+    var isAnImage: Bool = false
+    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         titleTextFeild.delegate = self
@@ -29,7 +31,7 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         print(date)
     }
     
-    
+    // MARK: saveButtonPressed
     @IBAction func saveButtonPressed(_ sender: UIButton) {
         guard titleTextFeild.text != "" else
         {
@@ -46,20 +48,32 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         } else {
             anonymous = false
         }
-        userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous))
+        if isAnImage == true {
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous))
+        } else {
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous))
+            
+        }
         dismiss(animated: false)
+        print(userData.stories)
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         
     }
+    // MARK: imagePicker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
-
+        
         dismiss(animated: true)
-
+        
         imagePicked = image
+        isAnImage = true
         chosenImageView.image = imagePicked
         chosenImageView.isHidden = false
         coverArtButton.setTitle("Change", for: .normal)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        isAnImage = false
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -71,6 +85,8 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         picker.delegate = self
         present(picker, animated: true)
     }
+    
+    //MARK: actions
     @IBAction func didTap(_ sender: UITapGestureRecognizer) {
         dismiss(animated: true)
     }

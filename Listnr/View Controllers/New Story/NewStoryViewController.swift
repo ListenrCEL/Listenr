@@ -78,6 +78,13 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     func startRecording() {
         bottomView.isHidden = true
         recordLabel.text = "Tap to Stop"
+        
+        do {
+            try recordingSession.setCategory(.record)
+        } catch {
+            print("Error")
+        }
+        
         let audioURL = NewStoryViewController.getURL()
         print(audioURL.absoluteString)
         let settings = [
@@ -96,9 +103,14 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     }
     // MARK: finishRecording
     func finishRecording(success: Bool) {
-        
         recorder.stop()
         recorder = nil
+        
+        do {
+            try recordingSession.setCategory(.playback)
+        } catch {
+            print("Error")
+        }
         
         if success {
             play()

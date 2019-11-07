@@ -15,6 +15,7 @@
 		070C0AA22360FB48002CEE22 /* FilesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070C0AA12360FB48002CEE22 /* FilesTableViewCell.swift */; };
 		070C0AA62360FC0B002CEE22 /* FilesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070C0AA52360FC0B002CEE22 /* FilesCollectionViewCell.swift */; };
 		070C0AA82361312B002CEE22 /* SetUpFilesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070C0AA72361312B002CEE22 /* SetUpFilesPage.swift */; };
+		0711749D2372367B00BBF904 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0711749C2372367B00BBF904 /* TabBarController.swift */; };
 		072D031B235FEFA100F1E0BD /* SetUpHomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 072D031A235FEFA100F1E0BD /* SetUpHomePage.swift */; };
 		075B2E1D235E0F55008E2B1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B2E1C235E0F55008E2B1B /* AppDelegate.swift */; };
 		075B2E1F235E0F55008E2B1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B2E1E235E0F55008E2B1B /* SceneDelegate.swift */; };
@@ -32,6 +33,7 @@
 		077AD8EE2370C19C00890370 /* NewStoryNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077AD8ED2370C19C00890370 /* NewStoryNavBar.swift */; };
 		077AD8F12370D68E00890370 /* NewStoryContinuedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077AD8F02370D68E00890370 /* NewStoryContinuedViewController.swift */; };
 		078B123323674B0100764369 /* NewStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078B123223674B0100764369 /* NewStoryViewController.swift */; };
+		07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */; };
 		07F813BC2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */; };
 		07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,7 @@
 		070C0AA12360FB48002CEE22 /* FilesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesTableViewCell.swift; sourceTree = "<group>"; };
 		070C0AA52360FC0B002CEE22 /* FilesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesCollectionViewCell.swift; sourceTree = "<group>"; };
 		070C0AA72361312B002CEE22 /* SetUpFilesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpFilesPage.swift; sourceTree = "<group>"; };
+		0711749C2372367B00BBF904 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		072D031A235FEFA100F1E0BD /* SetUpHomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpHomePage.swift; sourceTree = "<group>"; };
 		075B2E19235E0F55008E2B1B /* Listnr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listnr.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		075B2E1C235E0F55008E2B1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +88,7 @@
 		077AD8ED2370C19C00890370 /* NewStoryNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryNavBar.swift; sourceTree = "<group>"; };
 		077AD8F02370D68E00890370 /* NewStoryContinuedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryContinuedViewController.swift; sourceTree = "<group>"; };
 		078B123223674B0100764369 /* NewStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryViewController.swift; sourceTree = "<group>"; };
+		07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,10 +183,12 @@
 		075B2E4F235E0FD3008E2B1B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				0711749C2372367B00BBF904 /* TabBarController.swift */,
 				075B2E4D235E0FCC008E2B1B /* HomeTableViewController.swift */,
 				075B2E57235F4949008E2B1B /* ProfileViewController.swift */,
 				070C0A992360C694002CEE22 /* SearchPageViewController.swift */,
 				070C0A9F2360FB13002CEE22 /* FilesTableViewController.swift */,
+				07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */,
 				077AD8EF2370D62E00890370 /* New Story */,
 			);
 			path = "View Controllers";
@@ -361,6 +367,7 @@
 				070C0AA62360FC0B002CEE22 /* FilesCollectionViewCell.swift in Sources */,
 				075B2E1D235E0F55008E2B1B /* AppDelegate.swift in Sources */,
 				070C0A9A2360C694002CEE22 /* SearchPageViewController.swift in Sources */,
+				0711749D2372367B00BBF904 /* TabBarController.swift in Sources */,
 				075B2E5B235F641D008E2B1B /* Global Variables.swift in Sources */,
 				077AD8EE2370C19C00890370 /* NewStoryNavBar.swift in Sources */,
 				075B2E56235F4938008E2B1B /* ProfileTableViewCell.swift in Sources */,
@@ -372,6 +379,7 @@
 				07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */,
 				070C0A9E2360DC80002CEE22 /* SearchTableViewCell.swift in Sources */,
 				070C0AA22360FB48002CEE22 /* FilesTableViewCell.swift in Sources */,
+				07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */,
 				070C0A982360915E002CEE22 /* RandomColorGenerator.swift in Sources */,
 				078B123323674B0100764369 /* NewStoryViewController.swift in Sources */,
 				075B2E52235E1048008E2B1B /* HomeTableViewCell.swift in Sources */,

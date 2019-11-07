@@ -8,12 +8,16 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProfileViewController: UITableViewController {
     // MARK: Outlets
+    
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
+    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet var myTableView: UITableView!
     
+    var content = userData.stories
     var randomColor: [[UIColor]] = generateRandomData()
     // MARK: viewDidLoad
     override func viewDidLoad() {
@@ -27,21 +31,52 @@ class ProfileViewController: UIViewController, UITableViewDelegate, UITableViewD
         let size = profileImageView.bounds.width
         profileImageView.layer.cornerRadius = size/2
         profileImageView.layer.masksToBounds = true
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
+    }
+    //MARK: TableViewController
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return content.count
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userData.stories.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
-        cell.titleLabel.text = userData.stories[indexPath.row].title
-        cell.creatorLabel.text = userData.stories[indexPath.row].creator
-        guard profileImageView.image != nil else {
-            cell.profileImage.backgroundColor = model[1][indexPath.row]
-            return cell
-        }
-        cell.profileImage.image = userData.stories[indexPath.row].coverArt
+        cell.titleLabel.text = content[indexPath.row].title
+        cell.creatorLabel.text = content[indexPath.row].creator
+        cell.profileImage.image = content[indexPath.row].coverArt
         return cell
+    }
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedObjTemp = content[sourceIndexPath.item]
+        content.remove(at: sourceIndexPath.item)
+        content.insert(movedObjTemp, at: destinationIndexPath.item)
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            content.remove(at: indexPath.item)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    
+    //MARK: actions
+    @objc func reload() {
+        print("reloading")
+        print(content)
+    }
+    @IBAction func editPressed(_ sender: UIButton) {
+        self.tableView.reloadData()
+        self.tableView.isEditing = !self.tableView.isEditing
+        if self.tableView.isEditing {
+            editButton.setTitle("Done", for: .normal)
+        } else {
+            editButton.setTitle("Edit", for: .normal)
+        }
+    }
+    @IBAction func newStoryPressed(_ sender: UIButton) {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "NewStoryNavBar") as! NewStoryNavBar
+        self.present(vc, animated:true, completion:nil)
     }
 }

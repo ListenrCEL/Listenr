@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
                 tabBarController.present(newVC, animated: true)
                 return false
             } else {
-                // TODO - BUG - when it first opens it doesnt present
+                
                 return true
             }
         }
