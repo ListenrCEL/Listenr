@@ -57,8 +57,6 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         dismiss(animated: false)
         print(userData.stories)
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
-        NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
-        
     }
     // MARK: imagePicker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {

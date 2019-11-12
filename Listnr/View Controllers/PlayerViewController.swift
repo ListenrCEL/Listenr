@@ -10,21 +10,39 @@ import UIKit
 
 class PlayerViewController: UIViewController {
 
+    //MARK: Otlets
+    @IBOutlet weak var coverArt: UIImageView!
+    @IBOutlet weak var storyTitle: UILabel!
+    @IBOutlet weak var creatorlabel: UILabel!
+    @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var currentTimeLabel: UILabel!
+    @IBOutlet weak var totalTimeLabel: UILabel!
+    @IBOutlet weak var back30: UIButton!
+    @IBOutlet weak var forward30: UIButton!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet weak var forwardButton: UIButton!
+    @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var moreButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - Actions
+    @IBAction func playPressed(_ sender: UIButton) {
+        AudioPlayer.shared.play()
     }
-    */
-
+    @IBAction func backPressed(_ sender: UIButton) {
+    }
+    @IBAction func forwardPressed(_ sender: UIButton) {
+    }
+    @IBAction func back30Pressed(_ sender: UIButton) {
+    }
+    @IBAction func forward30Pressed(_ sender: UIButton) {
+    }
+    @IBAction func sliderChanged(_ sender: UISlider) {
+    }
+    
 }

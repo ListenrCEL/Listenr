@@ -25,7 +25,7 @@ class ProfileViewController: UITableViewController {
         // calls from SetUpProfilePage.swift
         // FIREBASE - upload userstories to content (userData.stories)
         
-        setUpProfilePage()
+        setUpProfile()
         profileImageView.backgroundColor = randomColor[1][1]
         nameLabel.text = userData.name
         usernameLabel.text = userData.username
@@ -34,8 +34,11 @@ class ProfileViewController: UITableViewController {
         profileImageView.layer.cornerRadius = size/2
         profileImageView.layer.masksToBounds = true
         
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
+
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(false)
+        tableView.reloadData()
     }
     //MARK: TableViewController
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -63,10 +66,6 @@ class ProfileViewController: UITableViewController {
     
     
     //MARK: actions
-    @objc func reload() {
-        print("reloading")
-        print(content)
-    }
     @IBAction func editPressed(_ sender: UIButton) {
         self.tableView.reloadData()
         self.tableView.isEditing = !self.tableView.isEditing

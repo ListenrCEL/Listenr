@@ -8,7 +8,7 @@
 
 import Foundation
 
-func setUpProfilePage() {
+func setUpProfile() {
     //calls from variable in global variables.swift
     // FIREBASE - update user data with the actual user data from the cloud. Insert it where the quotation marks are.
     userData.name = "Oliver Moscow"
