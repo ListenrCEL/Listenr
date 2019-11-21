@@ -74,7 +74,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         self.present(alertController, animated: true, completion: nil)
         return
     }
-    //MARK: StartRecording
+    //MARK: - StartRecording
     func startRecording() {
         bottomView.isHidden = true
         recordLabel.text = "Tap to Stop"
@@ -124,7 +124,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
             present(ac, animated: true)
         }
     }
-    //MARK: URL
+    //MARK: - URL
     class func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
@@ -137,6 +137,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         print(URL)
         return getDocumentsDirectory().appendingPathComponent("\(URL)\(index).m4a")
     }
+    //MARK: Play
     func play() {
         let path = NewStoryViewController.getURL()
         do
@@ -173,7 +174,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
             finishRecording(success: false)
         }
     }
-    //MARK: Actions
+    //MARK: - Actions
     @IBAction func recordButonPressed(_ sender: Any) {
         recordTapped()
     }
@@ -203,10 +204,12 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         }
     }
     @objc func saving() {
+        let path = NewStoryViewController.getURL()
+        print(path)
         dismiss(animated: false, completion: nil)
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        self.present(vc, animated:true, completion:nil)
+        self.present(vc, animated: true, completion: nil)
     }
     @IBAction func nextTapped(_ sender: UITapGestureRecognizer) {
         NotificationCenter.default.addObserver(self, selector: #selector(saving), name: Notification.Name("saving"), object: nil)

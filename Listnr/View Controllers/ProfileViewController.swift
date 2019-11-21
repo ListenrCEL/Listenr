@@ -16,14 +16,12 @@ class ProfileViewController: UITableViewController {
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
     @IBOutlet var myTableView: UITableView!
-    
-    var content = userData.stories
     var randomColor: [[UIColor]] = generateRandomData()
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         // calls from SetUpProfilePage.swift
-        // FIREBASE - upload userstories to content (userData.stories)
+        // FIREBASE - upload userstories to userData.stories (userData.stories)
         
         setUpProfile()
         profileImageView.backgroundColor = randomColor[1][1]
@@ -33,7 +31,6 @@ class ProfileViewController: UITableViewController {
         let size = profileImageView.bounds.width
         profileImageView.layer.cornerRadius = size/2
         profileImageView.layer.masksToBounds = true
-        
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -42,25 +39,34 @@ class ProfileViewController: UITableViewController {
     }
     //MARK: TableViewController
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return content.count
+        return userData.stories.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
-        cell.titleLabel.text = content[indexPath.row].title
-        cell.creatorLabel.text = content[indexPath.row].creator
-        cell.profileImage.image = content[indexPath.row].coverArt
+        cell.titleLabel.text = userData.stories[indexPath.row].title
+        cell.creatorLabel.text = userData.stories[indexPath.row].creator
+        cell.profileImage.image = userData.stories[indexPath.row].coverArt
         return cell
     }
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObjTemp = content[sourceIndexPath.item]
-        content.remove(at: sourceIndexPath.item)
-        content.insert(movedObjTemp, at: destinationIndexPath.item)
+        let movedObjTemp = userData.stories[sourceIndexPath.item]
+        userData.stories.remove(at: sourceIndexPath.item)
+        userData.stories.insert(movedObjTemp, at: destinationIndexPath.item)
     }
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            content.remove(at: indexPath.item)
+            userData.stories.remove(at: indexPath.item)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            print(userData.stories)
+        }
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        AudioPlayer.shared.audioURl = userData.stories[indexPath.row].storyURl
+        if !AudioPlayer.shared.isPlaying {
+            AudioPlayer.shared.isPlaying = true
+        } else {
+            AudioPlayer.shared.isPlaying = false
         }
     }
     

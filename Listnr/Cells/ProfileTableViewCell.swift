@@ -12,6 +12,7 @@ class ProfileTableViewCell: UITableViewCell {
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var creatorLabel: UILabel!
+    @IBOutlet weak var playPauseButton: UIButton!
     // TODO - make creator labels buttons
     
     override func awakeFromNib() {

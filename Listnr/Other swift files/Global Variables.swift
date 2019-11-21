@@ -10,9 +10,13 @@ import Foundation
 import UIKit
 // This is most of the global variables but not all of them
 
+class variables {
+    static let shared = variables()
+    private init(){}
+}
 // MARK: Variables
 let userData = currentUser()
-
+let orangeFoot = Bundle.main.url(forResource: "orangeFoot", withExtension: "mp3")
 // MARK: Structs
 struct story {
     var title = String()
@@ -20,6 +24,7 @@ struct story {
     var coverArt = UIImage()
     var dateUploaded = String()
     var anonomous = Bool()
+    var storyURl: URL
     
 //  This needs to be updated as we add more data to each story. The commented out code below are some examples of what should be added later
 //    var time = String()
@@ -48,4 +53,3 @@ class currentUser {
     // This will also be updated later
     // var savedStories: [[story]] = []
 }
-

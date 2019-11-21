@@ -49,9 +49,9 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
             anonymous = false
         }
         if isAnImage == true {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous))
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: NewStoryViewController.getURL()))
         } else {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous))
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: NewStoryViewController.getURL()))
             
         }
         dismiss(animated: false)

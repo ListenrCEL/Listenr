@@ -27,12 +27,27 @@ class PlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        if AudioPlayer.shared.isPlaying == false {
+            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        } else {
+            playPauseButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        if isBeingDismissed {
+            print("dismissing")
+//            TabBarController.perform(#selector(TabBarController.player))
+        }
     }
     //MARK: - Actions
     @IBAction func playPressed(_ sender: UIButton) {
-        AudioPlayer.shared.play()
+        if !AudioPlayer.shared.isPlaying {
+            AudioPlayer.shared.isPlaying = true
+            playPauseButton.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+        } else {
+            AudioPlayer.shared.isPlaying = false
+            playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
+        }
     }
     @IBAction func backPressed(_ sender: UIButton) {
     }

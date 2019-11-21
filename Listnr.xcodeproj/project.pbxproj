@@ -33,8 +33,7 @@
 		077AD8EE2370C19C00890370 /* NewStoryNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077AD8ED2370C19C00890370 /* NewStoryNavBar.swift */; };
 		077AD8F12370D68E00890370 /* NewStoryContinuedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077AD8F02370D68E00890370 /* NewStoryContinuedViewController.swift */; };
 		078B123323674B0100764369 /* NewStoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078B123223674B0100764369 /* NewStoryViewController.swift */; };
-		078C007323772D6800BE7800 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 078C007223772D6800BE7800 /* Player.swift */; };
-		07C0E1BD237AEDB400EA5D4F /* Orange_Foot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 07C0E1BC237AEDB400EA5D4F /* Orange_Foot.mp3 */; };
+		078D16BD23843463009D9183 /* orangeFoot.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 078CFD1B237DE1F600B04122 /* orangeFoot.mp3 */; };
 		07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */; };
 		07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */; };
 		07F813BC2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */; };
@@ -91,8 +90,7 @@
 		077AD8ED2370C19C00890370 /* NewStoryNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryNavBar.swift; sourceTree = "<group>"; };
 		077AD8F02370D68E00890370 /* NewStoryContinuedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryContinuedViewController.swift; sourceTree = "<group>"; };
 		078B123223674B0100764369 /* NewStoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewStoryViewController.swift; sourceTree = "<group>"; };
-		078C007223772D6800BE7800 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		07C0E1BC237AEDB400EA5D4F /* Orange_Foot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = Orange_Foot.mp3; path = ../Orange_Foot.mp3; sourceTree = "<group>"; };
+		078CFD1B237DE1F600B04122 /* orangeFoot.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = orangeFoot.mp3; sourceTree = "<group>"; };
 		07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -127,7 +125,6 @@
 		075B2E10235E0F55008E2B1B = {
 			isa = PBXGroup;
 			children = (
-				07C0E1BC237AEDB400EA5D4F /* Orange_Foot.mp3 */,
 				075B2E1B235E0F55008E2B1B /* Listnr */,
 				075B2E32235E0F59008E2B1B /* ListenrTests */,
 				075B2E3D235E0F59008E2B1B /* ListenrUITests */,
@@ -148,6 +145,7 @@
 		075B2E1B235E0F55008E2B1B /* Listnr */ = {
 			isa = PBXGroup;
 			children = (
+				078CFD1B237DE1F600B04122 /* orangeFoot.mp3 */,
 				075B2E1C235E0F55008E2B1B /* AppDelegate.swift */,
 				075B2E1E235E0F55008E2B1B /* SceneDelegate.swift */,
 				075B2E4F235E0FD3008E2B1B /* View Controllers */,
@@ -224,7 +222,6 @@
 				070C0AA72361312B002CEE22 /* SetUpFilesPage.swift */,
 				07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */,
 				070C0A972360915E002CEE22 /* RandomColorGenerator.swift */,
-				078C007223772D6800BE7800 /* Player.swift */,
 			);
 			path = "Other swift files";
 			sourceTree = "<group>";
@@ -344,7 +341,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07C0E1BD237AEDB400EA5D4F /* Orange_Foot.mp3 in Resources */,
+				078D16BD23843463009D9183 /* orangeFoot.mp3 in Resources */,
 				075B2E29235E0F58008E2B1B /* LaunchScreen.storyboard in Resources */,
 				075B2E26235E0F58008E2B1B /* Assets.xcassets in Resources */,
 				075B2E24235E0F55008E2B1B /* Main.storyboard in Resources */,
@@ -390,7 +387,6 @@
 				070C0A9E2360DC80002CEE22 /* SearchTableViewCell.swift in Sources */,
 				070C0AA22360FB48002CEE22 /* FilesTableViewCell.swift in Sources */,
 				07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */,
-				078C007323772D6800BE7800 /* Player.swift in Sources */,
 				07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */,
 				070C0A982360915E002CEE22 /* RandomColorGenerator.swift in Sources */,
 				078B123323674B0100764369 /* NewStoryViewController.swift in Sources */,
