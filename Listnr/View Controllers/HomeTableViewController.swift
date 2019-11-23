@@ -32,6 +32,7 @@ class HomeTableViewController: UITableViewController {
         // seting up the tabbar so that it can present stuff
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
         // calls from "Global Variables.swift"
+        setupHomePage()
         setUpProfile()
         // populates cellData
         var index = 0
