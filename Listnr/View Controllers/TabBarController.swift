@@ -25,6 +25,7 @@ class TabBarController: UITabBarController {
             playerView.heightAnchor.constraint(equalToConstant: 90)
         ])
         NotificationCenter.default.addObserver(self, selector: #selector(presentPlayer), name: Notification.Name("presentPlayer"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentNewCollection), name: Notification.Name("newCollection"), object: nil)
     }
     @objc func player() {
         if !AudioPlayer.shared.isPlaying {
@@ -34,6 +35,11 @@ class TabBarController: UITabBarController {
             AudioPlayer.shared.isPlaying = false
             playPauseButton.setImage(UIImage(systemName: "play.fill"), for: .normal)
         }
+    }
+    @objc func presentNewCollection() {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let vc = storyBoard.instantiateViewController(withIdentifier: "newCollection") as! NewCollectionViewController
+                self.present(vc, animated: true, completion: nil)
     }
     @objc func presentPlayer() {
         performSegue(withIdentifier: "playerView", sender: self)

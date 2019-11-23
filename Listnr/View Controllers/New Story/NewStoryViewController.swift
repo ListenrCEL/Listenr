@@ -174,6 +174,18 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
             finishRecording(success: false)
         }
     }
+    //MARK: Saving
+    @objc func saving() {
+        let path = NewStoryViewController.getURL()
+        print(path)
+        dismiss(animated: true, completion: nil)
+//        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+//        let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
+//        self.present(vc, animated: true) {
+//            ProfileViewController.performSelector(onMainThread: #selector(ProfileViewController.editPressed(_:)), with: nil, waitUntilDone: true)
+//        }
+    }
+
     //MARK: - Actions
     @IBAction func recordButonPressed(_ sender: Any) {
         recordTapped()
@@ -202,14 +214,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         } else {
             dismiss(animated: true, completion: nil)
         }
-    }
-    @objc func saving() {
-        let path = NewStoryViewController.getURL()
-        print(path)
-        dismiss(animated: false, completion: nil)
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        self.present(vc, animated: true, completion: nil)
     }
     @IBAction func nextTapped(_ sender: UITapGestureRecognizer) {
         NotificationCenter.default.addObserver(self, selector: #selector(saving), name: Notification.Name("saving"), object: nil)

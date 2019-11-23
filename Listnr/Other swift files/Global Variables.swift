@@ -40,6 +40,7 @@ struct user {
 struct collection {
     var stories: [story] = []
     var title = String()
+    var creator = String()
 }
 
 // MARK: Classes
@@ -48,6 +49,7 @@ class currentUser {
     var name = String()
     var profileImage = String()
     var stories: [story] = []
+    var collections: [collection] = []
     var subscribedCreators: [user] = []
     
     // This will also be updated later

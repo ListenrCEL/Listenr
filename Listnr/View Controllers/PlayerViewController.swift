@@ -35,7 +35,6 @@ class PlayerViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         if isBeingDismissed {
-            print("dismissing")
 //            TabBarController.perform(#selector(TabBarController.player))
         }
     }

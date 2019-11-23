@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 func setUpProfile() {
     //calls from variable in global variables.swift

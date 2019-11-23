@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
                 tabBarController.present(newVC, animated: true)
                 return false
             } else {
-                
                 return true
             }
         }

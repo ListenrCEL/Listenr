@@ -91,6 +91,9 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     @IBAction func didSwipe(_ sender: UISwipeGestureRecognizer) {
         dismiss(animated: true)
     }
+    @IBAction func downTapped(_ sender: UIButton) {
+        dismiss(animated: true)
+    }
     @IBAction func picturePicture(_ sender: UIButton) {
         importPicture()
     }
