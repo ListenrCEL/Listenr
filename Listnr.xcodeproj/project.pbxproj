@@ -36,7 +36,7 @@
 		07C3C36123878FA90042B5AF /* NewCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C3C36023878FA90042B5AF /* NewCollectionViewController.swift */; };
 		07C3C366238866670042B5AF /* ProfileTableViewCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C3C365238866670042B5AF /* ProfileTableViewCell2.swift */; };
 		07C3C3682388AB3D0042B5AF /* CollectionTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C3C3672388AB3D0042B5AF /* CollectionTableViewController.swift */; };
-		07C3C36A2388AB9A0042B5AF /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C3C3692388AB9A0042B5AF /* CollectionTableViewCell.swift */; };
+		07C3C36C238B455C0042B5AF /* CollectionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07C3C36B238B455C0042B5AF /* CollectionTableViewCell.swift */; };
 		07D46E9E238705DB00FD7D28 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07D46E9D238705DA00FD7D28 /* GoogleService-Info.plist */; };
 		07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */; };
 		07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */; };
@@ -100,7 +100,7 @@
 		07C3C36023878FA90042B5AF /* NewCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCollectionViewController.swift; sourceTree = "<group>"; };
 		07C3C365238866670042B5AF /* ProfileTableViewCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell2.swift; sourceTree = "<group>"; };
 		07C3C3672388AB3D0042B5AF /* CollectionTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewController.swift; sourceTree = "<group>"; };
-		07C3C3692388AB9A0042B5AF /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
+		07C3C36B238B455C0042B5AF /* CollectionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionTableViewCell.swift; sourceTree = "<group>"; };
 		07D46E9D238705DA00FD7D28 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
@@ -266,7 +266,6 @@
 				075B2E57235F4949008E2B1B /* ProfileViewController.swift */,
 				07C3C36023878FA90042B5AF /* NewCollectionViewController.swift */,
 				07C3C3672388AB3D0042B5AF /* CollectionTableViewController.swift */,
-				07C3C3692388AB9A0042B5AF /* CollectionTableViewCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -294,6 +293,7 @@
 			children = (
 				075B2E55235F4938008E2B1B /* ProfileTableViewCell.swift */,
 				07C3C365238866670042B5AF /* ProfileTableViewCell2.swift */,
+				07C3C36B238B455C0042B5AF /* CollectionTableViewCell.swift */,
 			);
 			path = "Profile cells";
 			sourceTree = "<group>";
@@ -565,6 +565,7 @@
 				075B2E54235E1101008E2B1B /* HomeCollectionViewCell.swift in Sources */,
 				075B2E4E235E0FCC008E2B1B /* HomeTableViewController.swift in Sources */,
 				070C0AA62360FC0B002CEE22 /* FilesCollectionViewCell.swift in Sources */,
+				07C3C36C238B455C0042B5AF /* CollectionTableViewCell.swift in Sources */,
 				075B2E1D235E0F55008E2B1B /* AppDelegate.swift in Sources */,
 				070C0A9A2360C694002CEE22 /* SearchPageViewController.swift in Sources */,
 				0711749D2372367B00BBF904 /* TabBarController.swift in Sources */,
@@ -587,7 +588,6 @@
 				078B123323674B0100764369 /* NewStoryViewController.swift in Sources */,
 				075B2E52235E1048008E2B1B /* HomeTableViewCell.swift in Sources */,
 				070C0A9623608D45002CEE22 /* SetUpProfilePage.swift in Sources */,
-				07C3C36A2388AB9A0042B5AF /* CollectionTableViewCell.swift in Sources */,
 				075B2E1F235E0F55008E2B1B /* SceneDelegate.swift in Sources */,
 				070C0AA02360FB13002CEE22 /* FilesTableViewController.swift in Sources */,
 			);

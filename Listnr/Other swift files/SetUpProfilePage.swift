@@ -15,9 +15,4 @@ func setUpProfile() {
     userData.name = "Oliver Moscow"
     userData.username = "@The GOAT"
     // user profile image goes here as well
-    
-    // FIREBASE - this is the code to insert elements into the profile page
-    // this is also where to upload audio content after recording
-//    userData.stories.append(story(title: "test", creator: "test", coverArt: "test"))
-    
 }

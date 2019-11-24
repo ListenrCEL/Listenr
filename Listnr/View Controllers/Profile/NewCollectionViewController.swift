@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NewCollectionViewController: UIViewController {
+class NewCollectionViewController: UIViewController, UITextFieldDelegate {
     
     var colors: [UIColor] = [
         UIColor(red: 1.28, green: 0.16, blue: 1.02, alpha: 1.00),
@@ -19,7 +19,12 @@ class NewCollectionViewController: UIViewController {
     @IBOutlet weak var titleTextView: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextView.delegate = self
         // Do any additional setup after loading the view.
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     @IBAction func cancelPressed(_ sender: UIButton) {
         dismiss(animated: true)

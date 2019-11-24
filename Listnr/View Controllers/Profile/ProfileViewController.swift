@@ -21,7 +21,10 @@ class ProfileViewController: UITableViewController {
     
     var randomColor: [[UIColor]] = generateRandomData()
     var selectedCollection = collection()
-
+    
+    var sectionTitles = ["Collections","Stories"]
+    var sectionHights: [Int] = [0, 25]
+    // MARK: - Edit
     var edit = false {
         willSet(newValue) {
             if newValue == true {
@@ -50,7 +53,6 @@ class ProfileViewController: UITableViewController {
         // calls from SetUpProfilePage.swift
         // FIREBASE - upload userstories to userData.stories (userData.stories)
         
-        setUpProfile()
         profileImageView.backgroundColor = randomColor[1][1]
         nameLabel.text = userData.name
         usernameLabel.text = userData.username
@@ -58,7 +60,7 @@ class ProfileViewController: UITableViewController {
         let size = profileImageView.bounds.width
         profileImageView.layer.cornerRadius = size/2
         profileImageView.layer.masksToBounds = true
-
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
@@ -70,14 +72,14 @@ class ProfileViewController: UITableViewController {
             nvc.content = selectedCollection
         }
     }
-
+    
     
     //MARK: Actions
     @IBAction func editPressed(_ sender: UIButton) {
         self.tableView.reloadData()
         edit = true
     }
-    @IBAction func newStoryPressed(_ sender: UIButton) {
+    @IBAction func newStoryPressed(_ sender: Any) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let vc = storyBoard.instantiateViewController(withIdentifier: "NewStoryNavBar") as! NewStoryNavBar
         self.present(vc, animated:true, completion:nil)
@@ -88,14 +90,13 @@ class ProfileViewController: UITableViewController {
             let alertController = UIAlertController(title: "Are you sure you want to delete?", message: "This action cannot be undone", preferredStyle: .alert)
             alertController.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
                 for indexPath in selectedRows  {
-                    if userData.collections.count == 0 {
-                        userData.stories.remove(at: indexPath.row)
+                    if indexPath.section == 0 {
+                        print(indexPath.row)
+                        userData.collections.remove(at: indexPath.row)
                     } else {
-                        guard indexPath.section != 0 else {return}
                         userData.stories.remove(at: indexPath.row)
                     }
                 }
-//                guard newCollectionArray.count == 0 else {return}
                 self.tableView.beginUpdates()
                 self.tableView.deleteRows(at: selectedRows, with: .automatic)
                 self.tableView.endUpdates()
@@ -108,7 +109,7 @@ class ProfileViewController: UITableViewController {
         }
     }
     //MARK: New Collection
-    @objc func newCollectionPressed(_ sender: UIBarButtonItem) {
+    @objc func newCollectionPressed(_ sender: Any) {
         newCollectionArray = []
         if let selectedRows = tableView.indexPathsForSelectedRows {
             for indexPath in selectedRows  {
@@ -129,37 +130,26 @@ class ProfileViewController: UITableViewController {
         edit = false
     }
 }
-    //MARK: - TableViewController
+//MARK: - TableViewController
 
 extension ProfileViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        if userData.collections.count == 0 {
-            return 1
-        } else {
-            return 2
-        }
+        return 2
     }
     //MARK: Header
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard userData.collections.count != 0 else {
-            navigationItem.title = "Profile"
-            return nil
-        }
-        if section == 0 {
-            navigationItem.title = "Profile"
-            title = "Collections"
-        } else {
-            title = "Stories"
-        }
-        return title
+        return sectionTitles[section]
     }
-    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if userData.collections.count == 0 {
+            return CGFloat(sectionHights[section])
+        } else {
+            return 25
+        }
+    }
     //MARK: numberOfRows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard userData.collections.count != 0 else {
-            return userData.stories.count
-        }
         if section == 0 {
             return userData.collections.count
         } else {
@@ -168,13 +158,6 @@ extension ProfileViewController {
     }
     //MARK: cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard userData.collections.count != 0 else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
-            cell.titleLabel.text = userData.stories[indexPath.row].title
-            cell.creatorLabel.text = userData.stories[indexPath.row].creator
-            cell.profileImage.image = userData.stories[indexPath.row].coverArt
-            return cell
-        }
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell2
             cell.title.text = userData.collections[indexPath.row].title
@@ -182,6 +165,9 @@ extension ProfileViewController {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.clear
+            cell.selectedBackgroundView = backgroundView
             cell.titleLabel.text = userData.stories[indexPath.row].title
             cell.creatorLabel.text = userData.stories[indexPath.row].creator
             cell.profileImage.image = userData.stories[indexPath.row].coverArt
@@ -190,48 +176,29 @@ extension ProfileViewController {
     }
     //MARK: hight
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard userData.collections.count != 0 else {
-            return 60
-        }
         if indexPath.section == 0 {
             return 75
         } else {
             return 60
         }
     }
-    // MARK: Edit
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let movedObjTemp = userData.stories[sourceIndexPath.item]
         userData.stories.remove(at: sourceIndexPath.item)
         userData.stories.insert(movedObjTemp, at: destinationIndexPath.item)
     }
+    //MARK: did select row
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard edit != true else { return }
-        if userData.collections.count == 0 {
+        if indexPath.section == 0 {
+            selectedCollection = userData.collections[indexPath.row]
+            performSegue(withIdentifier: "toCollection", sender: self)
+        } else {
             AudioPlayer.shared.audioURl = userData.stories[indexPath.row].storyURl
             if !AudioPlayer.shared.isPlaying {
                 AudioPlayer.shared.isPlaying = true
             } else {
                 AudioPlayer.shared.isPlaying = false
-            }
-        } else {
-            if indexPath.section == 0 {
-                selectedCollection = userData.collections[indexPath.row]
-                performSegue(withIdentifier: "toCollection", sender: self)
-            } else {
-                var currentIndex = 0
-                var sumSections = 0;
-                for index in 0..<indexPath.section {
-                    let rowsInSection = self.tableView.numberOfRows(inSection: index)
-                    sumSections += rowsInSection
-                }
-                currentIndex = sumSections + indexPath.row - 1;
-                AudioPlayer.shared.audioURl = userData.stories[currentIndex].storyURl
-                if !AudioPlayer.shared.isPlaying {
-                    AudioPlayer.shared.isPlaying = true
-                } else {
-                    AudioPlayer.shared.isPlaying = false
-                }
             }
         }
     }

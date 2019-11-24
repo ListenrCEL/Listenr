@@ -21,7 +21,7 @@ class CollectionTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
-        cell.imageView?.image = content.stories[indexPath.row].coverArt
+        cell.coverArt.image = content.stories[indexPath.row].coverArt
         cell.title.text = content.stories[indexPath.row].title
         cell.creator.text = content.stories[indexPath.row].creator
         return cell
