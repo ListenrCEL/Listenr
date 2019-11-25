@@ -10,6 +10,14 @@ import Foundation
 import UIKit
 // This is most of the global variables but not all of them
 
+struct uploadPkg
+{
+    let userName: String
+    let audioName: String
+    let audioFileURL: URL
+    let clipArtURL: URL
+}
+
 class variables {
     static let shared = variables()
     private init(){}
