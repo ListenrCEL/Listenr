@@ -10,6 +10,8 @@ import UIKit
 
 class CollectionTableViewController: UITableViewController {
 
+    @IBOutlet weak var playPauseButton: UIBarButtonItem!
+    
     var content = collection()
     
     override func viewDidLoad() {
@@ -27,11 +29,21 @@ class CollectionTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        AudioPlayer.shared.audioURl = content.stories[indexPath.row].storyURl
+        AudioPlayer.shared.queue = [content.stories[indexPath.row]]
+        AudioPlayer.shared.isPlaying = true
+    }
+    @IBAction func playButtonPressed(_ sender: UIBarButtonItem) {
+       
+        AudioPlayer.shared.queue = content.stories
+        
         if !AudioPlayer.shared.isPlaying {
             AudioPlayer.shared.isPlaying = true
+            let pause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
+            navigationItem.rightBarButtonItems = [pause]
         } else {
             AudioPlayer.shared.isPlaying = false
+            let play = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
+            navigationItem.rightBarButtonItems = [play]
         }
     }
 }
