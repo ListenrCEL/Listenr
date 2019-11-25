@@ -48,14 +48,17 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         } else {
             anonymous = false
         }
+        let url = NewStoryViewController.getURL()
         if isAnImage == true {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: NewStoryViewController.getURL()))
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url))
         } else {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: NewStoryViewController.getURL()))
+            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url))
             
         }
         dismiss(animated: false)
-        print(userData.stories)
+        print("story\(userData.stories.last?.title)")
+        print("url\(userData.stories.last?.storyURl)")
+        // --- Upload Here---
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
     }
     // MARK: imagePicker

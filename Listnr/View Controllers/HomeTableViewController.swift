@@ -20,6 +20,7 @@ class HomeTableViewController: UITableViewController {
     var homeCollectionViewContentArray: [[collection]] = []
     
     var cellData: [homePageCellData] = []
+    var selectedCollection = collection()
     
     struct homePageCellData {
         var headerTitle = String()
@@ -41,6 +42,12 @@ class HomeTableViewController: UITableViewController {
             index += 1
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           if segue.identifier == "toCollection" {
+               let nvc = segue.destination as! CollectionTableViewController
+               nvc.content = selectedCollection
+           }
+       }
     // MARK: Table View
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cellData.count
@@ -75,6 +82,10 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
         cell.artist.text = data[indexPath.row].creator
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedCollection = homeCollectionViewContentArray[collectionView.tag][indexPath.row]
+        performSegue(withIdentifier: "toCollection", sender: self)
+    }
 }
 extension HomeTableViewController {
 
@@ -92,7 +103,11 @@ extension HomeTableViewController {
             homeCollectionViewContentArray.insert([], at: sampleIndex)
             var input = homeCollectionViewContentArray[sampleIndex]
             for n in sampleSequence {
-                input.insert(collection(stories: [], title: "collection \(n)", creator: "creator \(title)"), at: input.endIndex)
+                input.insert(collection(stories: [
+                    story(title: "test", creator: "test", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
+                    story(title: "test", creator: "test", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
+                    story(title: "test", creator: "test", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
+                ], title: "collection \(n)", creator: "creator \(title)"), at: input.endIndex)
                 homeCollectionViewContentArray.insert(input, at: sampleIndex)
             }
             sampleIndex += 1

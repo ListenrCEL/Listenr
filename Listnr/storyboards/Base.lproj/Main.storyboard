@@ -26,7 +26,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="275"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="TYP-Nr-tSP">
+                                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" id="TYP-Nr-tSP">
                                             <rect key="frame" x="0.0" y="54" width="414" height="221"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -130,6 +130,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Home" id="W59-ZC-n1E"/>
                     <splitViewMasterSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <segue destination="IEY-VO-7u3" kind="show" identifier="toCollection" id="W4q-4A-ni2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uNh-do-pev" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -648,7 +651,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="2434.7826086956525" y="2248.6607142857142"/>
+            <point key="canvasLocation" x="2435" y="2269"/>
         </scene>
         <!--Collection Table View Controller-->
         <scene sceneID="NQ4-Hq-urx">
@@ -721,11 +724,20 @@
                             <outlet property="delegate" destination="IEY-VO-7u3" id="Ykg-AT-JyD"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Oh5-mJ-mAI"/>
+                    <navigationItem key="navigationItem" id="Oh5-mJ-mAI">
+                        <barButtonItem key="rightBarButtonItem" systemItem="play" id="gIu-fo-GZV">
+                            <connections>
+                                <action selector="playButtonPressed:" destination="IEY-VO-7u3" id="s9n-39-63b"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="playPauseButton" destination="gIu-fo-GZV" id="MT9-eR-7Da"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UIz-EI-dAq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3247.826086956522" y="2248.6607142857142"/>
+            <point key="canvasLocation" x="3248" y="2269"/>
         </scene>
         <!--New Collection View Controller-->
         <scene sceneID="0tf-zn-sBN">
@@ -907,7 +919,7 @@
         <scene sceneID="iyE-O2-gtT">
             <objects>
                 <tableViewController storyboardIdentifier="ProfileViewController" id="rNy-0e-Mb1" customClass="ProfileViewController" customModule="Listnr" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z87-Tu-fOG">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="singleLineEtched" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="60" estimatedRowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z87-Tu-fOG">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="5Y9-93-3qy">
@@ -1637,4 +1649,7 @@
         <image name="play.fill" catalog="system" width="58" height="64"/>
         <image name="plus.rectangle.fill" catalog="system" width="64" height="46"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="LYY-Lp-Dxc"/>
+    </inferredMetricsTieBreakers>
 </document>

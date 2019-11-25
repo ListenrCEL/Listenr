@@ -22,8 +22,6 @@ class ProfileViewController: UITableViewController {
     var randomColor: [[UIColor]] = generateRandomData()
     var selectedCollection = collection()
     
-    var sectionTitles = ["Collections","Stories"]
-    var sectionHights: [Int] = [0, 25]
     // MARK: - Edit
     var edit = false {
         willSet(newValue) {
@@ -73,7 +71,6 @@ class ProfileViewController: UITableViewController {
         }
     }
     
-    
     //MARK: Actions
     @IBAction func editPressed(_ sender: UIButton) {
         self.tableView.reloadData()
@@ -84,6 +81,7 @@ class ProfileViewController: UITableViewController {
         let vc = storyBoard.instantiateViewController(withIdentifier: "NewStoryNavBar") as! NewStoryNavBar
         self.present(vc, animated:true, completion:nil)
     }
+    
     //MARK: Delete
     @objc func deletePressed(_ sender: UIBarButtonItem) {
         if let selectedRows = tableView.indexPathsForSelectedRows {
@@ -94,6 +92,14 @@ class ProfileViewController: UITableViewController {
                         print(indexPath.row)
                         userData.collections.remove(at: indexPath.row)
                     } else {
+                        var index = 0
+                        for _ in userData.collections {
+                            let item = userData.collections[index].stories
+                            if let i = item.firstIndex(where: {$0.storyURl == userData.stories[indexPath.row].storyURl}) {
+                                userData.collections[index].stories.remove(at: i)
+                            }
+                            index += 1
+                        }
                         userData.stories.remove(at: indexPath.row)
                     }
                 }
@@ -139,11 +145,16 @@ extension ProfileViewController {
     }
     //MARK: Header
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionTitles = ["Collections","Stories"]
+        if userData.stories.count == 0 && userData.collections.count == 0 {
+            return "Add Stories"
+        }
         return sectionTitles[section]
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let noCollections: [Int] = [0, 25]
         if userData.collections.count == 0 {
-            return CGFloat(sectionHights[section])
+            return CGFloat(noCollections[section])
         } else {
             return 25
         }
@@ -194,12 +205,8 @@ extension ProfileViewController {
             selectedCollection = userData.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
-            AudioPlayer.shared.audioURl = userData.stories[indexPath.row].storyURl
-            if !AudioPlayer.shared.isPlaying {
-                AudioPlayer.shared.isPlaying = true
-            } else {
-                AudioPlayer.shared.isPlaying = false
-            }
+            AudioPlayer.shared.queue = [userData.stories[indexPath.row]]
+            AudioPlayer.shared.isPlaying = true
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

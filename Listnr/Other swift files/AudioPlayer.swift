@@ -10,12 +10,19 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class AudioPlayer {
+class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     static let shared = AudioPlayer()
-    private init(){}
+    
     
     var audioPlayer: AVAudioPlayer?
     var audioURl: URL? = orangeFoot
+    var queue: [story] = []
+    
+    private override init(){
+        super.init()
+        audioPlayer?.delegate = self
+        
+    }
     
     var isPlaying: Bool = false {
         willSet(value) {
@@ -29,8 +36,17 @@ class AudioPlayer {
             }
         }
     }
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        print("song done")
+        setupAudio()
+        isPlaying = true
+    }
     func setupAudio() {
-        guard let url = audioURl else { print("failed to play audio"); return }
+        if queue.count != 0 {
+            audioURl = queue.first?.storyURl
+            queue.remove(at: queue.startIndex)
+        }
+        guard let url = audioURl else { print("error: failed to set up audio"); return }
         guard audioPlayer?.url?.absoluteString != url.absoluteString else { return }
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)

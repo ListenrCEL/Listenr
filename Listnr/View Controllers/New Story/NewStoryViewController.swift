@@ -86,7 +86,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         }
         
         let audioURL = NewStoryViewController.getURL()
-        print(audioURL.absoluteString)
+        print("audioURL\(audioURL.absoluteString)")
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
             AVSampleRateKey: 12000,
@@ -132,10 +132,9 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     }
     
     class func getURL() -> URL {
-        let URL = userData.username
-        let index = userData.stories.count + 1
-        print(URL)
-        return getDocumentsDirectory().appendingPathComponent("\(URL)\(index).m4a")
+        //let URL = userData.username
+        let index = userData.stories.count
+        return getDocumentsDirectory().appendingPathComponent("Cache_\(index).m4a")
     }
     //MARK: Play
     func play() {
@@ -177,7 +176,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     //MARK: Saving
     @objc func saving() {
         let path = NewStoryViewController.getURL()
-        print(path)
         dismiss(animated: true, completion: nil)
 //        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
 //        let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
