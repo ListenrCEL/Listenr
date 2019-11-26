@@ -14,5 +14,6 @@ func setUpProfile() {
     // FIREBASE - update user data with the actual user data from the cloud. Insert it where the quotation marks are.
     userData.name = "Oliver Moscow"
     userData.username = "@The GOAT"
+    loadStoriesProfile()
     // user profile image goes here as well
 }
