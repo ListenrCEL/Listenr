@@ -42,6 +42,7 @@
 		07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */; };
 		07F813BC2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */; };
 		07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */; };
+		0AA451A5238C6984000848FA /* FirebaseFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA451A4238C6984000848FA /* FirebaseFuncs.swift */; };
 		1E700823D65D9891DB1D5769 /* Pods_Listnr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1D4F170E0AEF3B61AB2FDE9 /* Pods_Listnr.framework */; };
 		78E1516636B012CB51D04B7E /* Pods_ListnrTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE8BB888E1605FD112FE1A4F /* Pods_ListnrTests.framework */; };
 		79EEB10CC988CB94C04C27E5 /* Pods_Listnr_ListnrUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0009D695E1145504E280A33 /* Pods_Listnr_ListnrUITests.framework */; };
@@ -106,6 +107,7 @@
 		07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorViewController.swift; sourceTree = "<group>"; };
+		0AA451A4238C6984000848FA /* FirebaseFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFuncs.swift; sourceTree = "<group>"; };
 		14470C385F5AF619E6A2B0DE /* Pods-Listnr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.release.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.release.xcconfig"; sourceTree = "<group>"; };
 		26B1665565B5056CA4C7F196 /* Pods-Listnr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.debug.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.debug.xcconfig"; sourceTree = "<group>"; };
 		3616695E5544E644116C7DC5 /* Pods-Listnr-ListnrUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr-ListnrUITests.release.xcconfig"; path = "Target Support Files/Pods-Listnr-ListnrUITests/Pods-Listnr-ListnrUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				070C0AA72361312B002CEE22 /* SetUpFilesPage.swift */,
 				07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */,
 				070C0A972360915E002CEE22 /* RandomColorGenerator.swift */,
+				0AA451A4238C6984000848FA /* FirebaseFuncs.swift */,
 			);
 			path = "Other swift files";
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				075B2E4E235E0FCC008E2B1B /* HomeTableViewController.swift in Sources */,
 				070C0AA62360FC0B002CEE22 /* FilesCollectionViewCell.swift in Sources */,
 				07C3C36C238B455C0042B5AF /* CollectionTableViewCell.swift in Sources */,
+				0AA451A5238C6984000848FA /* FirebaseFuncs.swift in Sources */,
 				075B2E1D235E0F55008E2B1B /* AppDelegate.swift in Sources */,
 				070C0A9A2360C694002CEE22 /* SearchPageViewController.swift in Sources */,
 				0711749D2372367B00BBF904 /* TabBarController.swift in Sources */,

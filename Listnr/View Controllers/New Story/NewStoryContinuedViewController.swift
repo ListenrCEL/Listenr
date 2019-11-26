@@ -56,9 +56,13 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
             
         }
         dismiss(animated: false)
+        // imageURL
+        print("user\(userData.username)")
         print("story\(userData.stories.last?.title)")
         print("url\(userData.stories.last?.storyURl)")
-        // --- Upload Here---
+        // MARK: --- FIREBASE ---
+        //let pkg = uploadPkg(userName: userData.username, audioName: userData.stories.last?.title!, audioFileURL: userData.stories.last?.storyURl!, clipArtURL: imageURL!)
+
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
     }
     // MARK: imagePicker
