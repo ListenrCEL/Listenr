@@ -42,6 +42,7 @@
 		07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */; };
 		07F813BC2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */; };
 		07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */; };
+		0A13BE89238CC3D100F79E73 /* clippp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A13BE88238CC3D000F79E73 /* clippp.jpg */; };
 		0AA451A5238C6984000848FA /* FirebaseFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA451A4238C6984000848FA /* FirebaseFuncs.swift */; };
 		1E700823D65D9891DB1D5769 /* Pods_Listnr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1D4F170E0AEF3B61AB2FDE9 /* Pods_Listnr.framework */; };
 		78E1516636B012CB51D04B7E /* Pods_ListnrTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE8BB888E1605FD112FE1A4F /* Pods_ListnrTests.framework */; };
@@ -107,6 +108,7 @@
 		07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorViewController.swift; sourceTree = "<group>"; };
+		0A13BE88238CC3D000F79E73 /* clippp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = clippp.jpg; sourceTree = "<group>"; };
 		0AA451A4238C6984000848FA /* FirebaseFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFuncs.swift; sourceTree = "<group>"; };
 		14470C385F5AF619E6A2B0DE /* Pods-Listnr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.release.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.release.xcconfig"; sourceTree = "<group>"; };
 		26B1665565B5056CA4C7F196 /* Pods-Listnr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.debug.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.debug.xcconfig"; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 		075B2E1B235E0F55008E2B1B /* Listnr */ = {
 			isa = PBXGroup;
 			children = (
+				0A13BE88238CC3D000F79E73 /* clippp.jpg */,
 				07D46E9D238705DA00FD7D28 /* GoogleService-Info.plist */,
 				078CFD1B237DE1F600B04122 /* orangeFoot.mp3 */,
 				075B2E1C235E0F55008E2B1B /* AppDelegate.swift */,
@@ -434,6 +437,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				078D16BD23843463009D9183 /* orangeFoot.mp3 in Resources */,
+				0A13BE89238CC3D100F79E73 /* clippp.jpg in Resources */,
 				075B2E29235E0F58008E2B1B /* LaunchScreen.storyboard in Resources */,
 				07D46E9E238705DB00FD7D28 /* GoogleService-Info.plist in Resources */,
 				075B2E26235E0F58008E2B1B /* Assets.xcassets in Resources */,
