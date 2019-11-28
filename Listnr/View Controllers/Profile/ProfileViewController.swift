@@ -70,7 +70,9 @@ class ProfileViewController: UITableViewController {
             nvc.content = selectedCollection
         }
     }
-    
+    @objc func reload() {
+        tableView.reloadData()
+    }
     //MARK: Actions
     @IBAction func editPressed(_ sender: UIButton) {
         self.tableView.reloadData()

@@ -25,6 +25,8 @@ class variables {
 // MARK: Variables
 let userData = currentUser()
 let orangeFoot = Bundle.main.url(forResource: "orangeFoot", withExtension: "mp3")
+
+
 // MARK: Structs
 struct story {
     var title = String()
