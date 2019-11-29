@@ -63,18 +63,25 @@ func uploadAudio()
 
 func loadStoriesProfile()
 {
+    getAllStories()
+    // userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "clippp.jpg")!, dateUploaded: date, anonomous: false, storyURl: url))
+}
+
+func getAllStories()
+{
     let db = Firestore.firestore()
     let docRef = db.collection("users").document(userData.username)
     docRef.getDocument { (document, error) in
         if let document = document, document.exists {
             let dataDescription = document.data()!
             let storyDict = NSMutableDictionary(dictionary: dataDescription)
-            let allStories: Array = storyDict.allKeys
+            let allStories:Array = storyDict.allKeys
             print("Stories: \(allStories)")
+            //return allStories
 
         } else {
             print("Document does not exist")
         }
+        
     }
-    // userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "clippp.jpg")!, dateUploaded: date, anonomous: false, storyURl: url))
 }
