@@ -8,6 +8,7 @@
 
 import UIKit
 var newCollectionArray: [story] = []
+var profileViewer = user()
 
 class ProfileViewController: UITableViewController {
     
@@ -21,6 +22,8 @@ class ProfileViewController: UITableViewController {
     
     var randomColor: [[UIColor]] = generateRandomData()
     var selectedCollection = collection()
+    var stories: [story] = []
+    var collections: [collection] = []
     
     // MARK: - Edit
     var edit = false {
@@ -48,17 +51,21 @@ class ProfileViewController: UITableViewController {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        // calls from SetUpProfilePage.swift
-        // FIREBASE - upload userstories to userData.stories (userData.stories)
         
+        if profileViewer.username == userData.username {
+            profileViewer = userData
+        }
         profileImageView.backgroundColor = randomColor[1][1]
-        nameLabel.text = userData.name
-        usernameLabel.text = userData.username
+        nameLabel.text = profileViewer.name
+        usernameLabel.text = profileViewer.username
+        collections = profileViewer.collections
+        stories = profileViewer.stories
         
         let size = profileImageView.bounds.width
         profileImageView.layer.cornerRadius = size/2
         profileImageView.layer.masksToBounds = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reloadProfile"), object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
@@ -92,17 +99,17 @@ class ProfileViewController: UITableViewController {
                 for indexPath in selectedRows  {
                     if indexPath.section == 0 {
                         print(indexPath.row)
-                        userData.collections.remove(at: indexPath.row)
+                        profileViewer.collections.remove(at: indexPath.row)
                     } else {
                         var index = 0
-                        for _ in userData.collections {
-                            let item = userData.collections[index].stories
-                            if let i = item.firstIndex(where: {$0.storyURl == userData.stories[indexPath.row].storyURl}) {
-                                userData.collections[index].stories.remove(at: i)
+                        for _ in profileViewer.collections {
+                            let item = profileViewer.collections[index].stories
+                            if let i = item.firstIndex(where: {$0.storyURl == profileViewer.stories[indexPath.row].storyURl}) {
+                                profileViewer.collections[index].stories.remove(at: i)
                             }
                             index += 1
                         }
-                        userData.stories.remove(at: indexPath.row)
+                        profileViewer.stories.remove(at: indexPath.row)
                     }
                 }
                 self.tableView.beginUpdates()
@@ -121,11 +128,11 @@ class ProfileViewController: UITableViewController {
         newCollectionArray = []
         if let selectedRows = tableView.indexPathsForSelectedRows {
             for indexPath in selectedRows  {
-                if userData.collections.count == 0 {
-                    newCollectionArray.append(userData.stories[indexPath.row])
+                if profileViewer.collections.count == 0 {
+                    newCollectionArray.append(profileViewer.stories[indexPath.row])
                 } else {
                     guard indexPath.section != 0 else {return}
-                    newCollectionArray.append(userData.stories[indexPath.row])
+                    newCollectionArray.append(profileViewer.stories[indexPath.row])
                 }
             }
             guard newCollectionArray.count != 0 else {return}
@@ -148,14 +155,14 @@ extension ProfileViewController {
     //MARK: Header
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let sectionTitles = ["Collections","Stories"]
-        if userData.stories.count == 0 && userData.collections.count == 0 {
+        if profileViewer.stories.count == 0 && profileViewer.collections.count == 0 {
             return "Add Stories"
         }
         return sectionTitles[section]
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let noCollections: [Int] = [0, 25]
-        if userData.collections.count == 0 {
+        if profileViewer.collections.count == 0 {
             return CGFloat(noCollections[section])
         } else {
             return 25
@@ -164,26 +171,26 @@ extension ProfileViewController {
     //MARK: numberOfRows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return userData.collections.count
+            return profileViewer.collections.count
         } else {
-            return userData.stories.count
+            return profileViewer.stories.count
         }
     }
     //MARK: cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell2
-            cell.title.text = userData.collections[indexPath.row].title
-            cell.creator.text = userData.collections[indexPath.row].creator
+            cell.title.text = profileViewer.collections[indexPath.row].title
+            cell.creator.text = profileViewer.collections[indexPath.row].creator
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = backgroundView
-            cell.titleLabel.text = userData.stories[indexPath.row].title
-            cell.creatorLabel.text = userData.stories[indexPath.row].creator
-            cell.profileImage.image = userData.stories[indexPath.row].coverArt
+            cell.titleLabel.text = profileViewer.stories[indexPath.row].title
+            cell.creatorLabel.text = profileViewer.stories[indexPath.row].creator
+            cell.profileImage.image = profileViewer.stories[indexPath.row].coverArt
             return cell
         }
     }
@@ -196,19 +203,19 @@ extension ProfileViewController {
         }
     }
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObjTemp = userData.stories[sourceIndexPath.item]
-        userData.stories.remove(at: sourceIndexPath.item)
-        userData.stories.insert(movedObjTemp, at: destinationIndexPath.item)
+        let movedObjTemp = profileViewer.stories[sourceIndexPath.item]
+        profileViewer.stories.remove(at: sourceIndexPath.item)
+        profileViewer.stories.insert(movedObjTemp, at: destinationIndexPath.item)
     }
     //MARK: did select row
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard edit != true else { return }
         if indexPath.section == 0 {
-            selectedCollection = userData.collections[indexPath.row]
+            selectedCollection = profileViewer.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
             AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue = [(queueItem(currentStory: userData.stories[indexPath.row], currentCollection: collection(stories: userData.stories, title: "Stories from \(userData.name)", creator: userData.username)))]
+            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer.username), currentUser: profileViewer))]
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

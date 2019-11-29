@@ -23,7 +23,7 @@ class variables {
     private init(){}
 }
 // MARK: Variables
-let userData = currentUser()
+var userData = user()
 let orangeFoot = Bundle.main.url(forResource: "orangeFoot", withExtension: "mp3")
 
 
@@ -46,6 +46,8 @@ struct user {
     var name = String()
     var username = String()
     var stories: [story] = []
+    var collections: [collection] = []
+    var profileImage = UIImage()
 }
 struct collection {
     var stories: [story] = []
@@ -64,4 +66,10 @@ class currentUser {
     
     // This will also be updated later
     // var savedStories: [[story]] = []
+}
+
+func setUpProfile() {
+    userData.name = "Oliver Moscow"
+    userData.username = "@The GOAT"
+    loadStoriesProfile()
 }

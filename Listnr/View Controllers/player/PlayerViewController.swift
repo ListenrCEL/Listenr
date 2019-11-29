@@ -27,6 +27,8 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var collectionTitle: UIButton!
+    @IBOutlet var background: UIView!
+    
     //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,10 +46,6 @@ class PlayerViewController: UIViewController {
         }
     }
     func loadStory() {
-        coverArt.layer.shadowColor = UIColor.black.cgColor
-        coverArt.layer.shadowRadius = 30
-        coverArt.layer.shadowOpacity = 1
-        coverArt.layer.shadowOffset = .zero
         if AudioPlayer.shared.queue.count == 0 {
             noStory()
         } else {
@@ -56,10 +54,26 @@ class PlayerViewController: UIViewController {
             storyTitle.text = story?.title
             creatorlabel.text = story?.creator
         }
-        
+        coverArt.layer.shadowColor = UIColor.black.cgColor
+        coverArt.layer.shadowRadius = 30
+        coverArt.layer.shadowOpacity = 1
+        coverArt.layer.shadowOffset = .zero
+        background.backgroundColor = coverArt.image?.averageColor
+        if (background.backgroundColor?.isLight())! {
+            print("light")
+            overrideUserInterfaceStyle = .light
+        } else {
+            print("dark")
+            overrideUserInterfaceStyle = .dark
+        }
     }
     func noStory() {
-        print("noStory")
+        coverArt.image = nil
+        collectionTitle.setTitle("Not Playing", for: .normal)
+        creatorlabel.text = "-------"
+        storyTitle.text = "Not Playing"
+        currentTimeLabel.text = "--:--"
+        totalTimeLabel.text = "--:--"
     }
     
     //MARK: - Actions
@@ -73,7 +87,7 @@ class PlayerViewController: UIViewController {
         }
     }
     @objc func setupPlayer() {
-        guard AudioPlayer.shared.queue.count != 0 else {return}
+        guard AudioPlayer.shared.queue.count != 0 else {noStory(); return}
         loadStory()
         collectionTitle.setTitle(AudioPlayer.shared.queue[0].currentCollection.title, for: .normal)
         if AudioPlayer.shared.isPlaying {
@@ -108,12 +122,20 @@ class PlayerViewController: UIViewController {
         AudioPlayer.shared.isPlaying = true
     }
     @IBAction func collectionPressed(_ sender: UIButton) {
-        guard AudioPlayer.shared.audioPlayer != nil else {return}
+        guard AudioPlayer.shared.queue.count != 0 else {return}
         performSegue(withIdentifier: "toCollectionView", sender: self)    }
-    @IBAction func exitPressed(_ sender: UIButton) {
+    @IBAction func exitPressed(_ sender: Any) {
         dismiss(animated: true) {
             NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
         }
     }
-    
+    @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
+        exitPressed(self)
+    }
+    @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
+//        AudioPlayer.shared.back()
+    }
+    @IBAction func swipeLeft(_ sender: UISwipeGestureRecognizer) {
+//        AudioPlayer.shared.next()
+    }
 }

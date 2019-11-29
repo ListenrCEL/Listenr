@@ -70,12 +70,11 @@ class TabBarController: UITabBarController {
             return
         }
         creator.isHidden = false
-        if AudioPlayer.shared.queue.count != 0 {
-            coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
-            titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
-            creator.text = AudioPlayer.shared.queue[0].currentStory.creator
-        }
-        if AudioPlayer.shared.isPlaying {
+        coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
+        titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
+        creator.text = AudioPlayer.shared.queue[0].currentStory.creator
+        
+        if !AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)

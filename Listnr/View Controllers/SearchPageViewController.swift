@@ -16,17 +16,6 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let sequence = 1...6
-        for n in sequence {
-            if n % 3 == 2{
-                searchType.append("Story")
-                searchContent.append(story(title: "Title \(n)", creator: "creator \(n)", storyURl: orangeFoot!))
-            } else {
-                searchType.append("Artist")
-                searchContent.append(story(title: "Title \(n)", creator: "Name", storyURl: orangeFoot!))
-                
-            }
-        }
         let searchController = UISearchController(searchResultsController: nil)
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false

@@ -178,6 +178,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         dismiss(animated: true, completion: nil)
     }
 
+    
     //MARK: - Actions
     @IBAction func recordButonPressed(_ sender: Any) {
         recordTapped()

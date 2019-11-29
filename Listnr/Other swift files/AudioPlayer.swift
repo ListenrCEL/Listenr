@@ -13,6 +13,7 @@ import AVFoundation
 struct queueItem {
     var currentStory = story()
     var currentCollection = collection()
+    var currentUser = user()
 }
 
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {

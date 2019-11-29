@@ -22,6 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
                 return true
             }
         }
+        if viewController is ProfileNavController {
+            profileViewer = userData
+        }
         return true
     }
 

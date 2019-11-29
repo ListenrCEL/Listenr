@@ -105,8 +105,8 @@ extension HomeTableViewController {
             for n in sampleSequence {
                 input.insert(collection(stories: [
                     story(title: "OrangeFOOOOOOOT", creator: "THeO xIonG", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
-                    story(title: "Chicken man", creator: "Little D (David)", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
-                    story(title: "MR_TEA", creator: "Oliiiie RUssia", coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
+                    story(title: "Chicken man", creator: "Little D (David)", coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
+                    story(title: "MR_TEA", creator: "Oliiiie RUssia", coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
                 ], title: "collection \(n)", creator: "creator \(title)"), at: input.endIndex)
                 homeCollectionViewContentArray.insert(input, at: sampleIndex)
             }
