@@ -12,7 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController {
 
-    //MARK: Otlets
+    //MARK: -Outlets
     @IBOutlet weak var coverArt: UIImageView!
     @IBOutlet weak var storyTitle: UILabel!
     @IBOutlet weak var creatorlabel: UILabel!
@@ -26,26 +26,40 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var moreButton: UIButton!
-    
+    @IBOutlet weak var collectionTitle: UIButton!
+    //MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPlayer()
         NotificationCenter.default.addObserver(self, selector: #selector(setupPlayer), name: Notification.Name("updatingPlayer"), object: nil)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toCollectionView" {
+            let nvc = segue.destination as! CollectionTableViewController
+            nvc.content = AudioPlayer.shared.queue.first!.currentCollection
+        }
+    }
     func loadStory() {
         coverArt.layer.shadowColor = UIColor.black.cgColor
         coverArt.layer.shadowRadius = 30
-        coverArt.layer.shadowOpacity = 0.5
-        coverArt.layer.shadowOffset = CGSize(width: 0, height: 0)
+        coverArt.layer.shadowOpacity = 1
+        coverArt.layer.shadowOffset = .zero
         if AudioPlayer.shared.queue.count == 0 {
-            // set up the nothing playing page
+            noStory()
         } else {
-            let story = AudioPlayer.shared.queue.first
+            let story = AudioPlayer.shared.queue.first?.currentStory
             coverArt.image = story?.coverArt
             storyTitle.text = story?.title
             creatorlabel.text = story?.creator
         }
         
+    }
+    func noStory() {
+        print("noStory")
     }
     
     //MARK: - Actions
@@ -59,7 +73,9 @@ class PlayerViewController: UIViewController {
         }
     }
     @objc func setupPlayer() {
+        guard AudioPlayer.shared.queue.count != 0 else {return}
         loadStory()
+        collectionTitle.setTitle(AudioPlayer.shared.queue[0].currentCollection.title, for: .normal)
         if AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
@@ -67,9 +83,12 @@ class PlayerViewController: UIViewController {
         }
         slider.maximumValue = Float(AudioPlayer.shared.audioPlayer!.duration)
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
+        totalTimeLabel.text = String(format: "%02d:%02d", ((Int)((AudioPlayer.shared.audioPlayer!.duration))) / 60, ((Int)((AudioPlayer.shared.audioPlayer!.duration))) % 60)
     }
+    
     @objc func updateSlider() {
         slider.value = Float(AudioPlayer.shared.audioPlayer!.currentTime)
+        currentTimeLabel.text = String(format: "%02d:%02d", ((Int)((AudioPlayer.shared.audioPlayer!.currentTime))) / 60, ((Int)((AudioPlayer.shared.audioPlayer!.currentTime))) % 60)
     }
     @IBAction func backPressed(_ sender: UIButton) {
         AudioPlayer.shared.back()
@@ -88,6 +107,9 @@ class PlayerViewController: UIViewController {
         AudioPlayer.shared.audioPlayer?.currentTime = TimeInterval(slider.value)
         AudioPlayer.shared.isPlaying = true
     }
+    @IBAction func collectionPressed(_ sender: UIButton) {
+        guard AudioPlayer.shared.audioPlayer != nil else {return}
+        performSegue(withIdentifier: "toCollectionView", sender: self)    }
     @IBAction func exitPressed(_ sender: UIButton) {
         dismiss(animated: true) {
             NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)

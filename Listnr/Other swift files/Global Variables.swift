@@ -34,7 +34,7 @@ struct story {
     var coverArt = UIImage()
     var dateUploaded = String()
     var anonomous = Bool()
-    var storyURl: URL
+    var storyURl = URL(fileURLWithPath:"/path/to/file.ext")
     
 //  This needs to be updated as we add more data to each story. The commented out code below are some examples of what should be added later
 //    var time = String()

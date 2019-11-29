@@ -12,11 +12,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var playPauseButton: UIButton!
+    @IBOutlet weak var collectionTitle: UIButton!
     
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.isEditing = true
+        setupPlayer()
         NotificationCenter.default.addObserver(self, selector: #selector(setupPlayer), name: Notification.Name("updatingPlayer"), object: nil)
     }
     //MARK: - section
@@ -28,47 +30,49 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let view = UIView()
         let label = UILabel()
         label.frame = CGRect(x: 5, y: 5, width: 100, height: 25)
-        guard AudioPlayer.shared.queue.count != 0 else { label.text = "Queue"; view.addSubview(label); return view }
+        label.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+        guard AudioPlayer.shared.queue.count != 0 else { label.text = "Playing"; view.addSubview(label); return view }
         if section == 0 {
             label.text = "Playing"
             view.addSubview(label)
         } else {
-            label.text = "Queue"
+            label.text = "Up Next"
             view.addSubview(label)
         }
         return view
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        if AudioPlayer.shared.queue.count == 0 {
+            return 0
+        } else {
+            return 30
+        }
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard AudioPlayer.shared.queue.count != 0 else { return 0 }
         if section == 0 {
-            return 1
+            if AudioPlayer.shared.queue.count == 0 {
+                return 0
+            } else {
+                return 1
+            }
         } else {
             return AudioPlayer.shared.queue.count
         }
     }
     // MARK: - cellForRow
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard AudioPlayer.shared.queue.count != 1 | 0 else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
-            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].coverArt
-            cell.title.text = AudioPlayer.shared.queue[indexPath.row].title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].creator
-            return cell
-        }
         if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
-            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].coverArt
-            cell.title.text = AudioPlayer.shared.queue[indexPath.row].title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].creator
+            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
+            cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
+            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
-            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].coverArt
-            cell.title.text = AudioPlayer.shared.queue[indexPath.row].title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].creator
+            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
+            cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
+            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator
             return cell
         }
     }
@@ -125,11 +129,16 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     //MARK: - actions
     @objc func setupPlayer() {
-        tableView.reloadData()
-        if AudioPlayer.shared.isPlaying {
-            playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+        if AudioPlayer.shared.queue.count != 0 {
+            collectionTitle.setTitle(AudioPlayer.shared.queue.first?.currentCollection.title, for: .normal)
+            tableView.reloadData()
+            if AudioPlayer.shared.isPlaying {
+                playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
+            } else {
+                playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+            }
         } else {
-            playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
+            collectionTitle.setTitle("Not Playing", for: .normal)
         }
     }
     @IBAction func playTapped(_ sender: Any) {

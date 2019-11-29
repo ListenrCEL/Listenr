@@ -9,17 +9,20 @@
 import Foundation
 import UIKit
 import AVFoundation
-import MediaPlayer
+
+struct queueItem {
+    var currentStory = story()
+    var currentCollection = collection()
+}
 
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     static let shared = AudioPlayer()
     
-    
     var audioPlayer: AVAudioPlayer?
-    var audioURl: URL? = orangeFoot
-    var queue: [story] = []
-    var history: [story] = []
+    var queue: [queueItem] = []
+    var history: [queueItem] = []
     var playedTime = String()
+    var currentCollectionTitle = String()
     
     private override init(){
         super.init()
@@ -43,54 +46,21 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     }
     //MARK: - setupAudio
     func setupAudio() {
+        var audioURL: URL? = nil
         if queue.count != 0 {
-            audioURl = queue.first?.storyURl
+            audioURL = queue.first?.currentStory.storyURl
         }
-        guard let url = audioURl else { print("error: failed to set up audio"); return }
-        guard audioPlayer?.url?.absoluteString != url.absoluteString else { return }
+        guard let url = audioURL else { print("error: failed to set up audio"); return }
+        guard audioPlayer?.url?.absoluteString != url.absoluteString else {return}
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback)
             try AVAudioSession.sharedInstance().setActive(true)
             
             audioPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
             audioPlayer?.delegate = self
-//            setupNotificationView()
         } catch let error {
             print(error.localizedDescription)
         }
-    }
-    //MARK: - notificationView
-//    func setMediaPlayerNotificationView() {
-//        let commandCenter = MPRemoteCommandCenter.shared()
-//        commandCenter.playCommand.addTarget { [unowned self] event in
-//            self.play()
-//            return .success
-//        }
-//        commandCenter.pauseCommand.addTarget{ [unowned self] event in
-//            self.pause()
-//            return .success
-//        }
-//        commandCenter.previousTrackCommand.addTarget{ [unowned self] event in
-//            self.back()
-//            return .success
-//        }
-//        commandCenter.previousTrackCommand.addTarget{ [unowned self] event in
-//            self.forward()
-//            return .success
-//        }
-//    }
-    func setupNotificationView() {
-        var nowPlayingInfo = [String: Any]()
-                
-        nowPlayingInfo[MPMediaItemPropertyTitle] = "queue[0].title"
-        nowPlayingInfo[MPMediaItemPropertyArtist] = "queue[0].creator"
-//        nowPlayingInfo[MPMediaItemPropertyArtwork] = queue[0].coverArt
-        
-//        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = playerItem.asset.duration.seconds
-//        nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = player.rate
-//        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = playerItem.currentTime().seconds
-        
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
     //MARK: - Actions
     func play() {
@@ -100,15 +70,18 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         isPlaying = false
     }
     func next() {
-        if queue.count != 1 {
+        
+        if queue.count != 0 {
             history.insert(queue.first!, at: 0)
-            if queue.count != 0 {
-                audioPlayer?.stop()
-                queue.remove(at: 0)
-                isPlaying = true
-                NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
-            }
+            audioPlayer?.stop()
+            queue.remove(at: 0)
+            isPlaying = true
+            NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
+        } else {
+            audioPlayer?.stop()
+            NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
         }
+        
     }
     func back() {
         if history.count != 0 {

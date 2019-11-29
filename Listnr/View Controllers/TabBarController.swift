@@ -63,12 +63,19 @@ class TabBarController: UITabBarController {
         performSegue(withIdentifier: "playerView", sender: self)
     }
     @objc func setupPlayer() {
-        if AudioPlayer.shared.queue.count != 0 {
-            coverArt.image = AudioPlayer.shared.queue[0].coverArt
-            titleLabel.text = AudioPlayer.shared.queue[0].title
-            creator.text = AudioPlayer.shared.queue[0].creator
+        guard AudioPlayer.shared.queue.count != 0 else {
+            creator.isHidden = true
+            titleLabel.text = "Not Playing"
+            coverArt.image = nil
+            return
         }
-        if AudioPlayer.shared.isPlaying {
+        creator.isHidden = false
+        if AudioPlayer.shared.queue.count != 0 {
+            coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
+            titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
+            creator.text = AudioPlayer.shared.queue[0].currentStory.creator
+        }
+        if !AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
