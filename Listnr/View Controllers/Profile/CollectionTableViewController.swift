@@ -9,14 +9,18 @@
 import UIKit
 
 class CollectionTableViewController: UITableViewController {
-
-    @IBOutlet weak var playPauseButton: UIBarButtonItem!
     
     var content = collection()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let play = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
+        navigationItem.rightBarButtonItems = [play]
         navigationItem.title = content.title
+        navigationController?.isNavigationBarHidden = false
+        NotificationCenter.default.addObserver(self, selector: #selector(setupPlayer), name: Notification.Name("updatingPlayer"), object: nil)
+        
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return content.stories.count
@@ -29,21 +33,45 @@ class CollectionTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        AudioPlayer.shared.queue = [content.stories[indexPath.row]]
+        AudioPlayer.shared.queue = []
+        AudioPlayer.shared.queue = [queueItem(currentStory: content.stories[indexPath.row], currentCollection: content)]
         AudioPlayer.shared.isPlaying = true
     }
-    @IBAction func playButtonPressed(_ sender: UIBarButtonItem) {
-       
-        AudioPlayer.shared.queue = content.stories
-        
+    @objc func setupPlayer() {
         if !AudioPlayer.shared.isPlaying {
-            AudioPlayer.shared.isPlaying = true
-            let pause = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
-            navigationItem.rightBarButtonItems = [pause]
+            let play = UIBarButtonItem(image: UIImage(systemName: "pause.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
+            navigationItem.rightBarButtonItems = [play]
         } else {
-            AudioPlayer.shared.isPlaying = false
             let play = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
             navigationItem.rightBarButtonItems = [play]
         }
     }
+    @objc func playButtonPressed(_ sender: UIBarButtonItem) {
+        guard AudioPlayer.shared.queue.count != 0 else {
+            AudioPlayer.shared.queue = []
+            var index = 0
+            for _ in content.stories {
+                AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[index], currentCollection: content))
+                index += 1
+            }
+            AudioPlayer.shared.isPlaying = true
+            return
+        }
+        guard AudioPlayer.shared.queue[0].currentCollection.title == content.title else {
+            AudioPlayer.shared.queue = []
+            var index = 0
+            for _ in content.stories {
+                AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[index], currentCollection: content))
+                index += 1
+            }
+            AudioPlayer.shared.isPlaying = true
+            return
+        }
+        if !AudioPlayer.shared.isPlaying {
+            AudioPlayer.shared.isPlaying = true
+        } else {
+            AudioPlayer.shared.isPlaying = false
+        }
+    }
+    
 }

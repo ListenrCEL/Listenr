@@ -33,6 +33,7 @@ class NewCollectionViewController: UIViewController, UITextFieldDelegate {
     @IBAction func savePressed(_ sender: UIButton) {
         print(colors[userData.collections.count])
         userData.collections.append(collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.name))
+//        ProfileViewController.perform(#selector(ProfileViewController.reload), on: .current, with: nil, waitUntilDone: true)
         dismiss(animated: true)
     }
     @IBAction func colorSelector(_ sender: UIButton) {

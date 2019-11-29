@@ -70,7 +70,9 @@ class ProfileViewController: UITableViewController {
             nvc.content = selectedCollection
         }
     }
-    
+    @objc func reload() {
+        tableView.reloadData()
+    }
     //MARK: Actions
     @IBAction func editPressed(_ sender: UIButton) {
         self.tableView.reloadData()
@@ -205,8 +207,8 @@ extension ProfileViewController {
             selectedCollection = userData.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
-            AudioPlayer.shared.queue = [userData.stories[indexPath.row]]
-            AudioPlayer.shared.isPlaying = true
+            AudioPlayer.shared.queue = []
+            AudioPlayer.shared.queue = [(queueItem(currentStory: userData.stories[indexPath.row], currentCollection: collection(stories: userData.stories, title: "Stories from \(userData.name)", creator: userData.username)))]
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

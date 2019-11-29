@@ -175,13 +175,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     }
     //MARK: Saving
     @objc func saving() {
-        let path = NewStoryViewController.getURL()
         dismiss(animated: true, completion: nil)
-//        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-//        let vc = storyBoard.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//        self.present(vc, animated: true) {
-//            ProfileViewController.performSelector(onMainThread: #selector(ProfileViewController.editPressed(_:)), with: nil, waitUntilDone: true)
-//        }
     }
 
     //MARK: - Actions
@@ -189,7 +183,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         recordTapped()
     }
     @IBAction func exitButton(_ sender: Any) {
-        // This just makes sure that the user doesn't acidentaly quit and also pauses and resumes audio so that there isn't like a 10 second gap in the recording
         var playing: Bool = false
         if recordLabel.text != "Tap to record" {
             if recordLabel.text != "Tap to Re-record" {
