@@ -132,6 +132,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     @IBAction func playTapped(_ sender: Any) {
+        guard AudioPlayer.shared.queue.count != 0 else { return }
         if !AudioPlayer.shared.isPlaying {
             AudioPlayer.shared.isPlaying = true
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)

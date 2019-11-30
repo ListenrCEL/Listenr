@@ -82,4 +82,8 @@ class CollectionTableViewController: UITableViewController {
         }
     }
     
+    @IBAction func creatorPressed(_ sender: UIButton) {
+        profileViewer = content.creator
+        performSegue(withIdentifier: "toProfile", sender: self)
+    }
 }

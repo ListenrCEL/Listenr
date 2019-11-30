@@ -25,6 +25,7 @@ class variables {
 // MARK: Variables
 var userData = currentUser()
 let orangeFoot = Bundle.main.url(forResource: "orangeFoot", withExtension: "mp3")
+var categories: [collection] = []
 
 
 // MARK: Structs
@@ -50,6 +51,11 @@ struct collection {
     var creator = User()
     var coverArt = UIImage()
 }
+struct category {
+    var title = String()
+    var stories: [story] = []
+    var image = UIImage()
+}
 
 // MARK: Classes
 class currentUser {
@@ -66,4 +72,9 @@ func setUpProfile() {
         collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!)
     ]
     loadStoriesProfile()
+   let catigoriesTitlesArray: [String] = ["Comedy","Sports","Growing up","Voices of SCH","Advice","Motivation","Theater","Romantic","Family","Injury"]
+    for title in catigoriesTitlesArray {
+        categories.append(collection(stories: userData.data.stories, title: title, creator: userData.data, coverArt: UIImage(named: "Image2")!))
+    }
+    
 }

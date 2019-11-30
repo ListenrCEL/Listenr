@@ -15,7 +15,7 @@ class PlayerViewController: UIViewController {
     //MARK: -Outlets
     @IBOutlet weak var coverArt: UIImageView!
     @IBOutlet weak var storyTitle: UILabel!
-    @IBOutlet weak var creatorlabel: UILabel!
+    @IBOutlet weak var creatorLabel: UIButton!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var totalTimeLabel: UILabel!
@@ -53,7 +53,7 @@ class PlayerViewController: UIViewController {
             let story = AudioPlayer.shared.queue.first?.currentStory
             coverArt.image = story?.coverArt
             storyTitle.text = story?.title
-            creatorlabel.text = story?.creator.name
+            creatorLabel.setTitle(story?.creator.name, for: .normal)
         }
         coverArtContainerView.layer.shadowColor = UIColor.black.cgColor
         coverArtContainerView.layer.shadowRadius = 30
@@ -70,7 +70,7 @@ class PlayerViewController: UIViewController {
     func noStory() {
         coverArt.image = nil
         collectionTitle.setTitle("Not Playing", for: .normal)
-        creatorlabel.text = "-------"
+        creatorLabel.setTitle("-------", for: .normal)
         storyTitle.text = "Not Playing"
         currentTimeLabel.text = "--:--"
         totalTimeLabel.text = "--:--"
@@ -78,6 +78,7 @@ class PlayerViewController: UIViewController {
     
     //MARK: - Actions
     @IBAction func playPressed(_ sender: Any) {
+        guard AudioPlayer.shared.queue.count != 0 else {return}
         if !AudioPlayer.shared.isPlaying {
             AudioPlayer.shared.isPlaying = true
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
@@ -101,6 +102,11 @@ class PlayerViewController: UIViewController {
     }
     
     @objc func updateSlider() {
+        guard AudioPlayer.shared.audioPlayer != nil else {
+            slider.value = 0
+            noStory()
+            return
+        }
         slider.value = Float(AudioPlayer.shared.audioPlayer!.currentTime)
         currentTimeLabel.text = String(format: "%02d:%02d", ((Int)((AudioPlayer.shared.audioPlayer!.currentTime))) / 60, ((Int)((AudioPlayer.shared.audioPlayer!.currentTime))) % 60)
     }
@@ -117,6 +123,11 @@ class PlayerViewController: UIViewController {
         AudioPlayer.shared.fastForward()
     }
     @IBAction func sliderChanged(_ sender: UISlider) {
+        guard AudioPlayer.shared.audioPlayer != nil else {
+            slider.value = 0
+            noStory()
+            return
+        }
         AudioPlayer.shared.audioPlayer?.stop()
         AudioPlayer.shared.audioPlayer?.currentTime = TimeInterval(slider.value)
         AudioPlayer.shared.isPlaying = true
@@ -138,4 +149,10 @@ class PlayerViewController: UIViewController {
     @IBAction func swipeLeft(_ sender: UISwipeGestureRecognizer) {
 //        AudioPlayer.shared.next()
     }
+    @IBAction func creatorPressed(_ sender: UIButton) {
+        guard AudioPlayer.shared.queue.count != 0 else {return}
+        performSegue(withIdentifier: "toProfile", sender: self)
+        profileViewer = (AudioPlayer.shared.queue.first?.currentStory.creator)!
+    }
+    
 }

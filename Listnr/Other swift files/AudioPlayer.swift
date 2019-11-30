@@ -72,18 +72,22 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         isPlaying = false
     }
     func next() {
-        
+        guard queue.count != 0 | 1 else {
+            if queue.count == 1 {
+                history.insert(queue.first!, at: 0)
+                queue.remove(at: 0)
+            }
+            audioPlayer?.stop()
+            isPlaying = false
+            audioPlayer = nil
+            return
+        }
         if queue.count != 0 {
             history.insert(queue.first!, at: 0)
             audioPlayer?.stop()
             queue.remove(at: 0)
             isPlaying = true
-            NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
-        } else {
-            audioPlayer?.stop()
-            NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
         }
-        
     }
     func back() {
         if history.count != 0 {

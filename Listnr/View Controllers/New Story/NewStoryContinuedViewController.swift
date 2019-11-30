@@ -23,6 +23,7 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+//        navigationController?.setNavigationBarHidden(true, animated: true)
         titleTextFeild.delegate = self
         chosenImageView.isHidden = true
         let formatter : DateFormatter = DateFormatter()
@@ -50,9 +51,17 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         }
         let url = NewStoryViewController.getURL()
         if isAnImage == true {
-            userData.data.stories.append(story(title: title, creator: userData.data, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url))
+            let theStory = story(title: title, creator: userData.data, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url)
+            userData.data.stories.append(theStory)
+            for indexPath in selectedCategories {
+                categories[indexPath].stories.append(theStory)
+            }
         } else {
-            userData.data.stories.append(story(title: title, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url))
+            let theStory = story(title: title, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url)
+            userData.data.stories.append(theStory)
+            for indexPath in selectedCategories {
+                categories[indexPath].stories.append(theStory)
+            }
         }
         dismiss(animated: false)
         // imageURL

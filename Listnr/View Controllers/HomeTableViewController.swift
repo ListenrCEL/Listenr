@@ -90,6 +90,9 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
             cell.title.text = data[indexPath.row].creator.name
             return cell
         } else {
+            if homeHeaderTitleArray[collectionView.tag] == "Categories" {
+                cell.artist.text = ""
+            }
 //            cell.coverArt.image = data[indexPath.row].coverArt
             cell.indicator.isHidden = true
             cell.title.text = data[indexPath.row].title
@@ -106,6 +109,7 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
         }
     }
 }
+//MARK: - setupHomePage
 extension HomeTableViewController {
     
     func setupHomePage() {
@@ -113,25 +117,34 @@ extension HomeTableViewController {
         homeHeaderDescriptionArray.append("Latest from the people you subscribed to")
         homeHeaderTitleArray.append("Recents")
         homeHeaderDescriptionArray.append("Stories you listened to recently")
+        homeHeaderTitleArray.append("Categories")
+        homeHeaderDescriptionArray.append("Categories of stories")
         homeHeaderTitleArray.append("Discover")
         homeHeaderDescriptionArray.append("Find new stories from around the world")
         homeHeaderTitleArray.append("Trending")
         homeHeaderDescriptionArray.append("Todays top stories")
         var sampleIndex = 0
         let sampleSequence = 1...8
-        for _ in homeHeaderTitleArray {
+        for title in homeHeaderTitleArray {
             homeCollectionViewContentArray.insert([], at: sampleIndex)
             var input = homeCollectionViewContentArray[sampleIndex]
+            guard title != "Categories" else {
+                for n in 0 ..< categories.count {
+                    input.append(categories[n])
+                    homeCollectionViewContentArray.insert(input, at: sampleIndex)
+                }
+                return
+            }
             for n in sampleSequence {
                 input.insert(collection(stories: [
                     story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
                     story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
                     story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
-                ], title: "Collection \(n)", creator: User(name: "THEo Xiong", username: "@TTTTHHHEEEO", stories: [
-                    story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
-                    story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
-                    story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
-                ], collections: [collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!)], profileImage: UIImage(named: "noImageIcon")!) ,coverArt: UIImage(named: "Image1")!), at: input.endIndex)
+                    ], title: "Collection \(n)", creator: User(name: "THEo Xiong", username: "@TTTTHHHEEEO", stories: [
+                        story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
+                        story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
+                        story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
+                    ], collections: [collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!)], profileImage: UIImage(named: "noImageIcon")!) ,coverArt: UIImage(named: "Image1")!), at: input.endIndex)
                 homeCollectionViewContentArray.insert(input, at: sampleIndex)
             }
             sampleIndex += 1

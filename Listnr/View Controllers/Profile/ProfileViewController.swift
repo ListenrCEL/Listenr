@@ -34,7 +34,6 @@ class ProfileViewController: UITableViewController {
                 let delete = UIBarButtonItem(image: UIImage(systemName: "trash.fill"), style: .plain, target: self, action: #selector(deletePressed(_:)))
                 let newCollection = UIBarButtonItem(image: UIImage(systemName: "folder.badge.plus"), style: .plain, target: self, action: #selector(newCollectionPressed(_:)))
                 let done = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed(_:)))
-                delete.tintColor = .red
                 navigationItem.rightBarButtonItems = [delete, newCollection]
                 navigationItem.leftBarButtonItems = [done]
             } else {
@@ -48,6 +47,7 @@ class ProfileViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPage()
+        navigationController?.setNavigationBarHidden(false, animated: true)
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reloadProfile"), object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -65,9 +65,8 @@ class ProfileViewController: UITableViewController {
             profileViewer = userData.data
             let edit = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editPressed(_:)))
             let settings = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsPressed))
-            edit.tintColor = .red
             navigationItem.rightBarButtonItems = [edit]
-            navigationItem.leftBarButtonItems = [settings]
+            navigationItem.leftBarButtonItems = []
             subscribeButton.isHidden = true
         } else {
             subscribeButton.isHidden = false
@@ -81,11 +80,6 @@ class ProfileViewController: UITableViewController {
         username.setTitle(profileViewer.username, for: .normal)
         collections = profileViewer.collections
         stories = profileViewer.stories
-        
-        separatorView.layer.shadowColor = UIColor.black.cgColor
-        separatorView.layer.shadowRadius = 30
-        separatorView.layer.shadowOpacity = 1
-        separatorView.layer.shadowOffset = .zero
     }
     @objc func reload() {
         if profileViewer.username == userData.data.username {
@@ -208,6 +202,7 @@ extension ProfileViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell2
             cell.title.text = profileViewer.collections[indexPath.row].title
             cell.creator.text = profileViewer.collections[indexPath.row].creator.name
+            cell.coverArt.image = profileViewer.collections[indexPath.row].coverArt
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
@@ -232,6 +227,7 @@ extension ProfileViewController {
         let movedObjTemp = profileViewer.stories[sourceIndexPath.item]
         profileViewer.stories.remove(at: sourceIndexPath.item)
         profileViewer.stories.insert(movedObjTemp, at: destinationIndexPath.item)
+        userData.data.stories = profileViewer.stories
     }
     //MARK: did select row
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -240,8 +236,10 @@ extension ProfileViewController {
             selectedCollection = profileViewer.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
+            guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileViewer.stories[indexPath.row].storyURl else { return }
             AudioPlayer.shared.queue = []
             AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer), currentUser: profileViewer))]
+            AudioPlayer.shared.isPlaying = true
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

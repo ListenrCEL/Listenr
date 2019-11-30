@@ -25,6 +25,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         recordingSession = AVAudioSession.sharedInstance()
         do {
             try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -44,6 +45,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     }
     // MARK: loadRecordingUI
     func loadRecordingUI() {
+        AudioPlayer.shared.isPlaying = false
         bottomView.isHidden = true
         
         recordButton.layer.cornerRadius = recordButton.bounds.width / 2
@@ -55,12 +57,6 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
         outsideRecordView.layer.shadowRadius = 30
         outsideRecordView.layer.shadowOpacity = 0.5
         outsideRecordView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        
-        //TODO - get the shadow to work
-        bottomView.layer.shadowColor = UIColor.black.cgColor
-        bottomView.layer.shadowRadius = 30
-        bottomView.layer.shadowOpacity = 1.0
-        bottomView.layer.shadowOffset = CGSize(width: 10, height: 10)
         
     }
     //MARK: loadFailUI

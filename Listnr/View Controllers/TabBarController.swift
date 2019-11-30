@@ -73,8 +73,7 @@ class TabBarController: UITabBarController {
             titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
             creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
         }
-        
-        if !AudioPlayer.shared.isPlaying {
+        if AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
@@ -85,6 +84,7 @@ class TabBarController: UITabBarController {
     }
     
     @IBAction func playPressed(_ sender: UIButton) {
+        guard AudioPlayer.shared.queue.count != 0 else {return}
         if !AudioPlayer.shared.isPlaying {
             AudioPlayer.shared.isPlaying = true
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
