@@ -28,6 +28,7 @@ class PlayerViewController: UIViewController {
     @IBOutlet weak var moreButton: UIButton!
     @IBOutlet weak var collectionTitle: UIButton!
     @IBOutlet var background: UIView!
+    @IBOutlet weak var coverArtContainerView: UIView!
     
     //MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -52,18 +53,17 @@ class PlayerViewController: UIViewController {
             let story = AudioPlayer.shared.queue.first?.currentStory
             coverArt.image = story?.coverArt
             storyTitle.text = story?.title
-            creatorlabel.text = story?.creator
+            creatorlabel.text = story?.creator.name
         }
-        coverArt.layer.shadowColor = UIColor.black.cgColor
-        coverArt.layer.shadowRadius = 30
-        coverArt.layer.shadowOpacity = 1
-        coverArt.layer.shadowOffset = .zero
+        coverArtContainerView.layer.shadowColor = UIColor.black.cgColor
+        coverArtContainerView.layer.shadowRadius = 30
+        coverArtContainerView.layer.shadowOpacity = 1
+        coverArtContainerView.layer.shadowOffset = .zero
         background.backgroundColor = coverArt.image?.averageColor
+
         if (background.backgroundColor?.isLight())! {
-            print("light")
             overrideUserInterfaceStyle = .light
         } else {
-            print("dark")
             overrideUserInterfaceStyle = .dark
         }
     }

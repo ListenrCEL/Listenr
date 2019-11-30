@@ -13,7 +13,7 @@ import AVFoundation
 struct queueItem {
     var currentStory = story()
     var currentCollection = collection()
-    var currentUser = user()
+    var currentUser = User()
 }
 
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {
@@ -28,6 +28,7 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
     private override init(){
         super.init()
     }
+    
     //MARK: - isPlaying
     var isPlaying: Bool = false {
         willSet(value) {

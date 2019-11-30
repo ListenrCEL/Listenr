@@ -8,42 +8,38 @@
 
 import UIKit
 var newCollectionArray: [story] = []
-var profileViewer = user()
+var profileViewer = User()
 
 class ProfileViewController: UITableViewController {
     
     // MARK: Outlets
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var username: UIButton!
     @IBOutlet var myTableView: UITableView!
-    @IBOutlet weak var newStoryButton: UIButton!
+    @IBOutlet weak var subscribeButton: UIButton!
+    @IBOutlet weak var separatorView: UIView!
     
     var randomColor: [[UIColor]] = generateRandomData()
     var selectedCollection = collection()
     var stories: [story] = []
     var collections: [collection] = []
     
+    
     // MARK: - Edit
     var edit = false {
         willSet(newValue) {
             if newValue == true {
                 tableView.isEditing = true
-                newStoryButton.isHidden = true
-                editButton.isHidden = true
-                
                 let delete = UIBarButtonItem(image: UIImage(systemName: "trash.fill"), style: .plain, target: self, action: #selector(deletePressed(_:)))
                 let newCollection = UIBarButtonItem(image: UIImage(systemName: "folder.badge.plus"), style: .plain, target: self, action: #selector(newCollectionPressed(_:)))
                 let done = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(donePressed(_:)))
+                delete.tintColor = .red
                 navigationItem.rightBarButtonItems = [delete, newCollection]
                 navigationItem.leftBarButtonItems = [done]
             } else {
                 tableView.isEditing = false
-                newStoryButton.isHidden = false
-                editButton.isHidden = false
-                navigationItem.rightBarButtonItems = []
-                navigationItem.leftBarButtonItems = []
+                setupPage()
             }
         }
     }
@@ -51,20 +47,7 @@ class ProfileViewController: UITableViewController {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if profileViewer.username == userData.username {
-            profileViewer = userData
-        }
-        profileImageView.backgroundColor = randomColor[1][1]
-        nameLabel.text = profileViewer.name
-        usernameLabel.text = profileViewer.username
-        collections = profileViewer.collections
-        stories = profileViewer.stories
-        
-        let size = profileImageView.bounds.width
-        profileImageView.layer.cornerRadius = size/2
-        profileImageView.layer.masksToBounds = true
-        
+        setupPage()
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reloadProfile"), object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -77,20 +60,50 @@ class ProfileViewController: UITableViewController {
             nvc.content = selectedCollection
         }
     }
+    func setupPage() {
+        if profileViewer.username == userData.data.username {
+            profileViewer = userData.data
+            let edit = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editPressed(_:)))
+            let settings = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsPressed))
+            edit.tintColor = .red
+            navigationItem.rightBarButtonItems = [edit]
+            navigationItem.leftBarButtonItems = [settings]
+            subscribeButton.isHidden = true
+        } else {
+            subscribeButton.isHidden = false
+            let ellipsis = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(morePressed))
+            navigationItem.leftBarButtonItems = []
+            navigationItem.rightBarButtonItems = [ellipsis]
+            navigationItem.title = profileViewer.name
+        }
+        profileImageView.image = profileViewer.profileImage
+        nameLabel.text = profileViewer.name
+        username.setTitle(profileViewer.username, for: .normal)
+        collections = profileViewer.collections
+        stories = profileViewer.stories
+        
+        separatorView.layer.shadowColor = UIColor.black.cgColor
+        separatorView.layer.shadowRadius = 30
+        separatorView.layer.shadowOpacity = 1
+        separatorView.layer.shadowOffset = .zero
+    }
     @objc func reload() {
+        if profileViewer.username == userData.data.username {
+            profileViewer = userData.data
+        }
         tableView.reloadData()
     }
-    //MARK: Actions
-    @IBAction func editPressed(_ sender: UIButton) {
+    @objc func editPressed(_ sender: Any) {
         self.tableView.reloadData()
         edit = true
     }
-    @IBAction func newStoryPressed(_ sender: Any) {
-        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        let vc = storyBoard.instantiateViewController(withIdentifier: "NewStoryNavBar") as! NewStoryNavBar
-        self.present(vc, animated:true, completion:nil)
+    @IBAction func subscribePressed(_ sender: Any) {
     }
-    
+    @objc func settingsPressed() {
+    }
+    @objc func morePressed() {
+        
+    }
     //MARK: Delete
     @objc func deletePressed(_ sender: UIBarButtonItem) {
         if let selectedRows = tableView.indexPathsForSelectedRows {
@@ -111,6 +124,7 @@ class ProfileViewController: UITableViewController {
                         }
                         profileViewer.stories.remove(at: indexPath.row)
                     }
+                    userData.data = profileViewer
                 }
                 self.tableView.beginUpdates()
                 self.tableView.deleteRows(at: selectedRows, with: .automatic)
@@ -153,19 +167,31 @@ extension ProfileViewController {
         return 2
     }
     //MARK: Header
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel()
+        
+        label.frame = CGRect(x: 5, y: 5, width: 200, height: 30)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        label.textColor = .darkGray
+        
         let sectionTitles = ["Collections","Stories"]
         if profileViewer.stories.count == 0 && profileViewer.collections.count == 0 {
-            return "Add Stories"
+            label.text = "Add Stories"
+            view.addSubview(label)
+        } else {
+            label.text = sectionTitles[section]
+            view.addSubview(label)
         }
-        return sectionTitles[section]
+        return view
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let noCollections: [Int] = [0, 25]
+        let noCollections: [Int] = [0, 35]
         if profileViewer.collections.count == 0 {
             return CGFloat(noCollections[section])
         } else {
-            return 25
+            return 35
+            
         }
     }
     //MARK: numberOfRows
@@ -181,7 +207,7 @@ extension ProfileViewController {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell2
             cell.title.text = profileViewer.collections[indexPath.row].title
-            cell.creator.text = profileViewer.collections[indexPath.row].creator
+            cell.creator.text = profileViewer.collections[indexPath.row].creator.name
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
@@ -189,7 +215,7 @@ extension ProfileViewController {
             backgroundView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = backgroundView
             cell.titleLabel.text = profileViewer.stories[indexPath.row].title
-            cell.creatorLabel.text = profileViewer.stories[indexPath.row].creator
+            cell.creatorLabel.text = profileViewer.stories[indexPath.row].creator.name
             cell.profileImage.image = profileViewer.stories[indexPath.row].coverArt
             return cell
         }
@@ -215,7 +241,7 @@ extension ProfileViewController {
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
             AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer.username), currentUser: profileViewer))]
+            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer), currentUser: profileViewer))]
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

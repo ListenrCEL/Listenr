@@ -23,13 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
             }
         }
         if viewController is ProfileNavController {
-            profileViewer = userData
+            profileViewer = userData.data
         }
         return true
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
+        setUpProfile()
         // Override point for customization after application launch.
         return true
     }

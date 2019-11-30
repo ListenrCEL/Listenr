@@ -11,14 +11,22 @@ import UIKit
 class CollectionTableViewController: UITableViewController {
     
     var content = collection()
+    @IBOutlet weak var creator: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var coverArt: UIImageView!
+    @IBOutlet weak var headerView: UIView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let play = UIBarButtonItem(image: UIImage(systemName: "play.fill"), style: .plain, target: self, action: #selector(playButtonPressed(_:)))
         navigationItem.rightBarButtonItems = [play]
-        navigationItem.title = content.title
+        titleLabel.text = content.title
+        creator.setTitle(content.creator.name, for: .normal)
+        coverArt.image = content.coverArt
         navigationController?.isNavigationBarHidden = false
+        navigationItem.title = content.title
         NotificationCenter.default.addObserver(self, selector: #selector(setupPlayer), name: Notification.Name("updatingPlayer"), object: nil)
         
     }
@@ -29,7 +37,7 @@ class CollectionTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
         cell.coverArt.image = content.stories[indexPath.row].coverArt
         cell.title.text = content.stories[indexPath.row].title
-        cell.creator.text = content.stories[indexPath.row].creator
+        cell.creator.text = content.stories[indexPath.row].creator.name
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

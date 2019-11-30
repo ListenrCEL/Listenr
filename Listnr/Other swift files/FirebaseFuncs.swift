@@ -57,7 +57,7 @@ func upload(pkg: uploadPkg)
 func uploadAudio()
 {
     let imageURL = Bundle.main.url(forResource: "clippp", withExtension: ".jpg")
-    let pkg = uploadPkg(userName: userData.username, audioName: userData.stories.last!.title, audioFileURL: userData.stories.last!.storyURl, clipArtURL: imageURL!)
+    let pkg = uploadPkg(userName: userData.data.username, audioName: userData.data.stories.last!.title, audioFileURL: userData.data.stories.last!.storyURl, clipArtURL: imageURL!)
     upload(pkg: pkg)
 }
 
@@ -70,7 +70,7 @@ func loadStoriesProfile()
 func getAllStories()
 {
     let db = Firestore.firestore()
-    let docRef = db.collection("users").document(userData.username)
+    let docRef = db.collection("users").document(userData.data.username)
     docRef.getDocument { (document, error) in
         if let document = document, document.exists {
             let dataDescription = document.data()!

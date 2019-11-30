@@ -133,7 +133,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     
     class func getURL() -> URL {
         //let URL = userData.username
-        let index = userData.stories.count
+        let index = userData.data.stories.count
         return getDocumentsDirectory().appendingPathComponent("Cache_\(index).m4a")
     }
     //MARK: Play

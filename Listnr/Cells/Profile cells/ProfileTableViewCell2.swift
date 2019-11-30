@@ -9,8 +9,6 @@
 import UIKit
 
 class ProfileTableViewCell2: UITableViewCell {
-
-    @IBOutlet weak var cellBackground: UIView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var creator: UILabel!
     override func awakeFromNib() {

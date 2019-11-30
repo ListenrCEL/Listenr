@@ -50,9 +50,9 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         }
         let url = NewStoryViewController.getURL()
         if isAnImage == true {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url))
+            userData.data.stories.append(story(title: title, creator: userData.data, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url))
         } else {
-            userData.stories.append(story(title: title, creator: userData.name, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url))
+            userData.data.stories.append(story(title: title, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url))
         }
         dismiss(animated: false)
         // imageURL
@@ -61,6 +61,7 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         uploadAudio()
         NotificationCenter.default.post(name: Notification.Name("saving"), object: nil)
         NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("reloadProfile"), object: nil)
     }
     // MARK: imagePicker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -76,6 +77,9 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         isAnImage = false
+        let picker = UIImagePickerController()
+        picker.dismiss(animated: true, completion: nil)
+        
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

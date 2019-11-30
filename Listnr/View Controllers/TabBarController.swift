@@ -72,9 +72,9 @@ class TabBarController: UITabBarController {
         creator.isHidden = false
         coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
         titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
-        creator.text = AudioPlayer.shared.queue[0].currentStory.creator
+        creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
         
-        if !AudioPlayer.shared.isPlaying {
+        if AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)

@@ -66,13 +66,13 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
             cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
             cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator
+            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator.name
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
             cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
             cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator
+            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator.name
             return cell
         }
     }
@@ -87,16 +87,6 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
                 return 60
             }
         }
-    }
-    //MARK: - Select row
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard indexPath.section != 0 else { dismiss(animated: true, completion: nil); return }
-        let story = AudioPlayer.shared.queue[indexPath.row]
-        AudioPlayer.shared.queue.remove(at: indexPath.row)
-        AudioPlayer.shared.queue.removeFirst()
-        AudioPlayer.shared.queue.insert(story, at: 0)
-        AudioPlayer.shared.isPlaying = true
-        tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
     }
     //MARK: - Edit
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

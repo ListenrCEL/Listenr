@@ -12,4 +12,5 @@ class HomeCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var coverArt: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var artist: UILabel!
+    @IBOutlet weak var indicator: UIImageView!
 }
