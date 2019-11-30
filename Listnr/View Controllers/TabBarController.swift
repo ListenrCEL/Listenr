@@ -56,25 +56,25 @@ class TabBarController: UITabBarController {
     }
     @objc func presentNewCollection() {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-                let vc = storyBoard.instantiateViewController(withIdentifier: "newCollection") as! NewCollectionViewController
-                self.present(vc, animated: true, completion: nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "newCollection") as! NewCollectionViewController
+        self.present(vc, animated: true, completion: nil)
     }
     @objc func presentPlayer() {
         performSegue(withIdentifier: "playerView", sender: self)
     }
     @objc func setupPlayer() {
-        guard AudioPlayer.shared.queue.count != 0 else {
+        if AudioPlayer.shared.queue.count == 0 {
             creator.isHidden = true
             titleLabel.text = "Not Playing"
             coverArt.image = nil
-            return
+        } else {
+            creator.isHidden = false
+            coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
+            titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
+            creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
         }
-        creator.isHidden = false
-        coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
-        titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
-        creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
         
-        if AudioPlayer.shared.isPlaying {
+        if !AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
