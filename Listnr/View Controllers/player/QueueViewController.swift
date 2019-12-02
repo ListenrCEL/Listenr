@@ -129,6 +129,7 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
         } else {
             collectionTitle.setTitle("Not Playing", for: .normal)
+            tableView.reloadData()
         }
     }
     @IBAction func playTapped(_ sender: Any) {

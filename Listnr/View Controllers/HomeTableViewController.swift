@@ -30,17 +30,16 @@ class HomeTableViewController: UITableViewController {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupHomePage()
         // seting up the tabbar so that it can present stuff
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-        // calls from "Global Variables.swift"
-        setupHomePage()
         // populates cellData
         var index = 0
         for _ in homeHeaderTitleArray {
             cellData.append(homePageCellData(headerTitle: homeHeaderTitleArray[index], headerDescription: homeHeaderDescriptionArray[index], collectionViewContent: [homeCollectionViewContentArray[index]]))
             index += 1
         }
-         NotificationCenter.default.addObserver(self, selector: #selector(viewDidLoad), name: Notification.Name("reloadProfile"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toCollection" {
@@ -66,6 +65,20 @@ class HomeTableViewController: UITableViewController {
         
         tableViewCell.setCollectionViewDataSourceDelegate( dataSourceDelegate: self, forRow: indexPath.row)
     }
+    @objc func reload() {
+        setupHomePage()
+        cellData = []
+        var index = 0
+        for _ in homeHeaderTitleArray {
+            cellData.append(homePageCellData(headerTitle: homeHeaderTitleArray[index], headerDescription: homeHeaderDescriptionArray[index], collectionViewContent: [homeCollectionViewContentArray[index]]))
+            index += 1
+        }
+        tableView.reloadData()
+    }
+    @IBAction func refreshing(_ sender: UIRefreshControl) {
+        reload()
+        sender.endRefreshing()
+    }
     
 }
 // MARK: Collection View
@@ -83,27 +96,57 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
         cell.coverArt.backgroundColor = model[collectionView.tag][indexPath.item]
         if homeHeaderTitleArray[collectionView.tag] == "Subscribed" {
             cell.coverArt.layer.cornerRadius = cell.coverArt.bounds.width / 2
-//            cell.coverArt.image = data[indexPath.row].coverArt
-            cell.indicator.isHidden = false
+            cell.coverArt.image = data[indexPath.row].coverArt
+            if userData.subscribedUsers[indexPath.item].new == true {
+                cell.indicator.isHidden = false
+            } else {
+                cell.indicator.isHidden = true
+            }
             cell.artist.text = ""
             cell.title.textAlignment = .center
             cell.title.text = data[indexPath.row].creator.name
             return cell
-        } else {
-            if homeHeaderTitleArray[collectionView.tag] == "Categories" {
+        } else if homeHeaderTitleArray[collectionView.tag] == "Categories" {
+            cell.coverArt.layer.cornerRadius = 15
+            cell.artist.text = ""
+            cell.coverArt.image = data[indexPath.row].coverArt
+            cell.coverArt.backgroundColor = cell.coverArt.image?.averageColor
+            cell.title.text = data[indexPath.row].title
+            cell.indicator.isHidden = true
+            return cell
+        } else if homeHeaderTitleArray[collectionView.tag] == "Recents"{
+            cell.coverArt.image = data[indexPath.row].coverArt
+            cell.indicator.isHidden = true
+            cell.title.text = data[indexPath.row].title
+            if userData.recentCollections[indexPath.row].isProfile == true {
+                cell.coverArt.layer.cornerRadius = cell.coverArt.bounds.width / 2
+                cell.title.textAlignment = .center
                 cell.artist.text = ""
+            } else {
+                cell.coverArt.layer.cornerRadius = 5
+                cell.title.textAlignment = .left
+                cell.artist.text = data[indexPath.row].creator.name
             }
-//            cell.coverArt.image = data[indexPath.row].coverArt
+        } else if homeHeaderTitleArray[collectionView.tag] != "Categories" || homeHeaderTitleArray[collectionView.tag] != "Subscribed" || homeHeaderTitleArray[collectionView.tag] != "Recents" {
+            cell.coverArt.image = data[indexPath.row].coverArt
             cell.indicator.isHidden = true
             cell.title.text = data[indexPath.row].title
             cell.artist.text = data[indexPath.row].creator.name
             return cell
         }
+        return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         selectedCollection = homeCollectionViewContentArray[collectionView.tag][indexPath.row]
         if homeHeaderTitleArray[collectionView.tag] == "Subscribed" {
             performSegue(withIdentifier: "showProfile", sender: self)
+        } else if homeHeaderTitleArray[collectionView.tag] == "Recents" {
+            if userData.recentCollections[indexPath.row].isProfile == true {
+                performSegue(withIdentifier: "showProfile", sender: self)
+            } else {
+                performSegue(withIdentifier: "toCollection", sender: self)
+            }
         } else {
             performSegue(withIdentifier: "toCollection", sender: self)
         }
@@ -111,41 +154,52 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
 }
 //MARK: - setupHomePage
 extension HomeTableViewController {
-    
     func setupHomePage() {
-        homeHeaderTitleArray.append("Subscribed")
-        homeHeaderDescriptionArray.append("Latest from the people you subscribed to")
-        homeHeaderTitleArray.append("Recents")
-        homeHeaderDescriptionArray.append("Stories you listened to recently")
+        homeHeaderTitleArray = []
+        homeHeaderDescriptionArray = []
+        homeCollectionViewContentArray = []
+        if userData.subscribedUsers.count != 0 {
+            homeHeaderTitleArray.append("Subscribed")
+            homeHeaderDescriptionArray.append("Latest from the people you subscribed to")
+        }
+        if userData.recentCollections.count != 0 {
+            homeHeaderTitleArray.append("Recents")
+            homeHeaderDescriptionArray.append("Stories you listened to recently")
+        }
         homeHeaderTitleArray.append("Categories")
         homeHeaderDescriptionArray.append("Categories of stories")
         homeHeaderTitleArray.append("Discover")
         homeHeaderDescriptionArray.append("Find new stories from around the world")
         homeHeaderTitleArray.append("Trending")
+        
         homeHeaderDescriptionArray.append("Todays top stories")
         var sampleIndex = 0
         let sampleSequence = 1...8
+        
         for title in homeHeaderTitleArray {
             homeCollectionViewContentArray.insert([], at: sampleIndex)
             var input = homeCollectionViewContentArray[sampleIndex]
-            guard title != "Categories" else {
+            if title == "Categories"  {
                 for n in 0 ..< categories.count {
                     input.append(categories[n])
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
-                return
-            }
-            for n in sampleSequence {
-                input.insert(collection(stories: [
-                    story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
-                    story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
-                    story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
-                    ], title: "Collection \(n)", creator: User(name: "THEo Xiong", username: "@TTTTHHHEEEO", stories: [
-                        story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!),
-                        story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!),
-                        story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!),
-                    ], collections: [collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!)], profileImage: UIImage(named: "noImageIcon")!) ,coverArt: UIImage(named: "Image1")!), at: input.endIndex)
-                homeCollectionViewContentArray.insert(input, at: sampleIndex)
+            } else if title == "Subscribed" {
+                for n in 0 ..< userData.subscribedUsers.count {
+                    input.append(collection(stories: userData.subscribedUsers[n].sUser.stories, title: userData.subscribedUsers[n].sUser.name, creator: userData.subscribedUsers[n].sUser, coverArt: userData.subscribedUsers[n].sUser.profileImage))
+                    homeCollectionViewContentArray.insert(input, at: sampleIndex)
+                }
+
+            } else if title == "Recents" {
+                for n in 0 ..< userData.recentCollections.count {
+                    input.append(userData.recentCollections[n].rCollection)
+                    homeCollectionViewContentArray.insert(input, at: sampleIndex)
+                }
+            } else if title != "Subscribed" || title != "Categories" || title != "Recents"{
+                for n in sampleSequence {
+                    input.insert(collection(stories: userData.data.stories, title: "Collection \(n)", creator: userData.data ,coverArt: UIImage(named: "Image1")!), at: input.endIndex)
+                    homeCollectionViewContentArray.insert(input, at: sampleIndex)
+                }
             }
             sampleIndex += 1
         }

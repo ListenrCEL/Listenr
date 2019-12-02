@@ -46,7 +46,7 @@ extension UIImage {
 }
 extension UIColor {
 
-    func isLight(threshold: Float = 0.6) -> Bool? {
+    func isLight(threshold: Float = 0.5) -> Bool? {
         let originalCGColor = self.cgColor
 
         let RGBCGColor = originalCGColor.converted(to: CGColorSpaceCreateDeviceRGB(), intent: .defaultIntent, options: nil)

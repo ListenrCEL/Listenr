@@ -48,7 +48,7 @@ class ProfileViewController: UITableViewController {
         super.viewDidLoad()
         setupPage()
         navigationController?.setNavigationBarHidden(false, animated: true)
-        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reloadProfile"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
@@ -60,27 +60,65 @@ class ProfileViewController: UITableViewController {
             nvc.content = selectedCollection
         }
     }
+    // MARK: - setupPage
     func setupPage() {
         if profileViewer.username == userData.data.username {
             profileViewer = userData.data
             let edit = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editPressed(_:)))
-            let settings = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsPressed))
+//            let settings = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsPressed))
             navigationItem.rightBarButtonItems = [edit]
             navigationItem.leftBarButtonItems = []
             subscribeButton.isHidden = true
         } else {
+            // if viewer is not the same as the profile user
+            //seting up subscribed
+            for index in 0 ..< userData.subscribedUsers.count {
+                if userData.subscribedUsers[index].sUser.username == profileViewer.username {
+                    subscribeButton.setTitle("Unsubscribe", for: .normal)
+                    userData.subscribedUsers[index].new = false
+                }
+            }
+            // seting up recents
+            let insert = recentCollection(rCollection: collection(stories: profileViewer.stories, title: profileViewer.name, creator: profileViewer, coverArt: profileViewer.profileImage), isProfile: true)
+            var canInsert: Bool = true
+            if userData.recentCollections.count == 0 {
+                userData.recentCollections.insert(insert, at: 0)
+            } else {
+                for n in 0 ..< userData.recentCollections.count {
+                    if userData.recentCollections[n].rCollection.creator.username == profileViewer.username {
+                        canInsert = false
+                    }
+                }
+                if canInsert == true {
+                    userData.recentCollections.insert(insert, at: 0)
+                }
+            }
+            
+            
             subscribeButton.isHidden = false
             let ellipsis = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(morePressed))
             navigationItem.leftBarButtonItems = []
             navigationItem.rightBarButtonItems = [ellipsis]
             navigationItem.title = profileViewer.name
+            NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         }
+        let color = profileViewer.profileImage.averageColor
+        if (color?.isLight())! {
+            nameLabel.textColor = .black
+            username.titleLabel?.textColor = .black
+            subscribeButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.26)
+        } else {
+            nameLabel.textColor = .white
+            username.titleLabel?.textColor = .white
+        }
+        
         profileImageView.image = profileViewer.profileImage
         nameLabel.text = profileViewer.name
         username.setTitle(profileViewer.username, for: .normal)
         collections = profileViewer.collections
         stories = profileViewer.stories
     }
+    //MARK: - Actions
     @objc func reload() {
         if profileViewer.username == userData.data.username {
             profileViewer = userData.data
@@ -92,6 +130,18 @@ class ProfileViewController: UITableViewController {
         edit = true
     }
     @IBAction func subscribePressed(_ sender: Any) {
+        if subscribeButton.titleLabel?.text == "Subscribe" {
+            userData.subscribedUsers.append(subscribedUser(sUser: profileViewer, new: false))
+            subscribeButton.setTitle("Unsubscribe", for: .normal)
+        } else {
+            for n in 0 ..< userData.subscribedUsers.count {
+                if userData.subscribedUsers[n].sUser.username == profileViewer.username {
+                    userData.subscribedUsers.remove(at: n)
+                    subscribeButton.setTitle("Subscribe", for: .normal)
+                }
+            }
+        }
+        NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
     }
     @objc func settingsPressed() {
     }
@@ -238,7 +288,7 @@ extension ProfileViewController {
         } else {
             guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileViewer.stories[indexPath.row].storyURl else { return }
             AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer), currentUser: profileViewer))]
+            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer)))]
             AudioPlayer.shared.isPlaying = true
         }
     }

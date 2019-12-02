@@ -78,7 +78,7 @@ class PlayerViewController: UIViewController {
     
     //MARK: - Actions
     @IBAction func playPressed(_ sender: Any) {
-        guard AudioPlayer.shared.queue.count != 0 else {return}
+        guard AudioPlayer.shared.queue.count != 0 else { return }
         if !AudioPlayer.shared.isPlaying {
             AudioPlayer.shared.isPlaying = true
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
@@ -137,7 +137,6 @@ class PlayerViewController: UIViewController {
         performSegue(withIdentifier: "toCollectionView", sender: self)    }
     @IBAction func exitPressed(_ sender: Any) {
         dismiss(animated: true) {
-            NotificationCenter.default.post(name: Notification.Name("updatingPlayer"), object: nil)
         }
     }
     @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {

@@ -66,7 +66,7 @@ class NewCollectionViewController: UIViewController, UITextFieldDelegate, UIImag
         } else {
             userData.data.collections.append(collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.data, coverArt: UIImage(named: "Image1")!))
         }
-        NotificationCenter.default.post(name: Notification.Name("reloadProfile"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         dismiss(animated: true)
     }
     @IBAction func addImage(_ sender: Any) {

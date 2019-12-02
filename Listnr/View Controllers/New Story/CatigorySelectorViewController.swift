@@ -26,9 +26,10 @@ class CatigorySelectorViewController: UIViewController, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CatigorySelectorCollectionViewCell
-        cell.Image.backgroundColor = model[1][indexPath.item]
+        cell.Image.image = categories[indexPath.row].coverArt
         cell.label.text = categories[indexPath.row].title
-        if (cell.Image.backgroundColor?.isLight())! {
+        let color = categories[indexPath.row].coverArt.averageColor
+        if (color!.isLight())! {
             cell.label.textColor = .black
             cell.checkMark.tintColor = .black
         } else {

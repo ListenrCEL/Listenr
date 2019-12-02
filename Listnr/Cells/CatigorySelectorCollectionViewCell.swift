@@ -12,4 +12,8 @@ class CatigorySelectorCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var Image: UIImageView!
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var checkMark: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

@@ -13,7 +13,6 @@ import AVFoundation
 struct queueItem {
     var currentStory = story()
     var currentCollection = collection()
-    var currentUser = User()
 }
 
 class AudioPlayer: NSObject, AVAudioPlayerDelegate {
@@ -42,6 +41,10 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
                 player.pause()
             }
         }
+        didSet {
+            if oldValue != isPlaying {
+            }
+        }
     }
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
         next()
@@ -65,16 +68,10 @@ class AudioPlayer: NSObject, AVAudioPlayerDelegate {
         }
     }
     //MARK: - Actions
-    func play() {
-        isPlaying = true
-    }
-    func pause() {
-        isPlaying = false
-    }
     func next() {
         guard queue.count != 0 | 1 else {
             if queue.count == 1 {
-                history.insert(queue.first!, at: 0)
+//                history.insert(queue.first!, at: 0)
                 queue.remove(at: 0)
             }
             audioPlayer?.stop()
