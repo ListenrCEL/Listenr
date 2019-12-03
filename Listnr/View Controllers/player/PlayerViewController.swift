@@ -151,7 +151,7 @@ class PlayerViewController: UIViewController {
     @IBAction func creatorPressed(_ sender: UIButton) {
         guard AudioPlayer.shared.queue.count != 0 else {return}
         performSegue(withIdentifier: "toProfile", sender: self)
-        profileViewer = (AudioPlayer.shared.queue.first?.currentStory.creator)!
+        profileUser = (AudioPlayer.shared.queue.first?.currentStory.creator)!
     }
     
 }

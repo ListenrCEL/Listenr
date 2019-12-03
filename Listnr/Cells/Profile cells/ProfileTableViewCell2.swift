@@ -12,6 +12,9 @@ class ProfileTableViewCell2: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var creator: UILabel!
     @IBOutlet weak var coverArt: UIImageView!
+    @IBOutlet weak var viewsLabel: UILabel!
+    @IBOutlet weak var viewsIcon: UIImageView!
+    @IBOutlet weak var viewsStackView: UIStackView!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

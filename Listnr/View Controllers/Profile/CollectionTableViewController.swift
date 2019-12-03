@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class CollectionTableViewController: UITableViewController {
     
@@ -29,18 +30,16 @@ class CollectionTableViewController: UITableViewController {
         //            userData.recentCollections.append(content)
         //        }
         let insert = recentCollection(rCollection: content, isProfile: false)
-        var canInsert: Bool = true
         if userData.recentCollections.count == 0 {
             userData.recentCollections.insert(insert, at:  0)
         } else {
             for n in 0 ..< userData.recentCollections.count {
                 if userData.recentCollections[n].rCollection.title == content.title && userData.recentCollections[n].rCollection.creator.username == content.creator.username{
-                    canInsert = false
+                    userData.recentCollections.remove(at: n)
+                    break
                 }
             }
-            if canInsert == true {
-                userData.recentCollections.insert(insert, at:  0)
-            }
+            userData.recentCollections.insert(insert, at:  0)
         }
         let color = content.coverArt.averageColor
         if (color?.isLight())! {
@@ -66,6 +65,13 @@ class CollectionTableViewController: UITableViewController {
         cell.coverArt.image = content.stories[indexPath.row].coverArt
         cell.title.text = content.stories[indexPath.row].title
         cell.creator.text = content.stories[indexPath.row].creator.name
+        let asset = AVURLAsset.init(url: content.stories[indexPath.row].storyURl.absoluteURL, options: nil)
+        let audioDuration = CMTimeGetSeconds(asset.duration)
+        if audioDuration <= 1000 {
+            cell.timeLabel.text = String(format: "%2d:%02d", ((Int)((audioDuration))) / 60, ((Int)((audioDuration))) % 60)
+        } else {
+            cell.timeLabel.text = String(format: "%02d:%02d", ((Int)((audioDuration))) / 60, ((Int)((audioDuration))) % 60)
+        }
         cell.imageView?.bounds.size = cell.bounds.size
         return cell
     }
@@ -77,46 +83,30 @@ class CollectionTableViewController: UITableViewController {
     
     // MARK: - Actions
     @objc func setupPlayer() {
-        if !AudioPlayer.shared.isPlaying {
-            playPauseButton.setTitle("Pause", for: .normal)
-        } else {
-            if AudioPlayer.shared.queue[0].currentCollection.title == content.title {
-                playPauseButton.setTitle("Play", for: .normal)
-            } else {
-                playPauseButton.setTitle("Play All", for: .normal)
-            }
+        if playPauseButton.titleLabel?.text == "Play All" {
+            playPauseButton.setTitle("Stop", for: .normal)
         }
     }
     @IBAction func playButtonPressed(_ sender: UIButton) {
-        guard AudioPlayer.shared.queue.count != 0 else {
-            AudioPlayer.shared.queue = []
-            var index = 0
-            for _ in content.stories {
-                AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[index], currentCollection: content))
-                index += 1
-            }
-            AudioPlayer.shared.isPlaying = true
-            return
-        }
-        guard AudioPlayer.shared.queue[0].currentCollection.title == content.title else {
-            AudioPlayer.shared.queue = []
-            var index = 0
-            for _ in content.stories {
-                AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[index], currentCollection: content))
-                index += 1
-            }
-            AudioPlayer.shared.isPlaying = true
-            return
-        }
-        if !AudioPlayer.shared.isPlaying {
-            AudioPlayer.shared.isPlaying = true
-        } else {
+        if sender.titleLabel?.text == "Play All" {
             AudioPlayer.shared.isPlaying = false
+            AudioPlayer.shared.audioPlayer?.stop()
+            AudioPlayer.shared.queue = []
+            var index = 0
+            for _ in content.stories {
+                AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[index], currentCollection: content))
+                index += 1
+            }
+            AudioPlayer.shared.isPlaying = true
+            sender.setTitle("Stop", for: .normal)
+        } else if sender.titleLabel?.text == "Stop" {
+            AudioPlayer.shared.isPlaying = false
+            sender.setTitle("Play All", for: .normal)
         }
     }
     
     @IBAction func creatorPressed(_ sender: UIButton) {
-        profileViewer = content.creator
+        profileUser = content.creator
         performSegue(withIdentifier: "toProfile", sender: self)
     }
 }

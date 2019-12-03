@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import AVFoundation
 var newCollectionArray: [story] = []
-var profileViewer = User()
+var profileUser = User()
 
 class ProfileViewController: UITableViewController {
     
@@ -18,7 +19,8 @@ class ProfileViewController: UITableViewController {
     @IBOutlet weak var username: UIButton!
     @IBOutlet var myTableView: UITableView!
     @IBOutlet weak var subscribeButton: UIButton!
-    @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var subsLabel: UILabel!
+    @IBOutlet weak var subsIcon: UIImageView!
     
     var randomColor: [[UIColor]] = generateRandomData()
     var selectedCollection = collection()
@@ -62,8 +64,9 @@ class ProfileViewController: UITableViewController {
     }
     // MARK: - setupPage
     func setupPage() {
-        if profileViewer.username == userData.data.username {
-            profileViewer = userData.data
+        subsLabel.text = String(profileUser.subscribers)
+        if profileUser.username == userData.data.username {
+            profileUser = userData.data
             let edit = UIBarButtonItem(title: "Edit", style: .done, target: self, action: #selector(editPressed(_:)))
 //            let settings = UIBarButtonItem(image: UIImage(named: "settings"), style: .plain, target: self, action: #selector(settingsPressed))
             navigationItem.rightBarButtonItems = [edit]
@@ -73,25 +76,23 @@ class ProfileViewController: UITableViewController {
             // if viewer is not the same as the profile user
             //seting up subscribed
             for index in 0 ..< userData.subscribedUsers.count {
-                if userData.subscribedUsers[index].sUser.username == profileViewer.username {
+                if userData.subscribedUsers[index].sUser.username == profileUser.username {
                     subscribeButton.setTitle("Unsubscribe", for: .normal)
                     userData.subscribedUsers[index].new = false
                 }
             }
             // seting up recents
-            let insert = recentCollection(rCollection: collection(stories: profileViewer.stories, title: profileViewer.name, creator: profileViewer, coverArt: profileViewer.profileImage), isProfile: true)
-            var canInsert: Bool = true
+            let insert = recentCollection(rCollection: collection(stories: profileUser.stories, title: profileUser.name, creator: profileUser, coverArt: profileUser.profileImage), isProfile: true)
             if userData.recentCollections.count == 0 {
                 userData.recentCollections.insert(insert, at: 0)
             } else {
                 for n in 0 ..< userData.recentCollections.count {
-                    if userData.recentCollections[n].rCollection.creator.username == profileViewer.username {
-                        canInsert = false
+                    if userData.recentCollections[n].rCollection.creator.username == profileUser.username {
+                        userData.recentCollections.remove(at: n)
+                        break
                     }
                 }
-                if canInsert == true {
-                    userData.recentCollections.insert(insert, at: 0)
-                }
+                userData.recentCollections.insert(insert, at: 0)
             }
             
             
@@ -99,29 +100,28 @@ class ProfileViewController: UITableViewController {
             let ellipsis = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(morePressed))
             navigationItem.leftBarButtonItems = []
             navigationItem.rightBarButtonItems = [ellipsis]
-            navigationItem.title = profileViewer.name
+            navigationItem.title = profileUser.name
             NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         }
-        let color = profileViewer.profileImage.averageColor
+        let color = profileUser.profileImage.averageColor
         if (color?.isLight())! {
             nameLabel.textColor = .black
             username.titleLabel?.textColor = .black
             subscribeButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.26)
-        } else {
-            nameLabel.textColor = .white
-            username.titleLabel?.textColor = .white
+            subsLabel.textColor = .black
+            subsIcon.tintColor = .black
         }
         
-        profileImageView.image = profileViewer.profileImage
-        nameLabel.text = profileViewer.name
-        username.setTitle(profileViewer.username, for: .normal)
-        collections = profileViewer.collections
-        stories = profileViewer.stories
+        profileImageView.image = profileUser.profileImage
+        nameLabel.text = profileUser.name
+        username.setTitle(profileUser.username, for: .normal)
+        collections = profileUser.collections
+        stories = profileUser.stories
     }
     //MARK: - Actions
     @objc func reload() {
-        if profileViewer.username == userData.data.username {
-            profileViewer = userData.data
+        if profileUser.username == userData.data.username {
+            profileUser = userData.data
         }
         tableView.reloadData()
     }
@@ -131,17 +131,23 @@ class ProfileViewController: UITableViewController {
     }
     @IBAction func subscribePressed(_ sender: Any) {
         if subscribeButton.titleLabel?.text == "Subscribe" {
-            userData.subscribedUsers.append(subscribedUser(sUser: profileViewer, new: false))
+            userData.subscribedUsers.append(subscribedUser(sUser: profileUser, new: false))
+            profileUser.subscribers += 1
+            subsLabel.text = String(profileUser.subscribers)
             subscribeButton.setTitle("Unsubscribe", for: .normal)
+            NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         } else {
             for n in 0 ..< userData.subscribedUsers.count {
-                if userData.subscribedUsers[n].sUser.username == profileViewer.username {
+                if userData.subscribedUsers[n].sUser.username == profileUser.username {
                     userData.subscribedUsers.remove(at: n)
+                    profileUser.subscribers -= 1
+                    subsLabel.text = String(profileUser.subscribers)
                     subscribeButton.setTitle("Subscribe", for: .normal)
+                    NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
+                    return
                 }
             }
         }
-        NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
     }
     @objc func settingsPressed() {
     }
@@ -156,19 +162,19 @@ class ProfileViewController: UITableViewController {
                 for indexPath in selectedRows  {
                     if indexPath.section == 0 {
                         print(indexPath.row)
-                        profileViewer.collections.remove(at: indexPath.row)
+                        profileUser.collections.remove(at: indexPath.row)
                     } else {
                         var index = 0
-                        for _ in profileViewer.collections {
-                            let item = profileViewer.collections[index].stories
-                            if let i = item.firstIndex(where: {$0.storyURl == profileViewer.stories[indexPath.row].storyURl}) {
-                                profileViewer.collections[index].stories.remove(at: i)
+                        for _ in profileUser.collections {
+                            let item = profileUser.collections[index].stories
+                            if let i = item.firstIndex(where: {$0.storyURl == profileUser.stories[indexPath.row].storyURl}) {
+                                profileUser.collections[index].stories.remove(at: i)
                             }
                             index += 1
                         }
-                        profileViewer.stories.remove(at: indexPath.row)
+                        profileUser.stories.remove(at: indexPath.row)
                     }
-                    userData.data = profileViewer
+                    userData.data = profileUser
                 }
                 self.tableView.beginUpdates()
                 self.tableView.deleteRows(at: selectedRows, with: .automatic)
@@ -186,11 +192,11 @@ class ProfileViewController: UITableViewController {
         newCollectionArray = []
         if let selectedRows = tableView.indexPathsForSelectedRows {
             for indexPath in selectedRows  {
-                if profileViewer.collections.count == 0 {
-                    newCollectionArray.append(profileViewer.stories[indexPath.row])
+                if profileUser.collections.count == 0 {
+                    newCollectionArray.append(profileUser.stories[indexPath.row])
                 } else {
                     guard indexPath.section != 0 else {return}
-                    newCollectionArray.append(profileViewer.stories[indexPath.row])
+                    newCollectionArray.append(profileUser.stories[indexPath.row])
                 }
             }
             guard newCollectionArray.count != 0 else {return}
@@ -220,7 +226,7 @@ extension ProfileViewController {
         label.textColor = .darkGray
         
         let sectionTitles = ["Collections","Stories"]
-        if profileViewer.stories.count == 0 && profileViewer.collections.count == 0 {
+        if profileUser.stories.count == 0 && profileUser.collections.count == 0 {
             label.text = "Add Stories"
             view.addSubview(label)
         } else {
@@ -231,7 +237,7 @@ extension ProfileViewController {
     }
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let noCollections: [Int] = [0, 35]
-        if profileViewer.collections.count == 0 {
+        if profileUser.collections.count == 0 {
             return CGFloat(noCollections[section])
         } else {
             return 35
@@ -241,27 +247,50 @@ extension ProfileViewController {
     //MARK: numberOfRows
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return profileViewer.collections.count
+            return profileUser.collections.count
         } else {
-            return profileViewer.stories.count
+            return profileUser.stories.count
         }
     }
     //MARK: cellForRowAt
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! ProfileTableViewCell2
-            cell.title.text = profileViewer.collections[indexPath.row].title
-            cell.creator.text = profileViewer.collections[indexPath.row].creator.name
-            cell.coverArt.image = profileViewer.collections[indexPath.row].coverArt
+            cell.title.text = profileUser.collections[indexPath.row].title
+            cell.creator.text = profileUser.collections[indexPath.row].creator.name
+            cell.coverArt.image = profileUser.collections[indexPath.row].coverArt
+            if profileUser.username == userData.data.username {
+                cell.viewsStackView.isHidden = false
+                cell.viewsLabel.text = String(profileUser.collections[indexPath.row].views)
+            } else {
+                cell.viewsStackView.isHidden = true
+            }
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ProfileTableViewCell
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = backgroundView
-            cell.titleLabel.text = profileViewer.stories[indexPath.row].title
-            cell.creatorLabel.text = profileViewer.stories[indexPath.row].creator.name
-            cell.profileImage.image = profileViewer.stories[indexPath.row].coverArt
+            cell.titleLabel.text = profileUser.stories[indexPath.row].title
+            cell.creatorLabel.text = profileUser.stories[indexPath.row].creator.name
+            cell.profileImage.image = profileUser.stories[indexPath.row].coverArt
+            // audio duration
+            let asset = AVURLAsset.init(url: profileUser.stories[indexPath.row].storyURl.absoluteURL, options: nil)
+            let audioDuration = CMTimeGetSeconds(asset.duration)
+            if audioDuration <= 1000 {
+                cell.timeLabel.text = String(format: "%2d:%02d", ((Int)((audioDuration))) / 60, ((Int)((audioDuration))) % 60)
+            } else {
+                cell.timeLabel.text = String(format: "%02d:%02d", ((Int)((audioDuration))) / 60, ((Int)((audioDuration))) % 60)
+            }
+            //Views
+            if profileUser.username == userData.data.username {
+                cell.viewsLabel.isHidden = false
+                cell.viewsLabel.text = String(profileUser.stories[indexPath.row].views)
+                cell.viewsIcon.isHidden = false
+            } else {
+                cell.viewsLabel.isHidden = true
+                cell.viewsIcon.isHidden = true
+            }
             return cell
         }
     }
@@ -274,21 +303,21 @@ extension ProfileViewController {
         }
     }
     override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let movedObjTemp = profileViewer.stories[sourceIndexPath.item]
-        profileViewer.stories.remove(at: sourceIndexPath.item)
-        profileViewer.stories.insert(movedObjTemp, at: destinationIndexPath.item)
-        userData.data.stories = profileViewer.stories
+        let movedObjTemp = profileUser.stories[sourceIndexPath.item]
+        profileUser.stories.remove(at: sourceIndexPath.item)
+        profileUser.stories.insert(movedObjTemp, at: destinationIndexPath.item)
+        userData.data.stories = profileUser.stories
     }
     //MARK: did select row
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard edit != true else { return }
         if indexPath.section == 0 {
-            selectedCollection = profileViewer.collections[indexPath.row]
+            selectedCollection = profileUser.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
-            guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileViewer.stories[indexPath.row].storyURl else { return }
+            guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileUser.stories[indexPath.row].storyURl else { return }
             AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue = [(queueItem(currentStory: profileViewer.stories[indexPath.row], currentCollection: collection(stories: profileViewer.stories, title: "Stories from \(profileViewer.name)", creator: profileViewer)))]
+            AudioPlayer.shared.queue = [(queueItem(currentStory: profileUser.stories[indexPath.row], currentCollection: collection(stories: profileUser.stories, title: "Stories from \(profileUser.name)", creator: profileUser)))]
             AudioPlayer.shared.isPlaying = true
         }
     }

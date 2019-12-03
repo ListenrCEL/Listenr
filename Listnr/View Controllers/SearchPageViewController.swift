@@ -22,6 +22,11 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     var recentSearchesStory: [story] = []
     var searching: Bool = false
     var selectedColection = collection()
+    let defaults = UserDefaults.standard
+    
+//    enum recentSearch {
+//        
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,18 +62,26 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             if input.hasPrefix(text) {
                 searchUsers.append(users[x])
             }
+            searchUsers.sort {
+                $0.subscribers > $1.subscribers
+            }
             for y in 0 ..< users[x].collections.count {
                 if users[x].collections[y].title.hasPrefix(text) {
                     searchCollections.append(users[x].collections[y])
+                }
+                searchCollections.sort {
+                    $0.views > $1.views
                 }
             }
             for z in 0 ..< users[x].stories.count {
                 if users[x].stories[z].title.hasPrefix(text){
                     searchStories.append(users[x].stories[z])
                 }
+                searchStories.sort {
+                    $0.views > $1.views
+                }
             }
         }
-        print(text)
         tableView.reloadData()
     }
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -146,7 +159,6 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             let size = cell.cellImage.bounds.width
             cell.cellImage.layer.cornerRadius = (size)/2
             cell.accessoryType = .disclosureIndicator
-            print(searching)
             if searching == true {
                 cell.cellImage.image = searchUsers[indexPath.row].profileImage
                 cell.title.text = searchUsers[indexPath.row].name
@@ -190,7 +202,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             if searching == true {
                 recentSearchesUser.append(searchUsers[indexPath.row])
             }
-            profileViewer = searchUsers[indexPath.row]
+            profileUser = searchUsers[indexPath.row]
             performSegue(withIdentifier: "toProfile", sender: self)
         } else if indexPath.section == 1 {
             if searching == true {

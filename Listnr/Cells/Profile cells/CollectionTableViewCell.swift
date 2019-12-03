@@ -13,6 +13,7 @@ class CollectionTableViewCell: UITableViewCell {
     @IBOutlet weak var coverArt: UIImageView!
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var creator: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()

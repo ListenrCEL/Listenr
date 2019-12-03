@@ -47,7 +47,7 @@ class HomeTableViewController: UITableViewController {
             nvc.content = selectedCollection
         }
         if segue.identifier == "showProfile" {
-            profileViewer = selectedCollection.creator
+            profileUser = selectedCollection.creator
         }
     }
     // MARK: Table View
