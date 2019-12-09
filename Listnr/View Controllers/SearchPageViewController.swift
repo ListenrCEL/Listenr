@@ -25,7 +25,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     let defaults = UserDefaults.standard
     
 //    enum recentSearch {
-//        
+//        case recentSearchesUser: [User] = []
 //    }
     
     override func viewDidLoad() {
@@ -48,6 +48,13 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             nvc.content = selectedColection
         }
     }
+    
+//    func saveRecents() {
+//        UserDefaults.standard.setStructArray(recentSearchesUser, forKey: "saveRecentUsers")
+//        let pizzas: [Pizza] = UserDefaults.standard.structArrayData(Pizza.self, forKey: allPizzasKey)
+//        print("All pizzas: \(pizzas)")
+//    }
+    
     //MARK: searchResults
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
@@ -166,7 +173,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             } else if searching != true {
                 cell.cellImage.image = recentSearchesUser[indexPath.row].profileImage
                 cell.title.text = recentSearchesUser[indexPath.row].name
-                cell.title.text = recentSearchesUser[indexPath.row].username
+                cell.creatorLabel.text = recentSearchesUser[indexPath.row].username
             }
             return cell
         } else if searchType[indexPath.section] == "Collections" {

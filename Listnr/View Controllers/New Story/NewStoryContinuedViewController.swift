@@ -16,6 +16,8 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var catigoryButton: UIButton!
     @IBOutlet weak var coverArtButton: UIButton!
     @IBOutlet weak var chosenImageView: UIImageView!
+    @IBOutlet weak var coverArtStackView: UIStackView!
+    @IBOutlet weak var addCategoryButton: UIButton!
     
     var date = String()
     var imagePicked = UIImage()
@@ -86,7 +88,6 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         isAnImage = false
-        let picker = UIImagePickerController()
         picker.dismiss(animated: true, completion: nil)
         
     }
@@ -110,6 +111,13 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
     }
     @IBAction func downTapped(_ sender: UIButton) {
         dismiss(animated: true)
+    }
+    @IBAction func swichChanged(_ sender: UISwitch) {
+        if sender.isOn == true {
+            coverArtStackView.isHidden = true
+        } else {
+            coverArtStackView.isHidden = false
+        }
     }
     @IBAction func picturePicture(_ sender: UIButton) {
         importPicture()

@@ -164,17 +164,21 @@ class ProfileViewController: UITableViewController {
                         print(indexPath.row)
                         profileUser.collections.remove(at: indexPath.row)
                     } else {
-                        var index = 0
-                        for _ in profileUser.collections {
-                            let item = profileUser.collections[index].stories
-                            if let i = item.firstIndex(where: {$0.storyURl == profileUser.stories[indexPath.row].storyURl}) {
-                                profileUser.collections[index].stories.remove(at: i)
-                            }
-                            index += 1
-                        }
+//                        for x in 0 ..< users.count {
+//                            for y in 0 ..< users[x].collections.count {
+//                                for z in 0 ..< users[x].collections[y].stories.count {
+//                                    // TODO - change to audioids when everystory is custom
+//                                    if users[x].collections[y].stories[z].title == profileUser.stories[indexPath.row].title {
+//                                        users[x].collections[y].stories.remove(at: z)
+//                                        break
+//                                    }
+//                                }
+//                            }
+//                        }
                         profileUser.stories.remove(at: indexPath.row)
+                        userData.data = profileUser
+//                        profileUser.collections = userData.data.collections
                     }
-                    userData.data = profileUser
                 }
                 self.tableView.beginUpdates()
                 self.tableView.deleteRows(at: selectedRows, with: .automatic)
@@ -271,9 +275,15 @@ extension ProfileViewController {
             let backgroundView = UIView()
             backgroundView.backgroundColor = UIColor.clear
             cell.selectedBackgroundView = backgroundView
-            cell.titleLabel.text = profileUser.stories[indexPath.row].title
-            cell.creatorLabel.text = profileUser.stories[indexPath.row].creator.name
-            cell.profileImage.image = profileUser.stories[indexPath.row].coverArt
+            if profileUser.stories[indexPath.row].anonomous == false {
+                cell.titleLabel.text = profileUser.stories[indexPath.row].title
+                cell.creatorLabel.text = profileUser.stories[indexPath.row].creator.name
+                cell.profileImage.image = profileUser.stories[indexPath.row].coverArt
+            } else {
+                cell.titleLabel.text = profileUser.stories[indexPath.row].title
+                cell.creatorLabel.text = "Anonymous"
+                cell.profileImage.image = UIImage(named: "Anonymous")
+            }
             // audio duration
             let asset = AVURLAsset.init(url: profileUser.stories[indexPath.row].storyURl.absoluteURL, options: nil)
             let audioDuration = CMTimeGetSeconds(asset.duration)
@@ -299,6 +309,11 @@ extension ProfileViewController {
         if indexPath.section == 0 {
             return 75
         } else {
+            if profileUser.stories[indexPath.row].anonomous == true {
+                if profileUser.username != userData.data.username {
+                    return 0
+                }
+            }
             return 60
         }
     }
@@ -317,7 +332,15 @@ extension ProfileViewController {
         } else {
             guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileUser.stories[indexPath.row].storyURl else { return }
             AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue = [(queueItem(currentStory: profileUser.stories[indexPath.row], currentCollection: collection(stories: profileUser.stories, title: "Stories from \(profileUser.name)", creator: profileUser)))]
+            for n in indexPath.row ..< profileUser.stories.count {
+                if profileUser.stories[n].anonomous == true {
+                    if profileUser.username == userData.data.username {
+                        AudioPlayer.shared.queue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                    }
+                } else {
+                    AudioPlayer.shared.queue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                }
+            }
             AudioPlayer.shared.isPlaying = true
         }
     }

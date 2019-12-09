@@ -164,7 +164,7 @@ extension HomeTableViewController {
         }
         if userData.recentCollections.count != 0 {
             homeHeaderTitleArray.append("Recents")
-            homeHeaderDescriptionArray.append("Stories you listened to recently")
+            homeHeaderDescriptionArray.append("What you looked at recently")
         }
         homeHeaderTitleArray.append("Categories")
         homeHeaderDescriptionArray.append("Categories of stories")
@@ -189,7 +189,7 @@ extension HomeTableViewController {
                     input.append(collection(stories: userData.subscribedUsers[n].sUser.stories, title: userData.subscribedUsers[n].sUser.name, creator: userData.subscribedUsers[n].sUser, coverArt: userData.subscribedUsers[n].sUser.profileImage))
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
-
+                
             } else if title == "Recents" {
                 for n in 0 ..< userData.recentCollections.count {
                     input.append(userData.recentCollections[n].rCollection)

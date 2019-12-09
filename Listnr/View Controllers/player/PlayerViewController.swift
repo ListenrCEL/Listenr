@@ -12,7 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController {
 
-    //MARK: -Outlets
+    //MARK: - Outlets
     @IBOutlet weak var coverArt: UIImageView!
     @IBOutlet weak var storyTitle: UILabel!
     @IBOutlet weak var creatorLabel: UIButton!
@@ -51,9 +51,15 @@ class PlayerViewController: UIViewController {
             noStory()
         } else {
             let story = AudioPlayer.shared.queue.first?.currentStory
-            coverArt.image = story?.coverArt
-            storyTitle.text = story?.title
-            creatorLabel.setTitle(story?.creator.name, for: .normal)
+            if story?.anonomous == true {
+                coverArt.image = UIImage(named: "Anonymous2")
+                storyTitle.text = story?.title
+                creatorLabel.setTitle("Anonymous", for: .normal)
+            } else {
+                coverArt.image = story?.coverArt
+                storyTitle.text = story?.title
+                creatorLabel.setTitle(story?.creator.name, for: .normal)
+            }
         }
         coverArtContainerView.layer.shadowColor = UIColor.black.cgColor
         coverArtContainerView.layer.shadowRadius = 30
@@ -90,15 +96,20 @@ class PlayerViewController: UIViewController {
     @objc func setupPlayer() {
         guard AudioPlayer.shared.queue.count != 0 else {noStory(); return}
         loadStory()
-        collectionTitle.setTitle(AudioPlayer.shared.queue[0].currentCollection.title, for: .normal)
+        if AudioPlayer.shared.queue.first?.currentStory.anonomous == true {
+            collectionTitle.setTitle("Anonymous", for: .normal)
+        } else {
+            collectionTitle.setTitle(AudioPlayer.shared.queue[0].currentCollection.title, for: .normal)
+        }
         if AudioPlayer.shared.isPlaying {
             playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
         } else {
             playPauseButton.setBackgroundImage(UIImage(systemName: "play.circle.fill"), for: .normal)
         }
-        slider.maximumValue = Float(AudioPlayer.shared.audioPlayer!.duration)
+        guard let duration = AudioPlayer.shared.audioPlayer?.duration else {return}
+        slider.maximumValue = Float(duration)
         _ = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateSlider), userInfo: nil, repeats: true)
-        totalTimeLabel.text = String(format: "%02d:%02d", ((Int)((AudioPlayer.shared.audioPlayer!.duration))) / 60, ((Int)((AudioPlayer.shared.audioPlayer!.duration))) % 60)
+        totalTimeLabel.text = String(format: "%02d:%02d", ((Int)((duration))) / 60, ((Int)((duration))) % 60)
     }
     
     @objc func updateSlider() {
@@ -134,24 +145,33 @@ class PlayerViewController: UIViewController {
     }
     @IBAction func collectionPressed(_ sender: UIButton) {
         guard AudioPlayer.shared.queue.count != 0 else {return}
-        performSegue(withIdentifier: "toCollectionView", sender: self)    }
-    @IBAction func exitPressed(_ sender: Any) {
-        dismiss(animated: true) {
+        if AudioPlayer.shared.queue.first?.profile == true {
+            if AudioPlayer.shared.queue.first?.currentStory.anonomous == false {
+                performSegue(withIdentifier: "toProfile", sender: self)
+                profileUser = (AudioPlayer.shared.queue.first?.currentStory.creator)!
+            }
+        } else {
+            performSegue(withIdentifier: "toCollectionView", sender: self)
         }
+    }
+    @IBAction func exitPressed(_ sender: Any) {
+        dismiss(animated: true)
     }
     @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
         exitPressed(self)
     }
     @IBAction func swipeRight(_ sender: UISwipeGestureRecognizer) {
-//        AudioPlayer.shared.back()
+        //        AudioPlayer.shared.back()
     }
     @IBAction func swipeLeft(_ sender: UISwipeGestureRecognizer) {
-//        AudioPlayer.shared.next()
+        //        AudioPlayer.shared.next()
     }
     @IBAction func creatorPressed(_ sender: UIButton) {
         guard AudioPlayer.shared.queue.count != 0 else {return}
-        performSegue(withIdentifier: "toProfile", sender: self)
-        profileUser = (AudioPlayer.shared.queue.first?.currentStory.creator)!
+        if AudioPlayer.shared.queue.first?.currentStory.anonomous == false {
+            performSegue(withIdentifier: "toProfile", sender: self)
+            profileUser = (AudioPlayer.shared.queue.first?.currentStory.creator)!
+        }
     }
     
 }

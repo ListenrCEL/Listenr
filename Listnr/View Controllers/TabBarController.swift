@@ -69,9 +69,15 @@ class TabBarController: UITabBarController {
             coverArt.image = nil
         } else {
             creator.isHidden = false
-            coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
-            titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
-            creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
+            if AudioPlayer.shared.queue.first?.currentStory.anonomous == true {
+                coverArt.image = UIImage(named: "Anonymous")
+                titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
+                creator.text = "Anonymous"
+            } else {
+                coverArt.image = AudioPlayer.shared.queue[0].currentStory.coverArt
+                titleLabel.text = AudioPlayer.shared.queue[0].currentStory.title
+                creator.text = AudioPlayer.shared.queue[0].currentStory.creator.name
+            }
             if !AudioPlayer.shared.isPlaying {
                 playPauseButton.setBackgroundImage(UIImage(systemName: "pause.circle.fill"), for: .normal)
             } else {

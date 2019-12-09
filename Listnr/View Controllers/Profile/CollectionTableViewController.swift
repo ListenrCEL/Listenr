@@ -41,8 +41,8 @@ class CollectionTableViewController: UITableViewController {
             }
             userData.recentCollections.insert(insert, at:  0)
         }
-        let color = content.coverArt.averageColor
-        if (color?.isLight())! {
+        guard let color = content.coverArt.averageColor else { return }
+        if (color.isLight())! {
             titleLabel.textColor = .black
             creator.setTitleColor(.black, for: .normal)
         } else {
@@ -61,10 +61,17 @@ class CollectionTableViewController: UITableViewController {
         return content.stories.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
-        cell.coverArt.image = content.stories[indexPath.row].coverArt
-        cell.title.text = content.stories[indexPath.row].title
-        cell.creator.text = content.stories[indexPath.row].creator.name
+         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CollectionTableViewCell
+        cell.imageView?.bounds.size = cell.bounds.size
+        if content.stories[indexPath.row].anonomous == true {
+            cell.creator.text = "Anonymous"
+            cell.title.text = content.stories[indexPath.row].title
+            cell.coverArt.image = UIImage(named: "Anonymous")
+        } else {
+            cell.coverArt.image = content.stories[indexPath.row].coverArt
+            cell.title.text = content.stories[indexPath.row].title
+            cell.creator.text = content.stories[indexPath.row].creator.name
+        }
         let asset = AVURLAsset.init(url: content.stories[indexPath.row].storyURl.absoluteURL, options: nil)
         let audioDuration = CMTimeGetSeconds(asset.duration)
         if audioDuration <= 1000 {
@@ -72,12 +79,13 @@ class CollectionTableViewController: UITableViewController {
         } else {
             cell.timeLabel.text = String(format: "%02d:%02d", ((Int)((audioDuration))) / 60, ((Int)((audioDuration))) % 60)
         }
-        cell.imageView?.bounds.size = cell.bounds.size
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         AudioPlayer.shared.queue = []
-        AudioPlayer.shared.queue = [queueItem(currentStory: content.stories[indexPath.row], currentCollection: content)]
+        for n in indexPath.row ..< content.stories.count {
+            AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[n], currentCollection: content))
+        }
         AudioPlayer.shared.isPlaying = true
     }
     

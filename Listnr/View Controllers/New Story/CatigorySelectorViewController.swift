@@ -74,6 +74,6 @@ class CatigorySelectorViewController: UIViewController, UICollectionViewDelegate
         for indexPath in categoriesCollectionView.indexPathsForSelectedItems! {
             selectedCategories.append(indexPath.item)
         }
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }

@@ -62,22 +62,20 @@ class QueueViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     // MARK: - cellForRow
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 1 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
-            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
-            cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator.name
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
+        if AudioPlayer.shared.queue[indexPath.row].currentStory.anonomous == false {
+        cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
+        cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
+        cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator.name
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QueueTableViewCell
-            cell.coverArt.image = AudioPlayer.shared.queue[indexPath.row].currentStory.coverArt
+            cell.coverArt.image = UIImage(named: "Anonymous")
+            cell.creator.text = "Anonymous"
             cell.title.text = AudioPlayer.shared.queue[indexPath.row].currentStory.title
-            cell.creator.text = AudioPlayer.shared.queue[indexPath.row].currentStory.creator.name
-            return cell
         }
+        return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard AudioPlayer.shared.queue.count != 0 else {return 60}
+        guard AudioPlayer.shared.queue.count != 0 else { return 60 }
         if indexPath.section == 0 {
             return 60
         } else {
