@@ -49,6 +49,7 @@
 		07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */; };
 		0A26FE51238D9F1900C75CA6 /* clippp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A26FE50238D9F1900C75CA6 /* clippp.jpg */; };
 		0AA451A5238C6984000848FA /* FirebaseFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA451A4238C6984000848FA /* FirebaseFuncs.swift */; };
+		0AB13F85239ED4BD00BE576A /* CornDemo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0AB13F84239ED4BD00BE576A /* CornDemo-Regular.ttf */; };
 		1E700823D65D9891DB1D5769 /* Pods_Listnr.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1D4F170E0AEF3B61AB2FDE9 /* Pods_Listnr.framework */; };
 		78E1516636B012CB51D04B7E /* Pods_ListnrTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE8BB888E1605FD112FE1A4F /* Pods_ListnrTests.framework */; };
 		79EEB10CC988CB94C04C27E5 /* Pods_Listnr_ListnrUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0009D695E1145504E280A33 /* Pods_Listnr_ListnrUITests.framework */; };
@@ -120,6 +121,7 @@
 		07F813BD2371C121009AC617 /* CatigorySelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorViewController.swift; sourceTree = "<group>"; };
 		0A26FE50238D9F1900C75CA6 /* clippp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = clippp.jpg; sourceTree = "<group>"; };
 		0AA451A4238C6984000848FA /* FirebaseFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFuncs.swift; sourceTree = "<group>"; };
+		0AB13F84239ED4BD00BE576A /* CornDemo-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CornDemo-Regular.ttf"; sourceTree = "<group>"; };
 		14470C385F5AF619E6A2B0DE /* Pods-Listnr.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.release.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.release.xcconfig"; sourceTree = "<group>"; };
 		26B1665565B5056CA4C7F196 /* Pods-Listnr.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr.debug.xcconfig"; path = "Target Support Files/Pods-Listnr/Pods-Listnr.debug.xcconfig"; sourceTree = "<group>"; };
 		3616695E5544E644116C7DC5 /* Pods-Listnr-ListnrUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Listnr-ListnrUITests.release.xcconfig"; path = "Target Support Files/Pods-Listnr-ListnrUITests/Pods-Listnr-ListnrUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 		075B2E59235F63DC008E2B1B /* Other swift files */ = {
 			isa = PBXGroup;
 			children = (
+				0AB13F84239ED4BD00BE576A /* CornDemo-Regular.ttf */,
 				075B2E5A235F641D008E2B1B /* Global Variables.swift */,
 				070C0AA72361312B002CEE22 /* SetUpFilesPage.swift */,
 				07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */,
@@ -468,6 +471,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				079648242390CC25005596B8 /* Mr_Tea.mp3 in Resources */,
+				0AB13F85239ED4BD00BE576A /* CornDemo-Regular.ttf in Resources */,
 				078D16BD23843463009D9183 /* orangeFoot.mp3 in Resources */,
 				079648222390CC1D005596B8 /* If_I_Had_a_Chicken.mp3 in Resources */,
 				0A26FE51238D9F1900C75CA6 /* clippp.jpg in Resources */,

@@ -118,7 +118,7 @@ func setUpProfile() {
     // Firebase
     loadStoriesProfile()
     // Setting up categories
-    let catigoriesTitlesArray: [String] = ["Comedy","Sports","Growing up","Advice","Motivation","Pride","Nature","Injury"]
+    let catigoriesTitlesArray: [String] = ["Comedy","Growing up","Advice","Motivation","Pride","Nature","Injury"]
     var index = 0
     for title in catigoriesTitlesArray {
         categories.append(collection(stories: userData.data.stories, title: title, creator: userData.data, coverArt: UIImage(named: catigoriesTitlesArray[index])!))

@@ -6,6 +6,11 @@
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="CornDemo-Regular.ttf">
+            <string>CornDemo-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
@@ -16,16 +21,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Listnr" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyg-tc-JWJ">
-                                <rect key="frame" x="20" y="422.5" width="374" height="61"/>
-                                <fontDescription key="fontDescription" name="Symbol" family="Symbol" pointSize="60"/>
+                                <rect key="frame" x="20" y="417" width="374" height="72"/>
+                                <fontDescription key="fontDescription" name="CornDemo-Regular" family="Corn Demo" pointSize="60"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                                 <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <size key="shadowOffset" width="-2" height="1"/>
+                                <size key="shadowOffset" width="0.0" height="1"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Made by Oliver, Theo, and David" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XEq-jn-7wl">
-                                <rect key="frame" x="83.5" y="483.5" width="247" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <rect key="frame" x="52.5" y="510" width="309.5" height="15.5"/>
+                                <fontDescription key="fontDescription" name="CornDemo-Regular" family="Corn Demo" pointSize="13"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -33,10 +38,10 @@
                         <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wyg-tc-JWJ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="0jE-Ml-Rzs"/>
+                            <constraint firstItem="XEq-jn-7wl" firstAttribute="top" secondItem="wyg-tc-JWJ" secondAttribute="bottom" constant="21" id="C2D-cH-3D2"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wyg-tc-JWJ" secondAttribute="trailing" constant="20" id="G8r-4T-8eq"/>
                             <constraint firstItem="wyg-tc-JWJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="NRA-lX-yI4"/>
                             <constraint firstItem="wyg-tc-JWJ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="QCz-im-nat"/>
-                            <constraint firstItem="XEq-jn-7wl" firstAttribute="top" secondItem="wyg-tc-JWJ" secondAttribute="bottom" id="Ruq-wg-6A4"/>
                             <constraint firstItem="XEq-jn-7wl" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="hd7-YR-hQR"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
