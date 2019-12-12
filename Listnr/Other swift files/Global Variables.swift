@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 import UIKit
 // This is most of the global variables but not all of them
 
@@ -107,11 +108,28 @@ extension UserDefaults {
 //MARK: - TestData
 func setUpProfile() {
     // TEST - Setting up UserData
-    userData.data.stories = [
+    /*userData.data.stories = [
         story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
         story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!, views: 40),
         story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!, views: 77),
-    ]
+    ]*/
+    let db = Firestore.firestore()
+    let docRef = db.collection("users").document(userData.data.username)
+    
+    docRef.getDocument { (document, error) in
+        if let document = document, document.exists {
+            let dataDescription = document.data()!
+            let storyDict = NSMutableDictionary(dictionary: dataDescription)
+            let allStories = storyDict.allKeys
+            print("Stories: \(allStories)")
+            for i in 0..<allStories.count
+            {
+                userData.data.stories.append(story(title: allStories[i] as! String, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!, views: 69))
+            }
+        } else {
+            print("Document does not exist")
+        }
+    }
     userData.data.collections = [
         collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!, views: 876)
     ]
@@ -137,6 +155,8 @@ func setUpProfile() {
     }
     userData.recentCollections = recents
 }
+
+
 // MARK: - TestUsers
 func setupTestUsers() {
 //    setUpProfile()
