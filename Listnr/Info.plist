@@ -21,7 +21,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Can we use your mic?</string>
+	<string>Can we use your mic to record stories?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Can we use your camra to take a profile photo?</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

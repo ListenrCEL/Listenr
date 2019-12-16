@@ -43,6 +43,10 @@
 		07D46E9E238705DB00FD7D28 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 07D46E9D238705DA00FD7D28 /* GoogleService-Info.plist */; };
 		07E581E3238DBFAE00856AB2 /* QueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E581E2238DBFAE00856AB2 /* QueueViewController.swift */; };
 		07E581E5238DC09700856AB2 /* QueueTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E581E4238DC09700856AB2 /* QueueTableViewCell.swift */; };
+		07E879B0239EFBA9005F8B32 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E879AF239EFBA9005F8B32 /* LoginViewController.swift */; };
+		07E879B2239EFBBE005F8B32 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E879B1239EFBBE005F8B32 /* SignupViewController.swift */; };
+		07E879B7239EFCF3005F8B32 /* Signup_DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E879B6239EFCF3005F8B32 /* Signup_DetailsViewController.swift */; };
+		07E879B9239EFD05005F8B32 /* Signup_ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E879B8239EFD05005F8B32 /* Signup_ImageViewController.swift */; };
 		07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */; };
 		07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */; };
 		07F813BC2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */; };
@@ -114,6 +118,10 @@
 		07D46E9D238705DA00FD7D28 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		07E581E2238DBFAE00856AB2 /* QueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueViewController.swift; sourceTree = "<group>"; };
 		07E581E4238DC09700856AB2 /* QueueTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueueTableViewCell.swift; sourceTree = "<group>"; };
+		07E879AF239EFBA9005F8B32 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		07E879B1239EFBBE005F8B32 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		07E879B6239EFCF3005F8B32 /* Signup_DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup_DetailsViewController.swift; sourceTree = "<group>"; };
+		07E879B8239EFD05005F8B32 /* Signup_ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup_ImageViewController.swift; sourceTree = "<group>"; };
 		07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		07F3CBE22375AE0E00DD3793 /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
 		07F813BB2371C0C9009AC617 /* CatigorySelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatigorySelectorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -229,13 +237,11 @@
 		075B2E4F235E0FD3008E2B1B /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				0711749C2372367B00BBF904 /* TabBarController.swift */,
-				075B2E4D235E0FCC008E2B1B /* HomeTableViewController.swift */,
+				07E879AE239EFB6C005F8B32 /* Login */,
 				077AD8EF2370D62E00890370 /* New Story */,
 				07C3C35F23878F700042B5AF /* Profile */,
-				07E581E1238DBF7500856AB2 /* player */,
-				070C0A992360C694002CEE22 /* SearchPageViewController.swift */,
-				076A41292398838600C66BC4 /* CategoriesViewController.swift */,
+				07E581E1238DBF7500856AB2 /* Player */,
+				07E879AD239EFB39005F8B32 /* Other */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -326,13 +332,43 @@
 			path = "Profile cells";
 			sourceTree = "<group>";
 		};
-		07E581E1238DBF7500856AB2 /* player */ = {
+		07E581E1238DBF7500856AB2 /* Player */ = {
 			isa = PBXGroup;
 			children = (
 				07F3CBE0237329FF00DD3793 /* PlayerViewController.swift */,
 				07E581E2238DBFAE00856AB2 /* QueueViewController.swift */,
 			);
-			path = player;
+			path = Player;
+			sourceTree = "<group>";
+		};
+		07E879AD239EFB39005F8B32 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				0711749C2372367B00BBF904 /* TabBarController.swift */,
+				075B2E4D235E0FCC008E2B1B /* HomeTableViewController.swift */,
+				076A41292398838600C66BC4 /* CategoriesViewController.swift */,
+				070C0A992360C694002CEE22 /* SearchPageViewController.swift */,
+			);
+			path = Other;
+			sourceTree = "<group>";
+		};
+		07E879AE239EFB6C005F8B32 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				07E879AF239EFBA9005F8B32 /* LoginViewController.swift */,
+				07E879B3239EFCB1005F8B32 /* SignUp */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		07E879B3239EFCB1005F8B32 /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				07E879B1239EFBBE005F8B32 /* SignupViewController.swift */,
+				07E879B6239EFCF3005F8B32 /* Signup_DetailsViewController.swift */,
+				07E879B8239EFD05005F8B32 /* Signup_ImageViewController.swift */,
+			);
+			path = SignUp;
 			sourceTree = "<group>";
 		};
 		134945BB49CB4BF0EE5EB2C6 /* Pods */ = {
@@ -617,20 +653,24 @@
 				076A412A2398838600C66BC4 /* CategoriesViewController.swift in Sources */,
 				076A412F239896FF00C66BC4 /* CategoriesTableViewCell2.swift in Sources */,
 				070C0AA82361312B002CEE22 /* SetUpFilesPage.swift in Sources */,
+				07E879B7239EFCF3005F8B32 /* Signup_DetailsViewController.swift in Sources */,
 				075B2E58235F4949008E2B1B /* ProfileViewController.swift in Sources */,
 				077AD8F12370D68E00890370 /* NewStoryContinuedViewController.swift in Sources */,
 				07F813BE2371C121009AC617 /* CatigorySelectorViewController.swift in Sources */,
 				070C0A9E2360DC80002CEE22 /* SearchTableViewCell.swift in Sources */,
 				076A412C239896C600C66BC4 /* CategoriesTableViewCell1.swift in Sources */,
 				07C3C3682388AB3D0042B5AF /* CollectionTableViewController.swift in Sources */,
+				07E879B0239EFBA9005F8B32 /* LoginViewController.swift in Sources */,
 				07326067239958BB008282B7 /* CategoriesTableViewCell3.swift in Sources */,
 				07C3C366238866670042B5AF /* ProfileTableViewCell2.swift in Sources */,
 				07E581E3238DBFAE00856AB2 /* QueueViewController.swift in Sources */,
 				0796482723917316005596B8 /* ProfileNavController.swift in Sources */,
 				07E581E5238DC09700856AB2 /* QueueTableViewCell.swift in Sources */,
 				07F3CBE32375AE0E00DD3793 /* AudioPlayer.swift in Sources */,
+				07E879B2239EFBBE005F8B32 /* SignupViewController.swift in Sources */,
 				07F3CBE1237329FF00DD3793 /* PlayerViewController.swift in Sources */,
 				070C0A982360915E002CEE22 /* ColorExtensions.swift in Sources */,
+				07E879B9239EFD05005F8B32 /* Signup_ImageViewController.swift in Sources */,
 				078B123323674B0100764369 /* NewStoryViewController.swift in Sources */,
 				075B2E52235E1048008E2B1B /* HomeTableViewCell.swift in Sources */,
 				075B2E1F235E0F55008E2B1B /* SceneDelegate.swift in Sources */,
