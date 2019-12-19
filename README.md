@@ -1,2 +1,0 @@
-# Listnr
-Our CEL project
