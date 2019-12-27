@@ -82,11 +82,12 @@ class CollectionTableViewController: UITableViewController {
         return cell
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        AudioPlayer.shared.queue = []
+        selectedCellDetailQueue = []
         for n in indexPath.row ..< content.stories.count {
-            AudioPlayer.shared.queue.append(queueItem(currentStory: content.stories[n], currentCollection: content))
+            selectedCellDetailQueue.append(queueItem(currentStory: content.stories[n], currentCollection: content))
         }
-        AudioPlayer.shared.isPlaying = true
+        selectedCellDetailStory = content.stories[indexPath.row]
+        NotificationCenter.default.post(name: Notification.Name("presentSelectedCellDetail"), object: nil)
     }
     
     // MARK: - Actions

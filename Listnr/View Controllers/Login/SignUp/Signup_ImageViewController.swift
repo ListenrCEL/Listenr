@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Firebase
 
-class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegate  {
+class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
     
     @IBOutlet weak var outsideView: UIView!
     @IBOutlet weak var insideView: UIView!
@@ -25,6 +25,8 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     var isTakingPhoto: Bool = true
     var front: Bool = true
+    var isAnImage: Bool = false
+    var imagePicked = UIImage()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,7 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         super.viewDidAppear(animated)
          setupCamera()
     }
+    //MARK setup camera
     func setupCamera() {
         isTakingPhoto = true
         previewView.isHidden = true
@@ -115,12 +118,12 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         guard let imageData = photo.fileDataRepresentation()
             else { return }
         isTakingPhoto = false
+        isAnImage = true
         let image = UIImage(data: imageData)
 //        previewView.image = proccessImage(image: image!)
         previewView.image = image
         previewView.isHidden = false
         photoButton.setImage(UIImage(systemName: "gobackward"), for: .normal)
-        
         setupData.profileImage = image!
     }
     func proccessImage(image: UIImage) -> UIImage {
@@ -140,10 +143,11 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         previewView.image = img
         return previewView.image!
     }
+    //MARK: Actions
     @IBAction func nextPressed(_ sender: UIButton) {
-        guard setupData.profileImage != nil else { return }
+        guard isAnImage == true else { return }
         userData.data = User(name: setupData.name, username: setupData.username, stories: [], collections: [], profileImage: setupData.profileImage, subscribers: 0)
-        
+        performSegue(withIdentifier: "next", sender: self)
     }
     
     @IBAction func flipPressed(_ sender: UIButton) {
@@ -160,5 +164,30 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         }
     }
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
+        importPicture()
+    }
+    //MARK: Image Picker
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        
+        dismiss(animated: true)
+        
+        imagePicked = image
+        isAnImage = true
+        previewView.image = imagePicked
+        previewView.isHidden = false
+        
+        setupData.profileImage = image
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        isAnImage = false
+        picker.dismiss(animated: true, completion: nil)
+        
+    }
+    func importPicture() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        present(picker, animated: true)
     }
 }

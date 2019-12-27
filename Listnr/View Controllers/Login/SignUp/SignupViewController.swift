@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 // Probly shouldnt be global but wtf
 struct setupUser {
@@ -14,8 +15,8 @@ struct setupUser {
     var password = String()
     var username = String()
     var name = String()
-    var age = Int()
     var profileImage = UIImage()
+    var privacyPolicy = Bool()
 }
 var setupData = setupUser()
 
@@ -30,7 +31,6 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
         emailTextFeild.delegate = self
         passwordTextFeild.delegate = self
         confirmTextFeild.delegate = self
-        // Do any additional setup after loading the view.
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
            textField.resignFirstResponder()
@@ -38,6 +38,10 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
        }
     // TODO - make alert controller
     @IBAction func onNextButtonPressed(_ sender: UIButton) {
+        guard setupData.privacyPolicy != false else {
+            performSegue(withIdentifier: "privacyPolicy", sender: self)
+            return
+        }
         guard emailTextFeild.text != "" else {
             let alertController = UIAlertController(title: "Error", message: "Missing Email", preferredStyle: .alert)
             let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
@@ -66,7 +70,19 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
             present(alertController, animated: true, completion: nil)
             return
         }
-        performSegue(withIdentifier: "next", sender: self)
+        Auth.auth().createUser(withEmail: emailTextFeild.text!, password: passwordTextFeild.text!) { authResult, error in
+            if error == nil {
+                
+                print("You have successfully signed up")
+                self.performSegue(withIdentifier: "next", sender: self)
+                
+            } else {
+                let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "next" {

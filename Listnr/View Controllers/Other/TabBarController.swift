@@ -42,6 +42,7 @@ class TabBarController: UITabBarController {
         NotificationCenter.default.addObserver(self, selector: #selector(presentPlayer), name: Notification.Name("presentPlayer"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(presentNewCollection), name: Notification.Name("newCollection"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(setupPlayer), name: Notification.Name("updatingPlayer"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(presentSelectedCellDetail), name: Notification.Name("presentSelectedCellDetail"), object: nil)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -62,6 +63,11 @@ class TabBarController: UITabBarController {
     }
     @objc func presentPlayer() {
         performSegue(withIdentifier: "playerView", sender: self)
+    }
+    @objc func presentSelectedCellDetail() {
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let vc = storyBoard.instantiateViewController(withIdentifier: "SelectedCellDetailViewController") as! SelectedCellDetailViewController
+        self.present(vc, animated: true, completion: nil)
     }
     @objc func setupPlayer() {
         if AudioPlayer.shared.queue.count == 0 {

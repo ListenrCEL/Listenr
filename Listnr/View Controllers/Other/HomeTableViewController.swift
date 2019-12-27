@@ -30,15 +30,10 @@ class HomeTableViewController: UITableViewController {
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        cellData = []
         setupHomePage()
         // seting up the tabbar so that it can present stuff
         self.tabBarController?.delegate = UIApplication.shared.delegate as? UITabBarControllerDelegate
-        // populates cellData
-        var index = 0
-        for _ in homeHeaderTitleArray {
-            cellData.append(homePageCellData(headerTitle: homeHeaderTitleArray[index], headerDescription: homeHeaderDescriptionArray[index], collectionViewContent: [homeCollectionViewContentArray[index]]))
-            index += 1
-        }
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -66,13 +61,8 @@ class HomeTableViewController: UITableViewController {
         tableViewCell.setCollectionViewDataSourceDelegate( dataSourceDelegate: self, forRow: indexPath.row)
     }
     @objc func reload() {
-        setupHomePage()
         cellData = []
-        var index = 0
-        for _ in homeHeaderTitleArray {
-            cellData.append(homePageCellData(headerTitle: homeHeaderTitleArray[index], headerDescription: homeHeaderDescriptionArray[index], collectionViewContent: [homeCollectionViewContentArray[index]]))
-            index += 1
-        }
+        setupHomePage()
         tableView.reloadData()
     }
     @IBAction func refreshing(_ sender: UIRefreshControl) {
@@ -127,11 +117,13 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
                 cell.title.textAlignment = .left
                 cell.artist.text = data[indexPath.row].creator.name
             }
-        } else if homeHeaderTitleArray[collectionView.tag] != "Categories" || homeHeaderTitleArray[collectionView.tag] != "Subscribed" || homeHeaderTitleArray[collectionView.tag] != "Recents" {
-            cell.coverArt.image = data[indexPath.row].coverArt
+        } else {
+            cell.coverArt.image = nil
+            cell.coverArt.backgroundColor = model[indexPath.row][collectionView.tag]
             cell.indicator.isHidden = true
-            cell.title.text = data[indexPath.row].title
-            cell.artist.text = data[indexPath.row].creator.name
+            cell.title.text = ""
+            cell.artist.text = ""
+            cell.layer.cornerRadius = 5
             return cell
         }
         return cell
@@ -155,9 +147,11 @@ extension HomeTableViewController: UICollectionViewDelegate, UICollectionViewDat
 //MARK: - setupHomePage
 extension HomeTableViewController {
     func setupHomePage() {
+        // seting up sections
         homeHeaderTitleArray = []
         homeHeaderDescriptionArray = []
         homeCollectionViewContentArray = []
+        
         if userData.subscribedUsers.count != 0 {
             homeHeaderTitleArray.append("Subscribed")
             homeHeaderDescriptionArray.append("Latest from the people you subscribed to")
@@ -168,11 +162,15 @@ extension HomeTableViewController {
         }
         homeHeaderTitleArray.append("Categories")
         homeHeaderDescriptionArray.append("Categories of stories")
-        homeHeaderTitleArray.append("Discover")
-        homeHeaderDescriptionArray.append("Find new stories from around the world")
         homeHeaderTitleArray.append("Trending")
-        
         homeHeaderDescriptionArray.append("Todays top stories")
+        homeHeaderTitleArray.append("Discover")
+        homeHeaderDescriptionArray.append("Find stories from around the world")
+//        let content: [String : String] = ["Categories" : "Categories of stories", "Trending" : "Todays top stories", "Discover" : "Find new stories from around the world"]
+//        for (key, value) in content {
+//            homeHeaderTitleArray.append(key)
+//            homeHeaderDescriptionArray.append(value)
+//        }
         var sampleIndex = 0
         let sampleSequence = 1...8
         
@@ -195,13 +193,18 @@ extension HomeTableViewController {
                     input.append(userData.recentCollections[n].rCollection)
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
-            } else if title != "Subscribed" || title != "Categories" || title != "Recents"{
-                for n in sampleSequence {
-                    input.insert(collection(stories: userData.data.stories, title: "Collection \(n)", creator: userData.data ,coverArt: UIImage(named: "Image1")!), at: input.endIndex)
+            } else {
+                for _ in sampleSequence {
+                    input.insert(collection(stories: [], title: "", creator: User(name: "", username: "", stories: [], collections: [], profileImage: UIImage(named: "noImageIcon")!, subscribers: 0) ,coverArt: UIImage(named: "noImageIcon")!), at: input.endIndex)
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
             }
             sampleIndex += 1
+        }
+        var index = 0
+        for _ in homeHeaderTitleArray {
+            cellData.append(homePageCellData(headerTitle: homeHeaderTitleArray[index], headerDescription: homeHeaderDescriptionArray[index], collectionViewContent: [homeCollectionViewContentArray[index]]))
+            index += 1
         }
     }
 }

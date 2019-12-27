@@ -50,7 +50,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             if error == nil {
                 print("You have successfully signed up")
+        
                 self.performSegue(withIdentifier: "loginToTabBar", sender: self)
+                // TODO - login user
                 
                 
             } else {

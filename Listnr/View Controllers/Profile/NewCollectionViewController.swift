@@ -38,10 +38,9 @@ class NewCollectionViewController: UIViewController, UITextFieldDelegate, UIImag
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         isAnImage = false
-        let picker = UIImagePickerController()
         picker.dismiss(animated: true, completion: nil)
-        
     }
+        
     func importPicture() {
         let picker = UIImagePickerController()
         picker.allowsEditing = true

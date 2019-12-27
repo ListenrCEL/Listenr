@@ -67,7 +67,7 @@ struct collection {
 
 // MARK: - Classes
 class currentUser {
-    var data: User = User(name: "OLiver Russia", username: "@The GOAT", stories: [], collections: [], profileImage: UIImage(named: "Image1")!, subscribers: 666)
+    var data: User = User(name: "Demo User", username: "@Demo", stories: [], collections: [], profileImage: UIImage(named: "Image1")!, subscribers: 666)
     var subscribedUsers: [subscribedUser] = []
     var recentCollections: [recentCollection] = []
 }
@@ -108,15 +108,15 @@ extension UserDefaults {
 //MARK: - TestData
 func setUpProfile() {
     // TEST - Setting up UserData
-    /*userData.data.stories = [
-        story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
+    userData.data.stories = [
+        story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "image3")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
         story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!, views: 40),
         story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!, views: 77),
-    ]*/
+    ]
     let db = Firestore.firestore()
     let docRef = db.collection("users").document(userData.data.username)
     
-    docRef.getDocument { (document, error) in
+    /* docRef.getDocument { (document, error) in
         if let document = document, document.exists {
             let dataDescription = document.data()!
             let storyDict = NSMutableDictionary(dictionary: dataDescription)
@@ -124,12 +124,12 @@ func setUpProfile() {
             print("Stories: \(allStories)")
             for i in 0..<allStories.count
             {
-                userData.data.stories.append(story(title: allStories[i] as! String, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!, views: 69))
+                userData.data.stories.append(story(title: allStories[i] as! String, creator: userData.data, coverArt: UIImage(named: "image3")!, dateUploaded: "", anonomous: false, storyURl: orangeFoot!, views: 69))
             }
         } else {
             print("Document does not exist")
         }
-    }
+    }*/
     userData.data.collections = [
         collection(stories: userData.data.stories, title: "I love eating pizza", creator: userData.data, coverArt: UIImage(named: "Image2")!, views: 876)
     ]
@@ -162,7 +162,7 @@ func setupTestUsers() {
 //    setUpProfile()
     // Theo
     var theo = User(name: "THEo Xiong", username: "@TTTTHHHEEEO", stories:
-        [], collections: [], profileImage: UIImage(named: "noImageIcon")!, subscribers: 420)
+        [], collections: [], profileImage: UIImage(named: "image3")!, subscribers: 420)
     var titles = ["Big man Theo", "How to wrestle a gurilla", "Being a coding god"]
     let images = [ "Image1", "Growing up", "Image2"]
     let songs = ["orangeFoot", "If_I_Had_a_Chicken","Mr_Tea"]
@@ -173,6 +173,7 @@ func setupTestUsers() {
     }
     theo.stories.append(story(title: "Test", creator: theo, coverArt: UIImage(named: images[1])!, dateUploaded: "", anonomous: true, storyURl: Bundle.main.url(forResource: songs[1], withExtension: "mp3")!, views: 72))
     theo.collections.append(collection(stories: theo.stories, title: "My expert violin training", creator: theo, coverArt: UIImage(named: "Image2")!))
+    
     // David
     var david = User(name: "DAvee LubeLL", username: "@Lil d (David)", stories:
         [], collections: [], profileImage: UIImage(named: "Growing up")!, subscribers: 69)
@@ -182,8 +183,40 @@ func setupTestUsers() {
         david.stories.append(story(title: title, creator: david, coverArt: UIImage(named: images[index])!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: songs[index], withExtension: "mp3")!, views: 17))
         index += 1
     }
-    david.collections.append(collection(stories: david.stories, title: "How to make an app logo", creator: theo, coverArt: UIImage(named: "noImageIcon")!))
-    users = [theo, david, userData.data]
-    print(userData.data.stories)
+    david.collections.append(collection(stories: david.stories, title: "How to make an app logo", creator: theo, coverArt: UIImage(named: "image3")!))
+    
+    // Oliver Russia
+    var oliver = User(name: "Oliver Russia", username: "@Violin Man", stories:
+        [], collections: [], profileImage: UIImage(named: "Image1")!, subscribers: 69)
+    index = 0
+    titles = ["Man i love russia", "Wow what an awesome app", "I've actually never been to russia 😬"]
+    for title in titles {
+        oliver.stories.append(story(title: title, creator: oliver, coverArt: UIImage(named: images[index])!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: songs[index], withExtension: "mp3")!, views: 17))
+        index += 1
+    }
+    oliver.collections.append(collection(stories: oliver.stories, title: "Small Boi Chronicles", creator: oliver, coverArt: UIImage(named: "image3")!))
+    
+    // Jimmy
+    var jimmy = User(name: "Jimmy John", username: "@Jimmmmmmy", stories:
+        [], collections: [], profileImage: UIImage(named: "jimmy photo")!, subscribers: 69)
+    index = 0
+    titles = ["Pizza time", "whats a flingo", "happy sunday!!!"]
+    for title in titles {
+        jimmy.stories.append(story(title: title, creator: jimmy, coverArt: UIImage(named: images[index])!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: songs[index], withExtension: "mp3")!, views: 17))
+        index += 1
+    }
+    jimmy.collections.append(collection(stories: jimmy.stories, title: "jimmys life", creator: jimmy, coverArt: UIImage(named: "image3")!))
+    
+    // Edgar
+    var edgar = User(name: "Edgar Morse", username: "@Eddy", stories:
+        [], collections: [], profileImage: UIImage(named: "Edgar Morse")!, subscribers: 69)
+    index = 0
+    titles = ["Pizza time", "whats a flingo", "happy sunday!!!"]
+    for title in titles {
+        edgar.stories.append(story(title: title, creator: edgar, coverArt: UIImage(named: images[index])!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: songs[index], withExtension: "mp3")!, views: 17))
+        index += 1
+    }
+    edgar.collections.append(collection(stories: jimmy.stories, title: "edgar's life", creator: edgar, coverArt: UIImage(named: "image3")!))
+    users = [theo, david, oliver, jimmy, edgar]
 }
 

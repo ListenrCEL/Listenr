@@ -104,7 +104,7 @@ class ProfileViewController: UITableViewController {
             NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         }
         let color = profileUser.profileImage.averageColor
-        if (color?.isLight())! {
+        if ((color?.isLight() ?? false)) {
             nameLabel.textColor = .black
             username.titleLabel?.textColor = .black
             subscribeButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.26)
@@ -231,7 +231,12 @@ extension ProfileViewController {
         
         let sectionTitles = ["Collections","Stories"]
         if profileUser.stories.count == 0 && profileUser.collections.count == 0 {
-            label.text = "Add Stories"
+            if profileUser.username == userData.data.username {
+                label.text = "Add Stories"
+            } else {
+                label.text = "No Stories"
+            }
+            
             view.addSubview(label)
         } else {
             label.text = sectionTitles[section]
@@ -330,18 +335,19 @@ extension ProfileViewController {
             selectedCollection = profileUser.collections[indexPath.row]
             performSegue(withIdentifier: "toCollection", sender: self)
         } else {
-            guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileUser.stories[indexPath.row].storyURl else { return }
-            AudioPlayer.shared.queue = []
+            //            guard AudioPlayer.shared.queue.first?.currentStory.storyURl != profileUser.stories[indexPath.row].storyURl else { return }
+            selectedCellDetailQueue = []
             for n in indexPath.row ..< profileUser.stories.count {
                 if profileUser.stories[n].anonomous == true {
                     if profileUser.username == userData.data.username {
-                        AudioPlayer.shared.queue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                        selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
                     }
                 } else {
-                    AudioPlayer.shared.queue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                    selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
                 }
             }
-            AudioPlayer.shared.isPlaying = true
+            selectedCellDetailStory = profileUser.stories[indexPath.row]
+            NotificationCenter.default.post(name: Notification.Name("presentSelectedCellDetail"), object: nil)
         }
     }
     override func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {

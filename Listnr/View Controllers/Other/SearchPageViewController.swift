@@ -12,21 +12,28 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     
     // MARK: - Setup
     @IBOutlet weak var tableView: UITableView!
-
+    
     var searchType: [String] = ["Users", "Collections", "Stories"]
+    
     var searchUsers: [User] = []
     var searchStories: [story] = []
     var searchCollections: [collection] = []
+    
     var recentSearchesUser: [User] = []
     var recentSearchesCollection: [collection] = []
     var recentSearchesStory: [story] = []
-    var searching: Bool = false
-    var selectedColection = collection()
-    let defaults = UserDefaults.standard
     
-//    enum recentSearch {
-//        case recentSearchesUser: [User] = []
-//    }
+    var searching: Bool = false
+    
+    var selectedColection = collection()
+    
+    var recentSearches: [recentSearch] = []
+    
+    enum recentSearch {
+        case user(User)
+        case collection(collection)
+        case story(story)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,13 +55,6 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             nvc.content = selectedColection
         }
     }
-    
-//    func saveRecents() {
-//        UserDefaults.standard.setStructArray(recentSearchesUser, forKey: "saveRecentUsers")
-//        let pizzas: [Pizza] = UserDefaults.standard.structArrayData(Pizza.self, forKey: allPizzasKey)
-//        print("All pizzas: \(pizzas)")
-//    }
-    
     //MARK: searchResults
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
@@ -66,6 +66,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         for x in 0 ..< users.count {
             var input = users[x].username
             input.remove(at: input.startIndex)
+//            let t = text.range(of: text, options: .caseInsensitive)
             if input.hasPrefix(text) {
                 searchUsers.append(users[x])
             }
@@ -124,6 +125,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         let view = UIView()
         let label = UILabel()
         
+        view.backgroundColor = .systemBackground
         label.frame = CGRect(x: 5, y: 5, width: 200, height: 30)
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
         label.text = searchType[section]
@@ -162,6 +164,13 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: cellForRow
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableViewCell
+//        if searching == false {
+//            if indexPath.section == 0 {
+//                if recentSearches[indexPath.row] = .user {
+//
+//                }
+//            }
+//        }
         if searchType[indexPath.section] == "Users" {
             let size = cell.cellImage.bounds.width
             cell.cellImage.layer.cornerRadius = (size)/2
@@ -193,9 +202,9 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             cell.cellImage.layer.cornerRadius = 5
             cell.accessoryType = .none
             if searching == true {
-            cell.cellImage.image = searchStories[indexPath.row].coverArt
-            cell.title.text = searchStories[indexPath.row].title
-            cell.creatorLabel.text = searchStories[indexPath.row].creator.name
+                cell.cellImage.image = searchStories[indexPath.row].coverArt
+                cell.title.text = searchStories[indexPath.row].title
+                cell.creatorLabel.text = searchStories[indexPath.row].creator.name
             } else {
                 cell.cellImage.image = recentSearchesStory[indexPath.row].coverArt
                 cell.title.text = recentSearchesStory[indexPath.row].title
@@ -208,6 +217,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         if indexPath.section == 0 {
             if searching == true {
                 recentSearchesUser.append(searchUsers[indexPath.row])
+//                recentSearches.append(.user(searchUsers[indexPath.row]))
             }
             profileUser = searchUsers[indexPath.row]
             performSegue(withIdentifier: "toProfile", sender: self)
@@ -221,11 +231,14 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
             if searching == true {
                 recentSearchesStory.append(searchStories[indexPath.row])
             }
-            AudioPlayer.shared.isPlaying = false
-            AudioPlayer.shared.audioPlayer?.stop()
-            AudioPlayer.shared.queue = []
-            AudioPlayer.shared.queue.append(queueItem(currentStory: searchStories[indexPath.row], currentCollection: collection(stories: [], title: "", creator: userData.data, coverArt: UIImage(named: "noImageIcon")!)))
-            AudioPlayer.shared.isPlaying = true
+            selectedCellDetailQueue = []
+            selectedCellDetailQueue.append(queueItem(currentStory: searchStories[indexPath.row], currentCollection: collection(stories: [], title: "", creator: userData.data, coverArt: UIImage(named: "image3")!)))
+            selectedCellDetailStory = searchStories[indexPath.row]
+            NotificationCenter.default.post(name: Notification.Name("presentSelectedCellDetail"), object: nil)
         }
     }
 }
+
+
+
+
