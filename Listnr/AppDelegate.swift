@@ -13,6 +13,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
     
     
+    
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController is NewStoryNavBar {
             if let newVC = tabBarController.storyboard?.instantiateViewController(withIdentifier: "NewStoryNavBar") {

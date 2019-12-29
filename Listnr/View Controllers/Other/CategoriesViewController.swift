@@ -10,7 +10,6 @@ import UIKit
 
 class CategoriesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var categoryTitleLabel: UILabel!

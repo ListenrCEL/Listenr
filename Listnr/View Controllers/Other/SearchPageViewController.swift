@@ -64,11 +64,18 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         searchStories = []
         searchCollections = []
         for x in 0 ..< users.count {
-            var input = users[x].username
-            input.remove(at: input.startIndex)
-//            let t = text.range(of: text, options: .caseInsensitive)
-            if input.hasPrefix(text) {
+            
+            var username = users[x].username
+            username.remove(at: username.startIndex)
+            //            let t = text.range(of: text, options: .caseInsensitive)
+            if username.hasPrefix(text) {
                 searchUsers.append(users[x])
+            } else {
+                
+                let name = users[x].name
+                if name.hasPrefix(text) {
+                    searchUsers.append(users[x])
+                }
             }
             searchUsers.sort {
                 $0.subscribers > $1.subscribers
@@ -164,13 +171,13 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: cellForRow
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SearchTableViewCell
-//        if searching == false {
-//            if indexPath.section == 0 {
-//                if recentSearches[indexPath.row] = .user {
-//
-//                }
-//            }
-//        }
+        //        if searching == false {
+        //            if indexPath.section == 0 {
+        //                if recentSearches[indexPath.row] = .user {
+        //
+        //                }
+        //            }
+        //        }
         if searchType[indexPath.section] == "Users" {
             let size = cell.cellImage.bounds.width
             cell.cellImage.layer.cornerRadius = (size)/2
@@ -217,7 +224,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         if indexPath.section == 0 {
             if searching == true {
                 recentSearchesUser.append(searchUsers[indexPath.row])
-//                recentSearches.append(.user(searchUsers[indexPath.row]))
+                //                recentSearches.append(.user(searchUsers[indexPath.row]))
             }
             profileUser = searchUsers[indexPath.row]
             performSegue(withIdentifier: "toProfile", sender: self)

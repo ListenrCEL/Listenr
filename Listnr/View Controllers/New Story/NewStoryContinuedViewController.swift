@@ -65,6 +65,7 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
                 categories[indexPath].stories.append(theStory)
             }
         }
+        
         dismiss(animated: false)
         // imageURL
         // MARK: FIREBASE

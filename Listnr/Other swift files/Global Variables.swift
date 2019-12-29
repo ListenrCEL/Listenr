@@ -109,9 +109,9 @@ extension UserDefaults {
 func setUpProfile() {
     // TEST - Setting up UserData
     userData.data.stories = [
-        story(title: "OrangeFOOOOOOOT", creator: userData.data, coverArt: UIImage(named: "image3")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
-        story(title: "Chicken man", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!, views: 40),
-        story(title: "MR_TEA", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!, views: 77),
+        story(title: "test story", creator: userData.data, coverArt: UIImage(named: "image3")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
+        story(title: "test story", creator: userData.data, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!, views: 40),
+        story(title: "test story", creator: userData.data, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!, views: 77),
     ]
     let db = Firestore.firestore()
     let docRef = db.collection("users").document(userData.data.username)
@@ -135,16 +135,28 @@ func setUpProfile() {
     ]
     // Firebase
     loadStoriesProfile()
+    
+    //Listenr
+    var listenr = User(name: "Listenr", username: "@Listenr", stories:
+    [], collections: [], profileImage: UIImage(named: "noImageIcon")!, subscribers: 0)
+    
     // Setting up categories
     let catigoriesTitlesArray: [String] = ["Comedy","Growing up","Advice","Motivation","Pride","Nature","Injury"]
     var index = 0
     for title in catigoriesTitlesArray {
-        categories.append(collection(stories: userData.data.stories, title: title, creator: userData.data, coverArt: UIImage(named: catigoriesTitlesArray[index])!))
+        categories.append(collection(stories: [
+            story(title: "test story", creator: listenr, coverArt: UIImage(named: "image3")!, dateUploaded: "", anonomous: true, storyURl: orangeFoot!, views: 300),
+            story(title: "test story", creator: listenr, coverArt: UIImage(named: "Image1")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "If_I_Had_a_Chicken", withExtension: "mp3")!, views: 40),
+            story(title: "test story", creator: listenr, coverArt: UIImage(named: "Image2")!, dateUploaded: "", anonomous: false, storyURl: Bundle.main.url(forResource: "Mr_Tea", withExtension: "mp3")!, views: 77),
+        ], title: title, creator: listenr, coverArt: UIImage(named: catigoriesTitlesArray[index])!))
         index += 1
     }
     for n in 0 ..< users.count {
         userData.subscribedUsers.append(subscribedUser(sUser: users[n], new: true))
     }
+    // listnr
+    listenr.collections = categories
+    users.append(listenr)
     
     //Making sure there are no more then 15 recents
     var recents: [recentCollection] = []
@@ -217,6 +229,7 @@ func setupTestUsers() {
         index += 1
     }
     edgar.collections.append(collection(stories: jimmy.stories, title: "edgar's life", creator: edgar, coverArt: UIImage(named: "image3")!))
+    
     users = [theo, david, oliver, jimmy, edgar]
 }
 

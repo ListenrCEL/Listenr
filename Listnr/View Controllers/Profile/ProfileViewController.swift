@@ -106,7 +106,7 @@ class ProfileViewController: UITableViewController {
         let color = profileUser.profileImage.averageColor
         if ((color?.isLight() ?? false)) {
             nameLabel.textColor = .black
-            username.titleLabel?.textColor = .black
+            username.setTitleColor(.black, for: .normal)
             subscribeButton.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.26)
             subsLabel.textColor = .black
             subsIcon.tintColor = .black

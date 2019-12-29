@@ -22,6 +22,7 @@ class NewStoryViewController: UIViewController, AVAudioRecorderDelegate {
     var recorder: AVAudioRecorder!
     var player: AVAudioPlayer!
     
+    
     // MARK: ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()

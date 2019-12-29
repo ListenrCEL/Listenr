@@ -10,6 +10,7 @@ import UIKit
 
 var selectedCategories = IndexPath()
 
+
 class CatigorySelectorViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
