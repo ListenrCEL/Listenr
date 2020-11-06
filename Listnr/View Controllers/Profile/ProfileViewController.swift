@@ -205,6 +205,7 @@ class ProfileViewController: UITableViewController {
             }
             guard newCollectionArray.count != 0 else {return}
             edit = false
+            
             NotificationCenter.default.post(name: Notification.Name("newCollection"), object: nil)
         }
     }

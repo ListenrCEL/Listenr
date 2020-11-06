@@ -19,21 +19,25 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     var searchStories: [story] = []
     var searchCollections: [collection] = []
     
+    var searchResults : [Any] = []
+    
     var recentSearchesUser: [User] = []
     var recentSearchesCollection: [collection] = []
     var recentSearchesStory: [story] = []
     
+    var recentSearchs : [Any] = []
+    
     var searching: Bool = false
     
     var selectedColection = collection()
-    
-    var recentSearches: [recentSearch] = []
-    
-    enum recentSearch {
-        case user(User)
-        case collection(collection)
-        case story(story)
-    }
+//
+//    var recentSearches: [recentSearch] = []
+//
+//    enum recentSearch {
+//        case user(User)
+//        case collection(collection)
+//        case story(story)
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -179,10 +183,12 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
         //            }
         //        }
         if searchType[indexPath.section] == "Users" {
+//            let user = searchResults[indexPath.row] as! User
             let size = cell.cellImage.bounds.width
             cell.cellImage.layer.cornerRadius = (size)/2
             cell.accessoryType = .disclosureIndicator
             if searching == true {
+//                cell.title.text = user.name
                 cell.cellImage.image = searchUsers[indexPath.row].profileImage
                 cell.title.text = searchUsers[indexPath.row].name
                 cell.creatorLabel.text = searchUsers[indexPath.row].username

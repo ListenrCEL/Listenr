@@ -859,6 +859,7 @@
 			baseConfigurationReference = 26B1665565B5056CA4C7F196 /* Pods-Listnr.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C8C6KX36TY;
 				INFOPLIST_FILE = Listnr/Info.plist;
@@ -868,6 +869,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = OM.Listnr;
 				PRODUCT_NAME = Listenr;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -878,6 +880,7 @@
 			baseConfigurationReference = 14470C385F5AF619E6A2B0DE /* Pods-Listnr.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C8C6KX36TY;
 				INFOPLIST_FILE = Listnr/Info.plist;
@@ -887,6 +890,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = OM.Listnr;
 				PRODUCT_NAME = Listenr;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
