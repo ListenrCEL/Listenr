@@ -25,7 +25,6 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
     var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     var isTakingPhoto: Bool = true
     var front: Bool = true
-    var isAnImage: Bool = false
     var imagePicked = UIImage()
     
     override func viewDidLoad() {
@@ -118,12 +117,12 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         guard let imageData = photo.fileDataRepresentation()
             else { return }
         isTakingPhoto = false
-        isAnImage = true
         let image = UIImage(data: imageData)
 //        previewView.image = proccessImage(image: image!)
         previewView.image = image
         previewView.isHidden = false
         photoButton.setImage(UIImage(systemName: "gobackward"), for: .normal)
+        
         setupData.profileImage = image!
     }
     func proccessImage(image: UIImage) -> UIImage {
@@ -145,9 +144,35 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
     }
     //MARK: Actions
     @IBAction func nextPressed(_ sender: UIButton) {
-        guard isAnImage == true else { return }
-        userData.data = User(name: setupData.name, username: setupData.username, stories: [], collections: [], profileImage: setupData.profileImage, subscribers: 0)
-        performSegue(withIdentifier: "next", sender: self)
+        guard let image = setupData.profileImage else { return }
+        
+        //uploading profile image
+        let storage = Storage.storage()
+        let clipRef = storage.reference().child(setupData.username! + "/" + "profileImage" + ".jpg")
+        if let uploadData = image.pngData() {
+            clipRef.putData(uploadData, metadata: nil) { (metadata, error) in
+                if let err = error {
+                    print(err)
+                } else {
+                    let data = User(name: setupData.name!, username: setupData.username!, stories: [], collections: [], profileImage: image, subscribers: 0)
+                    let db = Firestore.firestore()
+                    let docRef = db.collection("users").document(setupData.username!)
+                    docRef.setData([
+                        "name" : setupData.name!,
+                        "username" : setupData.username!,
+                        "email" : setupData.email!
+                    ], merge: true) { err in
+                        if let err = err {
+                            print("Error writing document: \(err)")
+                        } else {
+                            print("Account created")
+                            setupAcount(user: data)
+                            self.performSegue(withIdentifier: "next", sender: self)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     @IBAction func flipPressed(_ sender: UIButton) {
@@ -166,6 +191,11 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
     @IBAction func libraryButtonPressed(_ sender: UIButton) {
         importPicture()
     }
+    @IBAction func backPressed(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
+
+    }
+    
     //MARK: Image Picker
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let image = info[.editedImage] as? UIImage else { return }
@@ -173,14 +203,12 @@ class Signup_ImageViewController: UIViewController, AVCapturePhotoCaptureDelegat
         dismiss(animated: true)
         
         imagePicked = image
-        isAnImage = true
         previewView.image = imagePicked
         previewView.isHidden = false
         
         setupData.profileImage = image
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        isAnImage = false
         picker.dismiss(animated: true, completion: nil)
         
     }

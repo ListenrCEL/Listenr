@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-var newCollectionArray: [story] = []
+var newCollectionArray: [Story] = []
 var profileUser = User()
 
 class ProfileViewController: UITableViewController {
@@ -23,9 +23,9 @@ class ProfileViewController: UITableViewController {
     @IBOutlet weak var subsIcon: UIImageView!
     
     var randomColor: [[UIColor]] = generateRandomData()
-    var selectedCollection = collection()
-    var stories: [story] = []
-    var collections: [collection] = []
+    var selectedCollection = Collection()
+    var stories: [Story] = []
+    var collections: [Collection] = []
     
     
     // MARK: - Edit
@@ -82,7 +82,7 @@ class ProfileViewController: UITableViewController {
                 }
             }
             // seting up recents
-            let insert = recentCollection(rCollection: collection(stories: profileUser.stories, title: profileUser.name, creator: profileUser, coverArt: profileUser.profileImage), isProfile: true)
+            let insert = RecentCollection(rCollection: Collection(stories: profileUser.stories, title: profileUser.name, creator: profileUser, coverArt: profileUser.profileImage), isProfile: true)
             if userData.recentCollections.count == 0 {
                 userData.recentCollections.insert(insert, at: 0)
             } else {
@@ -131,7 +131,7 @@ class ProfileViewController: UITableViewController {
     }
     @IBAction func subscribePressed(_ sender: Any) {
         if subscribeButton.titleLabel?.text == "Subscribe" {
-            userData.subscribedUsers.append(subscribedUser(sUser: profileUser, new: false))
+            userData.subscribedUsers.append(SubscribedUser(sUser: profileUser, new: false))
             profileUser.subscribers += 1
             subsLabel.text = String(profileUser.subscribers)
             subscribeButton.setTitle("Unsubscribe", for: .normal)
@@ -341,10 +341,10 @@ extension ProfileViewController {
             for n in indexPath.row ..< profileUser.stories.count {
                 if profileUser.stories[n].anonomous == true {
                     if profileUser.username == userData.data.username {
-                        selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                        selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: Collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
                     }
                 } else {
-                    selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
+                    selectedCellDetailQueue.append((queueItem(currentStory: profileUser.stories[n], currentCollection: Collection(stories: [], title: "Stories from \(profileUser.name)", creator: profileUser), profile: true)))
                 }
             }
             selectedCellDetailStory = profileUser.stories[indexPath.row]

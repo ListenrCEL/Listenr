@@ -12,8 +12,8 @@ import AVFoundation
 
 
 struct queueItem {
-    var currentStory = story()
-    var currentCollection = collection()
+    var currentStory = Story()
+    var currentCollection = Collection()
     var profile = Bool()
 }
 

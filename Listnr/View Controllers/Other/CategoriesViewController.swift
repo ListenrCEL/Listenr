@@ -16,7 +16,7 @@ class CategoriesViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var botomView: UIView!
     
-    var content = collection()
+    var content = Collection()
     
     override func viewDidLoad() {
         super.viewDidLoad()

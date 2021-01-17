@@ -12,20 +12,30 @@ import WebKit
 class PrivacyPolicyViewController: UIViewController {
     //TODO - make this work withought data
     
-    @IBOutlet weak var webview: WKWebView!
+    
+    @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var ageCheckBox: UIButton!
     @IBOutlet weak var privacyCheckBox: UIButton!
     @IBOutlet weak var nextButton: UIButton!
+    @IBOutlet weak var containerView: UIView!
     
     var age: Bool = false
     var privacy: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        let url = URL(string: "https://docs.google.com/document/d/1fBIb1v6XTrElgPp5ITJL2t7gQFNCbdgiBDJVuepN0dU/edit?usp=sharing")
-        webview.load(URLRequest(url: url!))
-        
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOpacity = 0.5
+        containerView.layer.shadowOffset = .zero
+        containerView.layer.shadowRadius = 5
+        if let rtfPath = Bundle.main.url(forResource: "Listnr Privacy Policy", withExtension: "rtf") {
+                do {
+                    let attributedStringWithRtf: NSAttributedString = try NSAttributedString(url: rtfPath, options: [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.rtf], documentAttributes: nil)
+                    self.textView.attributedText = attributedStringWithRtf
+                } catch let error {
+                    print("Got an error \(error)")
+                }
+            }
         showCancel()
     }
     func showCancel() {

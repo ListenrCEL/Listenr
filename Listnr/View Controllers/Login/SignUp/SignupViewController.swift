@@ -10,12 +10,13 @@ import UIKit
 import Firebase
 
 // Probly shouldnt be global but wtf
+//TODO - make this not global
 struct setupUser {
-    var email = String()
-    var password = String()
-    var username = String()
-    var name = String()
-    var profileImage = UIImage()
+    var email: String?
+    var password: String?
+    var username: String?
+    var name: String?
+    var profileImage: UIImage?
     var privacyPolicy = Bool()
 }
 var setupData = setupUser()
@@ -25,9 +26,14 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var emailTextFeild: UITextField!
     @IBOutlet weak var passwordTextFeild: UITextField!
     @IBOutlet weak var confirmTextFeild: UITextField!
+    @IBOutlet weak var nextButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        nextButton.setTitle("Next", for: .normal)
+        
         emailTextFeild.delegate = self
         passwordTextFeild.delegate = self
         confirmTextFeild.delegate = self
@@ -39,6 +45,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     // TODO - make alert controller
     @IBAction func onNextButtonPressed(_ sender: UIButton) {
         guard setupData.privacyPolicy != false else {
+            nextButton.setTitle("Create Acount", for: .normal)
             performSegue(withIdentifier: "privacyPolicy", sender: self)
             return
         }
@@ -77,6 +84,7 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
                 self.performSegue(withIdentifier: "next", sender: self)
                 
             } else {
+                print(error)
                 let alertController = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                 alertController.addAction(defaultAction)
@@ -86,9 +94,18 @@ class SignupViewController: UIViewController, UITextFieldDelegate {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "next" {
+            
+            let destinationVC = segue.destination as! Signup_DetailsViewController
+            destinationVC.email = emailTextFeild.text!
             setupData.email = emailTextFeild.text!
             setupData.password = passwordTextFeild.text!
         }
     }
+    @IBAction func backPressed(_ sender: UIButton) {
+        setupData = setupUser()
+        self.navigationController?.popViewController(animated: true)
+
+    }
+    
 }
 

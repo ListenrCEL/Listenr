@@ -17,15 +17,15 @@ class HomeTableViewController: UITableViewController {
     
     var homeHeaderTitleArray: [String] = []
     var homeHeaderDescriptionArray: [String] = []
-    var homeCollectionViewContentArray: [[collection]] = []
+    var homeCollectionViewContentArray: [[Collection]] = []
     
     var cellData: [homePageCellData] = []
-    var selectedCollection = collection()
+    var selectedCollection = Collection()
     
     struct homePageCellData {
         var headerTitle = String()
         var headerDescription = String()
-        var collectionViewContent: [[collection]] = []
+        var collectionViewContent: [[Collection]] = []
     }
     // MARK: ViewDidLoad
     override func viewDidLoad() {
@@ -184,7 +184,7 @@ extension HomeTableViewController {
                 }
             } else if title == "Subscribed" {
                 for n in 0 ..< userData.subscribedUsers.count {
-                    input.append(collection(stories: userData.subscribedUsers[n].sUser.stories, title: userData.subscribedUsers[n].sUser.name, creator: userData.subscribedUsers[n].sUser, coverArt: userData.subscribedUsers[n].sUser.profileImage))
+                    input.append(Collection(stories: userData.subscribedUsers[n].sUser.stories, title: userData.subscribedUsers[n].sUser.name, creator: userData.subscribedUsers[n].sUser, coverArt: userData.subscribedUsers[n].sUser.profileImage))
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
                 
@@ -195,7 +195,7 @@ extension HomeTableViewController {
                 }
             } else {
                 for _ in sampleSequence {
-                    input.insert(collection(stories: [], title: "", creator: User(name: "", username: "", stories: [], collections: [], profileImage: UIImage(named: "noImageIcon")!, subscribers: 0) ,coverArt: UIImage(named: "noImageIcon")!), at: input.endIndex)
+                    input.insert(Collection(stories: [], title: "", creator: User(name: "", username: "", stories: [], collections: [], profileImage: UIImage(named: "noImageIcon")!, subscribers: 0) ,coverArt: UIImage(named: "noImageIcon")!), at: input.endIndex)
                     homeCollectionViewContentArray.insert(input, at: sampleIndex)
                 }
             }

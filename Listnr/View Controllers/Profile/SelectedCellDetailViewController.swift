@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-var selectedCellDetailStory = story()
+var selectedCellDetailStory = Story()
 var selectedCellDetailQueue: [queueItem] = []
 
 class SelectedCellDetailViewController: UIViewController {

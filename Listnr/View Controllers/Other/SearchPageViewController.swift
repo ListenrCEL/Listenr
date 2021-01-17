@@ -16,20 +16,20 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
     var searchType: [String] = ["Users", "Collections", "Stories"]
     
     var searchUsers: [User] = []
-    var searchStories: [story] = []
-    var searchCollections: [collection] = []
+    var searchStories: [Story] = []
+    var searchCollections: [Collection] = []
     
     var searchResults : [Any] = []
     
     var recentSearchesUser: [User] = []
-    var recentSearchesCollection: [collection] = []
-    var recentSearchesStory: [story] = []
+    var recentSearchesCollection: [Collection] = []
+    var recentSearchesStory: [Story] = []
     
     var recentSearchs : [Any] = []
     
     var searching: Bool = false
     
-    var selectedColection = collection()
+    var selectedColection = Collection()
 //
 //    var recentSearches: [recentSearch] = []
 //
@@ -245,7 +245,7 @@ class SearchPageViewController: UIViewController, UITableViewDelegate, UITableVi
                 recentSearchesStory.append(searchStories[indexPath.row])
             }
             selectedCellDetailQueue = []
-            selectedCellDetailQueue.append(queueItem(currentStory: searchStories[indexPath.row], currentCollection: collection(stories: [], title: "", creator: userData.data, coverArt: UIImage(named: "image3")!)))
+            selectedCellDetailQueue.append(queueItem(currentStory: searchStories[indexPath.row], currentCollection: Collection(stories: [], title: "", creator: userData.data, coverArt: UIImage(named: "image3")!)))
             selectedCellDetailStory = searchStories[indexPath.row]
             NotificationCenter.default.post(name: Notification.Name("presentSelectedCellDetail"), object: nil)
         }

@@ -61,9 +61,9 @@ class NewCollectionViewController: UIViewController, UITextFieldDelegate, UIImag
             return
         }
         if isAnImage {
-            userData.data.collections.append(collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.data, coverArt: imagePicked))
+            userData.data.collections.append(Collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.data, coverArt: imagePicked))
         } else {
-            userData.data.collections.append(collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.data, coverArt: UIImage(named: "Image1")!))
+            userData.data.collections.append(Collection(stories: newCollectionArray, title: titleTextView.text!, creator: userData.data, coverArt: UIImage(named: "Image1")!))
         }
         NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
         dismiss(animated: true)

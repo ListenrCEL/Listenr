@@ -53,13 +53,13 @@ class NewStoryContinuedViewController: UIViewController, UITextFieldDelegate, UI
         }
         let url = NewStoryViewController.getURL()
         if isAnImage == true {
-            let theStory = story(title: title, creator: userData.data, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url)
+            let theStory = Story(title: title, creator: userData.data, coverArt: imagePicked, dateUploaded: date, anonomous: anonymous, storyURl: url)
             userData.data.stories.append(theStory)
             for indexPath in selectedCategories {
                 categories[indexPath].stories.append(theStory)
             }
         } else {
-            let theStory = story(title: title, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url)
+            let theStory = Story(title: title, creator: userData.data, coverArt: UIImage(named: "noImageIcon")!, dateUploaded: date, anonomous: anonymous, storyURl: url)
             userData.data.stories.append(theStory)
             for indexPath in selectedCategories {
                 categories[indexPath].stories.append(theStory)

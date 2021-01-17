@@ -11,7 +11,7 @@ import AVFoundation
 
 class CollectionTableViewController: UITableViewController {
     
-    var content = collection()
+    var content = Collection()
     @IBOutlet weak var creator: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var coverArt: UIImageView!
@@ -29,7 +29,7 @@ class CollectionTableViewController: UITableViewController {
         //        if content.creator.username != userData.data.username {
         //            userData.recentCollections.append(content)
         //        }
-        let insert = recentCollection(rCollection: content, isProfile: false)
+        let insert = RecentCollection(rCollection: content, isProfile: false)
         if userData.recentCollections.count == 0 {
             userData.recentCollections.insert(insert, at:  0)
         } else {

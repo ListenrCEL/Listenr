@@ -9,7 +9,7 @@
 import Foundation
 import Firebase
 
-func upload(pkg: uploadPkg)
+func upload(pkg: UploadPkg)
 {
     let db = Firestore.firestore()
     let storage = Storage.storage()
@@ -57,7 +57,7 @@ func upload(pkg: uploadPkg)
 func uploadAudio()
 {
     let imageURL = Bundle.main.url(forResource: "clippp", withExtension: ".jpg")
-    let pkg = uploadPkg(userName: userData.data.username, audioName: userData.data.stories.last!.title, audioFileURL: userData.data.stories.last!.storyURl, clipArtURL: imageURL!)
+    let pkg = UploadPkg(userName: userData.data.username, audioName: userData.data.stories.last!.title, audioFileURL: userData.data.stories.last!.storyURl, clipArtURL: imageURL!)
     upload(pkg: pkg)
 }
 
